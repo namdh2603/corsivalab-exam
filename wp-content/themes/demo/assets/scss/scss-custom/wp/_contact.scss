@@ -1,0 +1,88 @@
+.sub-title-page {
+  margin-bottom: (55 / $d-fs) * 1rem;
+}
+.sub-left {
+  margin-bottom: (25 / $d-fs) * 1rem;
+}
+
+.company-list {
+  .company-item {
+    //@include padding(35,0,35,0);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: (20 / $d-fs) * 1rem;
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-bottom: (20 / $d-fs) * 1rem;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    svg {
+      height: (46 / $d-fs) * 1rem;
+      width: (46 / $d-fs) * 1rem;
+      width: 15%;
+    }
+    h2 {
+      //@include font(25, 30);
+      font-weight: 400;
+      width: 85%;
+    }
+    span {
+      margin-bottom: (30 / $d-fs) * 1rem;
+      display: block;
+      min-height: (55 / $d-fs) * 1rem;
+    }
+    a {
+      color: $second-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+
+
+
+.page {
+    background: #f9f9f9;
+  }
+.contact-section {
+  .title-page {
+    @include font(35, 39);
+    font-family: $second-ff;
+    font-weight: 700;
+    color: $second-color;
+    margin-bottom: (25 / $d-fs) * 1rem;
+  }
+  form.wpcf7-form {
+    .wpcf7-form-control-wrap {
+      input,
+      textarea {
+        display: block;
+        width: 100%;
+        border: 0;
+        outline: none;
+        @include padding(12, 20, 12, 20);
+        color: #6f7070;
+        font-family: $primary-ff;
+        font-weight: 300;
+        @include font($d-fs, $d-fs + 4);
+        background: $white;
+        border: 1px solid #70707040;
+        border-radius: 23px;
+      }
+    }
+  }
+}

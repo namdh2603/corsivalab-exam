@@ -1,0 +1,66 @@
+// Accordion
+.accordion {
+  .card {
+    @include padding(30, 40, 40, 40);
+
+    border: 2px solid #7070704d;
+    border-radius: 10px;
+    margin-bottom: (40 / $d-fs) * 1rem;
+
+    position: relative;
+    overflow: hidden;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: #35646B;
+    }
+  }
+  .card-header {
+      button:not(.collapsed){
+          color: $third-color;
+      }
+  }
+  .card-body {
+    margin-top: (25 / $d-fs) * 1rem;
+    padding-top: (25 / $d-fs) * 1rem;
+    border-top: 2px solid #70707034;
+  }
+  .collapse {
+    color: $primary-color;
+  }
+  button {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    @include font($fs-20, $fs-20+4);
+    font-family: $second-ff;
+    font-weight: 700;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    @include transition();
+    &:after {
+      content: "";
+      float: right;
+      background-image: url("../icons/dropdown-arrow.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      height: 33px;
+      width: 20px;
+      transform: rotate(180deg);
+      @include transition();
+    }
+    &.collapsed:after {
+        transform: rotate(0);
+      content: "";
+      background-image: url("../icons/dropdown-arrow.svg");
+    }
+  }
+}
+// END Accordion

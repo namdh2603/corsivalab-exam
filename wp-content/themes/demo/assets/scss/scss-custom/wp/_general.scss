@@ -1,75 +1,217 @@
-.fu-book {
-  font-family: $primary-ff;
-  font-weight: 400;
+.row-eq-height {
+  flex-wrap: wrap;
 }
-
-.fu-medium {
-  font-family: $primary-ff;
-  font-weight: 500;
+.swiper-slide {
+  padding: 1px;
 }
-
-.fu-demi {
-  font-family: $primary-ff;
-  font-weight: 600;
+.default-section {
+  position: relative;
+  
+  @include padding(45, 0, 45, 0);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+  @include bp-mobile{
+    @include padding(20, 0, 20, 0);
+  }
 }
-
-.st-light {
-  font-family: $second-ff;
-  font-weight: 300;
-}
-
-.st-book {
-  font-family: $second-ff;
-  font-weight: 400;
-}
-
-.st-medium {
-  font-family: $second-ff;
-  font-weight: 500;
-}
-
-// .st-demi {
-//   font-family: $second-ff;
-//   font-weight: 600;
-// }
-
-.st-bold {
-  font-family: $second-ff;
+.main-title{
+  @include font(35, 39);
   font-weight: 700;
-}
-.st-black {
   font-family: $second-ff;
-  font-weight: 900;
+  color: $third-color;
+  z-index: 1;
+  position: relative;
 }
-
-.carolissa-font{
-
-  font-family: $third-ff;
+.btn-basic {
+  text-decoration: underline;
+  color: $second-color;
+}
+.btn-group {
+  text-align: center;
+  //margin-bottom: (30 / $d-fs) * 1rem;
+  .btn-main {
+    background: #E88233;
+    border: 1px solid #E88233;
+    border-radius: 23px;
+    @include padding(12, 45, 12, 45);
+    display: inline-block;
+    color: $white;
+    @include font($fs-15, $fs-15+4);
+    font-family: $second-ff;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    @include transition();
+    &.btn-outline{
+      background-color: transparent;
+    }
+    &.btn-ajax{
+      text-transform: uppercase;
+      @include padding(12, 45, 12, 45);
+    }
+  }
+  &.btn-center {
+    text-align: center;
+  }
+  &.btn-left {
+    text-align: left;
+  }
+}
+.opacity-half {
+  opacity: 0.5;
+}
+.font-custom {
+  font-family: $primary-ff;
   font-weight: 400;
 }
-
-
-.img-cover {
-	width: 100% !important;
-	height: 100% !important;
-	object-fit: cover;
+.button-burger img {
+  width: 22px;
 }
-
-.img-fit {
-	aspect-ratio: unset !important;
+form.wpcf7-form {
+  .wpcf7-form-control-wrap {
+    display: block;
+    margin-bottom: (15 / $d-fs) * 1rem;
+  }
+  .wpcf7-response-output {
+    margin: 0;
+  }
+  .wpcf7-not-valid-tip {
+    @include font($d-fs, $d-fs + 4);
+  }
+  input.wpcf7-form-control,
+  select.wpcf7-form-control {
+    border: 0;
+    background-color: rgba(#eaedf2, 0.5);
+    color: rgba($primary-color, 0.7);
+    outline: none;
+    @include padding(15, 20, 15, 20);
+    @include font($d-fs, $d-fs + 4);
+    font-family: $primary-ff;
+    font-weight: 400;
+    margin-bottom: (5 / $d-fs) * 1rem;
+  }
+  textarea.wpcf7-form-control {
+    min-height: (150 / $d-fs) * 1rem;
+    border: 0;
+    background-color: rgba(#eaedf2, 0.5);
+    outline: none;
+    @include padding(15, 20, 15, 20);
+    @include font($d-fs, $d-fs + 4);
+    font-family: $primary-ff;
+    font-weight: 400;
+  }
+  input.wpcf7-submit {
+    background: $second-color;
+    color: $white;
+    @include font($d-fs, $d-fs + 4);
+    font-weight: 400;
+    text-decoration: none;
+    font-family: $primary-ff;
+    border: 0;
+    text-align: center;
+    //margin: 0 auto;
+    display: block;
+    cursor: pointer;
+    @include padding(14, 50, 14, 50);
+    border-radius: 19px;
+    position: relative;
+  }
 }
-
-.col-revert {
-	display: flex;
-	// @include lg {
-	// 	flex-direction: column-reverse !important;
-	// }
+.title-page-section {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 0;
+  @include bp-mobile {
+    background-image: none !important;
+  }
+  .container {
+    min-height: (400 / $d-fs) * 1rem;
+    
+  @include bp-mobile {
+    min-height: auto;
+    margin-top: (20 / $d-fs) * 1rem;
+  }
+    display: flex;
+    align-items: center;
+  }
+  h1 {
+    @include font(50, 60);
+    font-weight: 700;
+    color: $third-color;
+    margin-bottom: (20 / $d-fs) * 1rem;
+  }
+  .sub-title {
+    @include font(25, 30);
+  }
 }
-
-del {
-	opacity: 0.5;
+input.wpcf7-submit {
+  background-color: $black;
+  color: #fff;
+  @include padding(10, 40, 10, 40);
+  @include font($d-fs, 17);
+  font-family: $primary-ff;
+  display: inline-block;
+  width: auto;
+  border: 0;
 }
-
-ins {
-	text-decoration: none;
+input.clear-form {
+  background-color: #cacaca;
+  @include padding(10, 40, 10, 40);
+  @include font($d-fs, 17);
+  font-family: $primary-ff;
+  display: inline-block;
+  width: auto;
+  border: 0;
+}
+form.mc4wp-form {
+  max-width: 80%;
+  @include bp-mobile {
+    max-width: 100%;
+  }
+  input {
+    background-color: $white;
+    outline: none;
+    @include font($d-fs, $d-fs + 4);
+    font-family: $primary-ff;
+    @include padding(13, 20, 13, 20);
+    border: 0;
+  }
+  button[type="submit"] {
+    background-color: #014693;
+    border-radius: 19px;
+    color: $white;
+    display: inline-block;
+    width: auto;
+    @include padding(10, 30, 14, 30);
+    @include font($d-fs, $d-fs + 4);
+    font-family: $primary-ff;
+    border: 0;
+    img {
+      width: 15px;
+      margin-left: (10 / $d-fs) * 1rem;
+    }
+  }
+}
+.mess {
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  background: #8bc240;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 35px;
+  }
+  z-index: 3;
+}
+select:focus > option:checked {
+  background: #e3effb;
+  color: #014693;
+  font-weight: 900;
 }

@@ -1,0 +1,15 @@
+.content-section{
+.btn-main{
+    font-weight: 400;
+    &.btn-outline{
+        background: transparent;
+        border: 1px solid $third-color;
+        color: $second-color;
+        &:hover{
+            
+            background: $second-color;
+            color: $white;
+        }
+    }
+}
+}

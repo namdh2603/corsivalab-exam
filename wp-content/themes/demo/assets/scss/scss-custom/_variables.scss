@@ -75,34 +75,19 @@ $enable-deprecation-messages: true !default;
   transform: $property;
 }
 
-//$transition-base: all 0.3s ease-in-out;
+$transition-base: all 0.3s ease-in-out;
 
 @mixin font($fs, $lh) {
-  font-size: ($fs/$d-fs) * 1rem;
-  line-height: ($lh/$d-fs) * 1rem;
-  //letter-spacing: ($space/$d-fs) * 1rem;
+  font-size: ($fs/$d-fs)+rem;
+  line-height: ($lh/$d-fs)+rem;
 }
 
-// @mixin font( $size , $line:null, $space:null ) {
-// 	& {
-// 		font-size: toRem($size);
-// 		@if $line {
-// 			line-height: toRem($line);
-// 		}
-// 		@if $space {
-// 			letter-spacing: toRem($space);
-// 		}
-// 	}
-// }
-
 @mixin margin($mt, $mr, $mb, $ml) {
-  margin: ($mt/$d-fs) * 1rem ($mr/$d-fs) * 1rem ($mb/$d-fs) * 1rem ($ml/$d-fs) *
-    1rem;
+  margin: ($mt/$d-fs)+rem ($mr/$d-fs)+rem ($mb/$d-fs)+rem ($ml/$d-fs)+rem;
 }
 
 @mixin padding($pt, $pr, $pb, $pl) {
-  padding: ($pt/$d-fs) * 1rem ($pr/$d-fs) * 1rem ($pb/$d-fs) * 1rem ($pl/$d-fs) *
-    1rem;
+  padding: ($pt/$d-fs)+rem ($pr/$d-fs)+rem ($pb/$d-fs)+rem ($pl/$d-fs)+rem;
 }
 
 
@@ -121,87 +106,6 @@ $enable-deprecation-messages: true !default;
 
 
 @function toRem($value) {
-	$remValue: ($value / 24 ) + rem;
+	$remValue: ($value/$d-fs) + rem;
 	@return $remValue;
-}
-
-
-@function toUnit($demension, $unit) {
-	@return $demension+$unit;
-}
-
-
-//responsive font size belong to view width
-
-
-
-
-
-
-/* mixin */
-
-/* quick reponsive*/
-@mixin breakpoint($point) {
-	@if $point == mobile {
-		@media screen and (max-width: 575px) {
-			@content ;
-		}
-	} @else if $point == l_mobile {
-		@media screen and (max-width: 767px) {
-			@content ;
-		}
-	} @else if $point == tablet {
-		@media screen and (max-width: 991px) {
-			@content ;
-		}
-	} @else if $point == laptop {
-		@media screen and (max-width: 1199px) {
-			@content ;
-		}
-	} @else {
-		@content ;
-	}
-}
-
-
-
-@mixin xs {
-	@media screen and (max-width: 575px) {
-		@content;
-	}
-}
-
-@mixin sm {
-	@media screen and (min-width: 576px) {
-		@content;
-	}
-}
-
-@mixin md {
-	@media screen and (min-width: 768px) {
-		@content;
-	}
-}
-
-@mixin lg {
-	@media screen and (min-width: 992px) {
-		@content;
-	}
-}
-
-@mixin xl {
-	@media screen and (min-width: 1200px) {
-		@content;
-	}
-}
-
-@mixin xxl {
-	@media screen and (min-width: 1400px) {
-		@content;
-	}
-}
-
-
-@function strip-unit($value) {
-	@return $value / ($value * 0 + 1);
 }

@@ -1,0 +1,161 @@
+body.single-post {
+  background: #f9f9f9;
+}
+.news-wrap-item {
+  @include padding(25, 25, 25, 25);
+  background: #ffffff;
+  border-radius: 10px;
+  .image {
+    img {
+      margin-bottom: (20 / $d-fs) * 1rem;
+    }
+  }
+  a.title {
+    color: $primary-color;
+    @include font($fs-25, $fs-25 + 4);
+    font-family: $second-ff;
+    font-weight: 700;
+    text-decoration: none;
+    display: block;
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  .small-text {
+    display: block;
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  .link {
+    color: $third-color;
+    @include font($fs-20, $fs-20 + 4);
+    font-family: $second-ff;
+    font-weight: 500;
+    text-decoration: none;
+    &:after {
+      content: "";
+      display: inline-block;
+      width: (50 / $d-fs) * 1rem;
+      height: 2px;
+      background: $third-color;
+      vertical-align: middle;
+      margin-left: (10 / $d-fs) * 1rem;
+    }
+  }
+  .news-meta {
+    display: flex;
+    align-items: center;
+    font-family: $second-ff;
+    color: #6c6c6c;
+    margin-bottom: (30 / $d-fs) * 1rem;
+    svg {
+      height: 15px;
+      margin-right: (10 / $d-fs) * 1rem;
+    }
+  }
+}
+.single-content {
+  .single-post-img {
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  h1 {
+    color: $second-color;
+    @include font($fs-25, $fs-25 + 4);
+    font-family: $second-ff;
+    font-weight: 700;
+    text-decoration: none;
+    display: block;
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  .news-meta {
+    display: flex;
+    align-items: center;
+    font-family: $second-ff;
+    color: #6c6c6c;
+    margin-bottom: (30 / $d-fs) * 1rem;
+    svg {
+      height: 15px;
+      margin-right: (10 / $d-fs) * 1rem;
+    }
+  }
+}
+.nav-sidebar {
+  .widgettitle-news {
+    color: $primary-color;
+    @include font($fs-25, $fs-25 + 4);
+    font-family: $second-ff;
+    font-weight: 700;
+    text-decoration: none;
+    display: block;
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  .sb-post-item {
+    background: $white;
+    border: 1px solid #70707045;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include padding(15, 15, 15, 15);
+    margin-bottom: (20 / $d-fs) * 1rem;
+  }
+  .sb-post-image {
+    width: 30%;
+    margin-right: 5%;
+    img{
+        
+border-radius: 10px;
+    }
+  }
+  .sb-post-name {
+    width: 65%;
+    a {
+      color: $second-color;
+      font-family: $second-ff;
+      font-weight: 500;
+      text-decoration: none;
+      display: block;
+      margin-bottom: (10 / $d-fs) * 1rem;
+      text-transform: capitalize;
+    }
+    .small-text{
+        @include font(12, 16);
+    }
+  }
+}
+.pagi {
+  text-align: center;
+  padding-top: (50 / $d-fs) * 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a,
+  span {
+    color: $primary-color;
+    margin: 0;
+    text-decoration: none;
+    @include padding(0, 10, 0, 10);
+    display: block;
+    background-color: transparent;
+    font-family: $second-ff;
+    font-weight: 500;
+    @include font($fs-25, $fs-25 + 4);
+  }
+  svg {
+    height: 9px;
+    vertical-align: middle;
+  }
+  a.next {
+    svg {
+      transform: rotate(-90deg);
+    }
+  }
+  a.prev {
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+  span.current,
+  a:hover,
+  a:focus {
+    background-color: transparent;
+    color: #e88233;
+  }
+}

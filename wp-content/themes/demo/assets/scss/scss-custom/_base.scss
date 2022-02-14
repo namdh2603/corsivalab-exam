@@ -30,22 +30,22 @@ html {
 }
 
 .container {
-  max-width: ($w-design/($d-fs * 1px)) * 1rem;
-  padding-left: ($grid-gutter-width/2/$d-fs) * 1rem;
-  padding-right: ($grid-gutter-width/2/$d-fs) * 1rem;
+  max-width: ($w-design/($d-fs * 1px))+rem;
+  padding-left: ($grid-gutter-width/2/$d-fs)+rem;
+  padding-right: ($grid-gutter-width/2/$d-fs)+rem;
   margin-right: auto;
   margin-left: auto;
   @include bp-mobile {
     max-width: 100%;
-    padding-left: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
-    padding-right: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
+    padding-left: ($mobile-grid-gutter-width/2/$d-fs)+rem;
+    padding-right: ($mobile-grid-gutter-width/2/$d-fs)+rem;
   }
 }
 
 .container-fluid{
   width: 100%;
-  padding-left: ($grid-gutter-width/2/$d-fs) * 1rem;
-  padding-right: ($grid-gutter-width/2/$d-fs) * 1rem;
+  padding-left: ($grid-gutter-width/2/$d-fs)+rem;
+  padding-right: ($grid-gutter-width/2/$d-fs)+rem;
   margin-right: auto;
   margin-left: auto;
 }
@@ -53,21 +53,21 @@ html {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -($grid-gutter-width/2/$d-fs) * 1rem;
-  margin-left: -($grid-gutter-width/2/$d-fs) * 1rem;
+  margin-right: -($grid-gutter-width/2/$d-fs)+rem;
+  margin-left: -($grid-gutter-width/2/$d-fs)+rem;
 
   @include bp-mobile {
-    margin-left: -($mobile-grid-gutter-width/2/$d-fs) * 1rem;
-    margin-right: -($mobile-grid-gutter-width/2/$d-fs) * 1rem;
+    margin-left: -($mobile-grid-gutter-width/2/$d-fs)+rem;
+    margin-right: -($mobile-grid-gutter-width/2/$d-fs)+rem;
   }
 
   [class^="col-"],
   [class*=" col-"] {
-    padding-left: ($grid-gutter-width/2/$d-fs) * 1rem;
-    padding-right: ($grid-gutter-width/2/$d-fs) * 1rem;
+    padding-left: ($grid-gutter-width/2/$d-fs)+rem;
+    padding-right: ($grid-gutter-width/2/$d-fs)+rem;
     @include bp-mobile {
-      padding-left: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
-      padding-right: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
+      padding-left: ($mobile-grid-gutter-width/2/$d-fs)+rem;
+      padding-right: ($mobile-grid-gutter-width/2/$d-fs)+rem;
     }
     &.no-padding {
       padding: 0;
@@ -90,34 +90,34 @@ html {
 }
 
 .row-sm {
-  margin-right: -($grid-gutter-width/4/$d-fs) * 1rem;
-  margin-left: -($grid-gutter-width/4/$d-fs) * 1rem;
+  margin-right: -($grid-gutter-width/4/$d-fs)+rem;
+  margin-left: -($grid-gutter-width/4/$d-fs)+rem;
   
   @include bp-mobile {
-    margin-left: -($mobile-grid-gutter-width/2/$d-fs) * 1rem;
-    margin-right: -($mobile-grid-gutter-width/2/$d-fs) * 1rem;
+    margin-left: -($mobile-grid-gutter-width/2/$d-fs)+rem;
+    margin-right: -($mobile-grid-gutter-width/2/$d-fs)+rem;
   }
 
   [class^="col-"],
   [class*=" col-"] {
-    padding-left: ($grid-gutter-width/4/$d-fs) * 1rem;
-    padding-right: ($grid-gutter-width/4/$d-fs) * 1rem;
+    padding-left: ($grid-gutter-width/4/$d-fs)+rem;
+    padding-right: ($grid-gutter-width/4/$d-fs)+rem;
 
     
     @include bp-mobile {
-      padding-left: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
-      padding-right: ($mobile-grid-gutter-width/2/$d-fs) * 1rem;
+      padding-left: ($mobile-grid-gutter-width/2/$d-fs)+rem;
+      padding-right: ($mobile-grid-gutter-width/2/$d-fs)+rem;
     }
 
   }
 }
 
 .mb-2 {
-  margin-bottom: ($grid-gutter-width / 2 / $d-fs) * 1rem;
+  margin-bottom: ($grid-gutter-width / 2 / $d-fs)+rem;
 }
 
 .mb-3 {
-  margin-bottom: ($grid-gutter-width / $d-fs) * 1rem;
+  margin-bottom: ($grid-gutter-width / $d-fs)+rem;
 }
 
 @include make-grid-columns();

@@ -24,73 +24,48 @@ function corsivalab_setup()
 add_action('after_setup_theme', 'corsivalab_setup');
 function corsivalab_widgets()
 {
-    register_sidebar(array(
+    $corsivalab_sidebars = array(
+        array(
+            'name' => 'Woocommerce Sidebar',
+            'id' => 'widget-sidebar-woocommerce',
+        ),
+        array(
+            'name' => 'News Sidebar',
+            'id' => 'widget-sidebar-news',
+        ),
+        array(
+            'name' => 'News Sidebar',
+            'id' => 'widget-sidebar-news',
+        ),
+        array(
+            'name' => 'Footer Column 1',
+            'id' => 'widget-footer-1',
+        ),
+        array(
+            'name' => 'Footer Column 2',
+            'id' => 'widget-footer-2',
+        ),
+        array(
+            'name' => 'Footer Column 3',
+            'id' => 'widget-footer-3',
+        ),
+        array(
+            'name' => 'Footer Column 4',
+            'id' => 'widget-footer-4',
+        ),
+    );
+    $defaults = array(
         'name' => 'Default Sidebar',
-        'id' => 'sidebar-default',
-        'before_title' => '<h2 class="widget-title">',
-        'after_title' => '</h2>',
-    ));
-
-    register_sidebar(array(
-        'name' => 'Woocommerce Sidebar',
-        'id' => 'widget-sidebar-woo',
-        'before_title' => '<h4 class="widgettitle-woo">',
-        'after_title' => '</h4>',
-        'before_widget' => '<div class="widget-woo-sidebar">',
-        'after_widget' => '</div>',
-    ));
-
-
-    register_sidebar(array(
-        'name' => 'News Sidebar',
-        'id' => 'widget-sidebar-news',
-        'before_title' => '<h4 class="widgettitle-news">',
-        'after_title' => '</h4>',
-        'before_widget' => '<div class="widget-news-sidebar">',
-        'after_widget' => '</div>',
-    ));
-
-
-    register_sidebar(array(
-        'name' => 'Footer Column 1',
-        'id' => 'widget-footer-col-1',
+        'id' => 'widget-sidebar-default',
         'before_widget' => '<div class="widget-content">',
         'after_widget' => '</div>',
         'before_title' => '<h4 class="widget-title">',
         'after_title' => '</h4>'
-    ));
-    register_sidebar(array(
-        'name' => 'Footer Column 2',
-        'id' => 'widget-footer-col-2',
-        'before_widget' => '<div class="widget-content">',
-        'after_widget' => '</div>',
-        'before_title' => '<h4 class="widget-title">',
-        'after_title' => '</h4>'
-    ));
-    register_sidebar(array(
-        'name' => 'Footer Column 3',
-        'id' => 'widget-footer-col-3',
-        'before_widget' => '<div class="widget-content">',
-        'after_widget' => '</div>',
-        'before_title' => '<h4 class="widget-title">',
-        'after_title' => '</h4>'
-    ));
-    register_sidebar(array(
-        'name' => 'Footer Column 4',
-        'id' => 'widget-footer-col-4',
-        'before_widget' => '<div class="widget-content">',
-        'after_widget' => '</div>',
-        'before_title' => '<h4 class="widget-title">',
-        'after_title' => '</h4>'
-    ));
-    register_sidebar(array(
-        'name' => 'Footer Column 5',
-        'id' => 'widget-footer-col-5',
-        'before_widget' => '<div class="widget-content">',
-        'after_widget' => '</div>',
-        'before_title' => '<h4 class="widget-title">',
-        'after_title' => '</h4>'
-    ));
+    );
+    foreach ($corsivalab_sidebars as $sidebar) {
+        $args = wp_parse_args($sidebar, $defaults);
+        register_sidebar($args);
+    }
 }
 add_action('widgets_init', 'corsivalab_widgets');
 function corsivalab_scripts()
@@ -102,7 +77,7 @@ function corsivalab_scripts()
     wp_enqueue_script( 'corsivalab-swiper-min-js', get_stylesheet_directory_uri().'/assets/swiper/swiper-bundle.min.js', array('jquery'), rand(), false);
 }
 add_action('wp_enqueue_scripts', 'corsivalab_scripts');
-add_action('init', 'corsivalab_remove_image_sizes');
+//add_action('init', 'corsivalab_remove_image_sizes');
 function corsivalab_remove_image_sizes()
 {
     remove_image_size('thumbnail'); // WordPress (used by the media librairy to display thumbs)

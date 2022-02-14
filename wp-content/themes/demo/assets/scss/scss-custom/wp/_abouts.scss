@@ -1,0 +1,84 @@
+.about-content-section {
+  background-color: $white;
+}
+.about-life-section {
+  background-color: rgba(#72481e, 0.1);
+  .title-section {
+    margin-bottom: (50 / $d-fs) * 1rem;
+    h2 {
+      color: #72481e;
+      &:after {
+        width: 30%;
+        background-color: #72481e;
+      }
+    }
+  }
+  .about-life-left {
+    height: 100%;
+    @include padding(25, 25, 25, 25);
+    background-color: $white;
+    border-radius: 10px;
+    img {
+      margin-bottom: (35 / $d-fs) * 1rem;
+    }
+    .title-life {
+      text-align: left;
+      color: $second-color;
+      display: block;
+      font-family: $second-ff;
+      @include font(25, 29);
+      font-weight: 700;
+      margin-bottom: (35 / $d-fs) * 1rem;
+    }
+  }
+  .about-life-right {
+    @include padding(50, 55, 50, 55);
+    background-color: $white;
+    border-radius: 10px;
+    .d-flex {
+      justify-content: center;
+      align-items: center;
+      margin-bottom: (15 / $d-fs) * 1rem;
+      margin-top: (15 / $d-fs) * 1rem;
+      span {
+        width: 100%;
+        height: 1px;
+        background-color: #72481e;
+      }
+      .line-title {
+        color: #72481e;
+        @include padding(0, 25, 0, 25);
+        @include font($fs-18, $fs-18 + 4);
+        font-family: $second-ff;
+        font-weight: 700;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    .feature-info {
+      .address {
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+.about-count {
+  .number-title {
+    color: $third-color;
+    display: block;
+    font-family: $second-ff;
+    @include font($fs-40, $fs-40+4);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: (10 / $d-fs) * 1rem;
+  }
+  .content-inner {
+    text-align: center;
+    @include font($fs-22, $fs-22+4);
+    font-family: $second-ff;
+    font-weight: 500;
+    color: $primary-color;
+  }
+}

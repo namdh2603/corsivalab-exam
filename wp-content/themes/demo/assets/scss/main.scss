@@ -1,20 +1,20 @@
 /*--------------------------------------------------------------
 # Function
 --------------------------------------------------------------*/
-@import "bootstrap-460/functions";
+@import "bootstrap-513/functions";
 
 /*--------------------------------------------------------------
 # Variables and mixins
 --------------------------------------------------------------*/
-@import "bootstrap-460/variables";
+@import "bootstrap-513/variables";
 @import "scss-custom/variables";
 
-@import "bootstrap-460/mixins";
+@import "bootstrap-513/mixins";
 
 /*--------------------------------------------------------------
 # Fonts
 --------------------------------------------------------------*/
-@import "scss-custom/fonts";
+//@import "scss-custom/fonts";
 
 /*--------------------------------------------------------------
 # Icon
@@ -33,7 +33,7 @@
 /*--------------------------------------------------------------
 # Utilities
 --------------------------------------------------------------*/
-@import "bootstrap-460/utilities";
+@import "bootstrap-513/utilities";
 
 /*--------------------------------------------------------------
 # Grid
@@ -51,7 +51,7 @@
 /*--------------------------------------------------------------
 # Accordion 
 --------------------------------------------------------------*/
-@import "bootstrap-460/transitions";
+@import "bootstrap-513/transitions";
 
 /*--------------------------------------------------------------
 # Modal
@@ -67,8 +67,8 @@
 # Tabs
 --------------------------------------------------------------*/
 
-@import "bootstrap-460/nav";
-@import "bootstrap-460/navbar";
+@import "bootstrap-513/nav";
+@import "bootstrap-513/navbar";
 
 /*--------------------------------------------------------------
 # Woocommerce
@@ -89,7 +89,7 @@
 # Custom
 --------------------------------------------------------------*/
 @import "scss-custom/wp/general";
-@import "scss-custom/wp/custom";
+//@import "scss-custom/wp/custom";
 // @import "scss-custom/wp/menu-mobile";
 // @import "scss-custom/wp/carousel";
 // @import "scss-custom/wp/header";
@@ -98,29 +98,3 @@
 // @import "scss-custom/wp/homepage";
 // @import "scss-custom/wp/contact";
 // @import "scss-custom/wp/content";
-
-// @import "scss-custom/helpers/variables";
-// @import "scss-custom/helpers/mixin";
-// @import "scss-custom/component/typography";
-// @import "scss-custom/component/elements";
-// @import "scss-custom/component/select";
-
-// @import "scss-custom/layouts/header";
-// @import "scss-custom/layouts/panel";
-// @import "scss-custom/layouts/subcribe";
-// @import "scss-custom/layouts/footer";
-
-// @import "scss-custom/pages/home";
-// @import "scss-custom/pages/about";
-// @import "scss-custom/pages/referral-program";
-// @import "scss-custom/pages/fresh_fruits";
-// @import "scss-custom/pages/shop-details";
-// @import "scss-custom/pages/cart";
-// @import "scss-custom/pages/checkout";
-// @import "scss-custom/pages/thankyou";
-// @import "scss-custom/pages/subscribe";
-// @import "scss-custom/pages/subscribe_details";
-// @import "scss-custom/pages/contactus";
-// @import "scss-custom/pages/corporate_partnership";
-// @import "scss-custom/pages/faqs";
-// @import "scss-custom/pages/testimonials";

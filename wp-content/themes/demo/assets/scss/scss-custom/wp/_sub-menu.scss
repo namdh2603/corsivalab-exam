@@ -1,0 +1,217 @@
+.sub-menu {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  text-align: left;
+  margin-top: 20px;
+  border-radius: 0 0 3px 3px;
+  background: #fff;
+  @include padding(10, 20, 10, 20);
+  width: 200px;
+  @include transition();
+  //box-shadow: -23px 23px 20px #0000000d;
+  border: 1px solid $second-color;
+  @include font($d-fs, $d-fs + 4);
+  font-weight: 700;
+}
+.menu-item-has-children {
+  &:hover {
+    ul.sub-menu {
+      opacity: 1;
+      margin-top: 0;
+      visibility: visible;
+    }
+  }
+  ul.sub-menu {
+    ul.sub-menu {
+      position: static;
+      width: auto;
+      @include padding(10, 0, 10, 10);
+      margin-top: 0px;
+      border: 0;
+    }
+    li {
+      margin: 0;
+      display: inline-block;
+      // &:not(:last-child) {
+      //   border-bottom: 1px solid rgba($black, 0.2);
+      // }
+      position: relative;
+      padding-right: (20 / $d-fs) * 1rem;
+      &.menu-item-has-children {
+        padding-right: 0;
+      }
+      &::after {
+        content: "";
+        border: 0;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 0;
+        right: 0;
+        left: unset;
+        bottom: unset;
+        background-image: url("http://localhost/website/corsivalab-furnaway/wp-content/uploads/2021/07/bg-title.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: inline-block;
+        z-index: 0;
+        opacity: 0;
+        @include transition();
+      }
+
+      &:hover {
+        color: $second-color;
+        &::after {
+          background-color: transparent;
+          opacity: 1;
+        }
+      }
+
+      a {
+        //@include padding(7, 5, 7, 5);
+
+        //padding-right: (20 / $d-fs) * 1rem;
+        display: inline-block;
+        line-height: 1.5;
+        height: auto;
+        z-index: 1;
+        padding-bottom: (20 / $d-fs) * 1rem;
+        padding-right: 0;
+        @include transition();
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+    @include bp-mobile {
+      display: none;
+      opacity: 1;
+      visibility: unset;
+      position: relative;
+      width: 100%;
+      left: 0;
+      padding: 20px 0 0 0;
+      text-align: center;
+    }
+  }
+}
+.sub-menu-block {
+  position: absolute;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  padding: 10px;
+  width: 100%;
+  background: #fff;
+  left: 0;
+  //margin-top: 1px;
+  box-shadow: -23px 23px 20px #0000000d;
+  @include padding(30, 0, 30, 0);
+  @include transition();
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  h4 {
+    &.title-sub-block {
+      @include font($fs-20, $fs-20 + 4);
+      font-family: $second-ff;
+      font-weight: 700;
+      color: $second-color;
+      padding-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs) * 1rem;
+      position: relative;
+      &::after{
+      content: "";
+      background: $second-color;
+      height: 1px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      display: block;
+      width: 30%;
+      }
+    }
+  }
+  ul{
+    li{
+      a{
+        text-decoration: none;
+        color: $primary-color;
+        padding-bottom: (10 / $d-fs) * 1rem;
+        display: inline-block;
+        width: 100%;
+      }
+    }
+    &.product-tags{
+      li{
+        display: inline-block;
+        margin-bottom: (10 / $d-fs) * 1rem;
+        margin-right: (10 / $d-fs) * 1rem;
+        a{
+          @include padding(10, 15, 10, 15);
+          text-decoration: none;
+          color: #6C6C6C;
+          display: inline-block;
+          width: auto;
+          background: #F9F9F9;
+          border-radius: 23px;
+        }
+      }
+    }
+  }
+
+  .promotion-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    &::after {
+      content: "";
+      background: #292929;
+      opacity: 0.3;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .sub-menu-item {
+    .menu-title {
+      @include font($d-fs, $d-fs + 4);
+      margin-bottom: (20 / $d-fs) * 1rem;
+      font-weight: 600;
+      font-family: $primary-ff;
+    }
+    ul {
+      li {
+        margin: 0;
+        display: block;
+        a {
+          @include font($d-fs, $d-fs + 4);
+          color: #898989;
+          margin-bottom: (10 / $d-fs) * 1rem;
+          padding: 0;
+          //@include padding(7, 5, 7, 5);
+          display: block;
+          line-height: 1.5;
+          height: auto;
+          @include transition();
+          &:hover {
+            color: $second-color;
+          }
+        }
+      }
+    }
+  }
+}
+.has-sub-block:hover > .sub-menu-block {
+  opacity: 1;
+  visibility: visible;
+}
