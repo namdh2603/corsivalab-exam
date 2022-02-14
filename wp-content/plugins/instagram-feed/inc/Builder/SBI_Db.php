@@ -654,17 +654,15 @@ class SBI_Db {
 
 		return $wpdb->get_results( $sql, ARRAY_A );
 	}
-
-
-	/**
-	 * Creates all database tables used in the new admin area in
-	 * the 6.0 update.
-	 *
-	 * TODO: Add error reporting
-	 *
-	 * @since 6.0
-	 */
-	public static function create_tables() {
+   /**
+    * Creates all database tables used in the new admin area in
+    * the 6.0 update.
+    *
+    * TODO: Add error reporting
+    *
+    * @since 6.0
+    */
+	public static function create_tables( $include_charset_collate = true ) {
 		if ( ! function_exists( 'dbDelta' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/upgrade.php';
 		}
@@ -672,7 +670,7 @@ class SBI_Db {
 		global $wpdb;
 		$max_index_length = 191;
 		$charset_collate  = '';
-		if ( method_exists( $wpdb, 'get_charset_collate' ) ) { // get_charset_collate introduced in WP 3.5
+		if ( $include_charset_collate && method_exists( $wpdb, 'get_charset_collate' ) ) { // get_charset_collate introduced in WP 3.5
 			$charset_collate = $wpdb->get_charset_collate();
 		}
 

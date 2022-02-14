@@ -53,6 +53,7 @@ class SBI_Global_Settings {
 		add_action( 'wp_ajax_sbi_clear_cache', [$this, 'sbi_clear_cache'] );
 		add_action( 'wp_ajax_sbi_clear_image_resize_cache', [$this, 'sbi_clear_image_resize_cache'] );
 		add_action( 'wp_ajax_sbi_clear_error_log', [$this, 'sbi_clear_error_log'] );
+		add_action( 'wp_ajax_sbi_retry_db', [$this, 'sbi_retry_db'] );
 		add_action( 'wp_ajax_sbi_dpa_reset', [$this, 'sbi_dpa_reset'] );
 	}
 
@@ -574,6 +575,32 @@ class SBI_Global_Settings {
 		$sb_instagram_posts_manager->remove_all_errors();
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * SBI CLear Error Log
+	 *
+	 * @since 6.0
+	 */
+	public function sbi_retry_db() {
+		//Security Checks
+		check_ajax_referer( 'sbi_nonce', 'sbi_nonce' );
+
+		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {
+			wp_send_json_error();
+		}
+		sbi_create_database_table( false );
+		\SB_Instagram_Feed_Locator::create_table();
+		\InstagramFeed\Builder\SBI_Db::create_tables( false );
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . SBI_INSTAGRAM_POSTS_TYPE;
+
+		if ( $wpdb->get_var( "show tables like '$table_name'" ) !== $table_name ) {
+			wp_send_json_error( array( 'message' => '<div style="margin-top: 10px;">' . esc_html__( 'Unsuccessful. Try visiting our website.', 'instagram-feed' ) . '</div>' ) );
+		}
+
+		wp_send_json_success( array( 'message' => '<div style="margin-top: 10px;">' . esc_html__( 'Success! Try creating a feed and connecting a source.', 'instagram-feed' ) . '</div>' ) );
 	}
 
 	/**

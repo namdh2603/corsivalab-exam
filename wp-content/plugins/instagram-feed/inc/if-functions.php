@@ -30,7 +30,8 @@ function display_instagram( $atts = array(), $preview_settings = false ) {
 
 	if ( $database_settings['sb_instagram_ajax_theme'] !== 'on'
 		 && $database_settings['sb_instagram_ajax_theme'] !== 'true'
-		 && $database_settings['sb_instagram_ajax_theme'] !== '1' ) {
+		 && $database_settings['sb_instagram_ajax_theme'] !== '1'
+		 && $database_settings['sb_instagram_ajax_theme'] !== true ) {
 		wp_enqueue_script( 'sbi_scripts' );
 	}
 
@@ -600,11 +601,11 @@ function sbi_debug_report( $instagram_feed, $feed_id ) {
 		$atts = array( 'feed' => 1 );
 	}
 
-	$settings_obj = new SB_Instagram_Settings_Pro( $atts, sbi_get_database_settings() );
+	$settings_obj = new SB_Instagram_Settings( $atts, sbi_get_database_settings() );
 
 	$settings = $settings_obj->get_settings();
 
-	$public_settings_keys = SB_Instagram_Settings_Pro::get_public_db_settings_keys();
+	$public_settings_keys = SB_Instagram_Settings::get_public_db_settings_keys();
 	?>
 
 	<p>Status</p>
@@ -792,7 +793,7 @@ function sbi_get_database_settings() {
 		'sb_instagram_disable_resize'       => false,
 		'sb_instagram_cache_time'           => 1,
 		'sb_instagram_cache_time_unit'      => 'hours',
-		'sbi_caching_type'                  => 'page',
+		'sbi_caching_type'                  => 'background',
 		'sbi_cache_cron_interval'           => '12hours',
 		'sbi_cache_cron_time'               => '1',
 		'sbi_cache_cron_am_pm'              => 'am',

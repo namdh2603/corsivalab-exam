@@ -26,12 +26,12 @@ function corsivalab_widgets()
 {
     $corsivalab_sidebars = array(
         array(
-            'name' => 'Woocommerce Sidebar',
-            'id' => 'widget-sidebar-woocommerce',
+            'name' => 'Default Sidebar',
+            'id' => 'widget-sidebar-default',
         ),
         array(
-            'name' => 'News Sidebar',
-            'id' => 'widget-sidebar-news',
+            'name' => 'Woocommerce Sidebar',
+            'id' => 'widget-sidebar-woocommerce',
         ),
         array(
             'name' => 'News Sidebar',

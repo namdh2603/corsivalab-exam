@@ -72,6 +72,28 @@ jQuery(document).ready(function($) {
     });
   });
 
+  $('.sbi-retry-db').on('click', function(event) {
+    event.preventDefault();
+    var $btn = $(this);
+    $btn.prop( 'disabled', true ).addClass( 'loading' ).html('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+    $.ajax({
+      url : sbiA.ajax_url,
+      type : 'post',
+      data : {
+        action : 'sbi_retry_db',
+        sbi_nonce : sbiA.sbi_nonce,
+      },
+      success : function(data) {
+        if (typeof data.data.message !== 'undefined') {
+          $btn.closest('p').after(data.data.message);
+          $btn.remove();
+        }
+      },
+      error : function(data)  {
+      }
+    }); // ajax call
+  });
+
   $('.sbi-clear-errors-visit-page').on('click', function(event) {
     event.preventDefault();
     var $btn = $(this);

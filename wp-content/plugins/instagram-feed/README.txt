@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 4.1
 Tested up to: 5.9
-Stable tag: 6.0.1
+Stable tag: 6.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,6 +331,11 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 6.0.2 =
+* Fix: Fixed Instagram Feed JavaScript file missing from the page when using the "AJAX theme loading fix" setting causing blank images to display.
+* Fix: Added the ability to create the custom database tables if there was an error when first trying to create them.
+* Fix: Fixed the error message not displaying if there was an error when trying to connect a personal or basic account.
+
 = 6.0.1 =
 * Fix: Custom HTML templates were not applying to new feeds.
 * Fix: Some custom tables were not being created for specific versions of MySQL.

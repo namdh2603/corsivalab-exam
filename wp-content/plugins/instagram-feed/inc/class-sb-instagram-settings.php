@@ -327,7 +327,7 @@ class SB_Instagram_Settings {
 			$settings['ajaxtheme'] = $atts['ajaxtheme'] === 'true';
 		} else {
 			$db = sbi_get_database_settings();
-			$settings['ajaxtheme'] = isset( $db['sb_instagram_ajax_theme'] ) ? $db['sb_instagram_ajax_theme'] === '1' || $db['sb_instagram_ajax_theme'] === true : false;
+			$settings['ajaxtheme'] = isset( $db['sb_instagram_ajax_theme'] ) ? $db['sb_instagram_ajax_theme'] === '1' || $db['sb_instagram_ajax_theme'] === true || $db['sb_instagram_ajax_theme'] === 'on' : false;
 		}
 
 		return $settings;

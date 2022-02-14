@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-class SB_Instagram_Display_Elements
-{
+class SB_Instagram_Display_Elements {
+
 	/**
 	 * Images are hidden initially with the new/transition classes
 	 * except if the js image loading is disabled using the plugin
@@ -27,18 +27,17 @@ class SB_Instagram_Display_Elements
 	 * @since 2.0/5.0
 	 */
 	public static function get_item_classes( $settings, $post = false ) {
-		$classes = '';
+		$classes    = '';
 		$customizer = sbi_doing_customizer( $settings );
-		if( !$customizer ){
-			if ( !$settings['disable_js_image_loading'] ) {
+		if ( ! $customizer ) {
+			if ( ! $settings['disable_js_image_loading'] ) {
 				$classes .= ' sbi_new sbi_transition';
 			} else {
 				$classes .= ' sbi_new sbi_no_js sbi_no_resraise sbi_js_load_disabled';
 			}
-		}else{
+		} else {
 			$classes .= ' sbi_new ';
 		}
-
 
 		if ( $post && SB_Instagram_Parse::get_media_product_type( $post ) === 'igtv' ) {
 			$classes .= ' sbi_igtv';
@@ -77,24 +76,24 @@ class SB_Instagram_Display_Elements
 	 * @since 2.0/5.0
 	 */
 	public static function get_optimum_media_url( $post, $settings, $resized_images = array() ) {
-		$media_url = '';
-		$optimum_res = $settings['imageres'];
+		$media_url    = '';
+		$optimum_res  = $settings['imageres'];
 		$account_type = isset( $post['images'] ) ? 'personal' : 'business';
 
 		// only use the placeholder if it will be replaced using JS
-		if ( !$settings['disable_js_image_loading'] ) {
+		if ( ! $settings['disable_js_image_loading'] ) {
 			return trailingslashit( SBI_PLUGIN_URL ) . 'img/placeholder.png';
 		} elseif ( $settings['imageres'] === 'auto' ) {
-			$optimum_res = 'full';
+			$optimum_res          = 'full';
 			$settings['imageres'] = 'full';
 		} else {
 			if ( ! empty( $resized_images ) ) {
 				$resolution = $settings['imageres'];
-				$post_id = SB_Instagram_Parse::get_post_id( $post );
+				$post_id    = SB_Instagram_Parse::get_post_id( $post );
 				if ( isset( $resized_images[ $post_id ] )
-				     && $resized_images[ $post_id ]['id'] !== 'error'
-				     && $resized_images[ $post_id ]['id'] !== 'pending'
-				     && $resized_images[ $post_id ]['id'] !== 'video' ) {
+					 && $resized_images[ $post_id ]['id'] !== 'error'
+					 && $resized_images[ $post_id ]['id'] !== 'pending'
+					 && $resized_images[ $post_id ]['id'] !== 'video' ) {
 					if ( $resolution === 'thumb' ) {
 						if ( isset( $resized_images[ $post_id ]['sizes']['low'] ) ) {
 							$suffix = 'low';
@@ -128,13 +127,13 @@ class SB_Instagram_Display_Elements
 
 		if ( $account_type === 'personal' ) {
 			switch ( $optimum_res ) {
-				case 'thumb' :
+				case 'thumb':
 					$media_url = $post['images']['thumbnail']['url'];
 					break;
-				case 'medium' :
+				case 'medium':
 					$media_url = $post['images']['low_resolution']['url'];
 					break;
-				default :
+				default:
 					$media_url = $post['images']['standard_resolution']['url'];
 			}
 		} else {
@@ -142,9 +141,9 @@ class SB_Instagram_Display_Elements
 
 			// use resized images if exists
 			if ( $optimum_res === 'full' && isset( $resized_images[ $post_id ]['id'] )
-			     && $resized_images[ $post_id ]['id'] !== 'pending'
-			     && $resized_images[ $post_id ]['id'] !== 'video'
-			     && $resized_images[ $post_id ]['id'] !== 'error' ) {
+				 && $resized_images[ $post_id ]['id'] !== 'pending'
+				 && $resized_images[ $post_id ]['id'] !== 'video'
+				 && $resized_images[ $post_id ]['id'] !== 'error' ) {
 				$media_url = sbi_get_resized_uploads_url() . $resized_images[ $post_id ]['id'] . 'full.jpg';
 			} else {
 				if ( SB_Instagram_GDPR_Integrations::doing_gdpr( $settings ) ) {
@@ -152,14 +151,14 @@ class SB_Instagram_Display_Elements
 				}
 				$media_type = $post['media_type'];
 				if ( $media_type === 'CAROUSEL_ALBUM'
-				     || $media_type === 'VIDEO'
-				     || $media_type === 'OEMBED' ) {
+					 || $media_type === 'VIDEO'
+					 || $media_type === 'OEMBED' ) {
 					if ( isset( $post['thumbnail_url'] ) ) {
 						return $post['thumbnail_url'];
 					} elseif ( $media_type === 'CAROUSEL_ALBUM' && isset( $post['media_url'] ) ) {
 						return $post['media_url'];
 					} elseif ( isset( $post['children'] ) ) {
-						$i = 0;
+						$i         = 0;
 						$full_size = '';
 						foreach ( $post['children']['data'] as $carousel_item ) {
 							if ( $carousel_item['media_type'] === 'IMAGE' && empty( $full_size ) ) {
@@ -181,7 +180,7 @@ class SB_Instagram_Display_Elements
 						}
 						//attempt to get
 						$permalink = SB_Instagram_Parse::fix_permalink( SB_Instagram_Parse::get_permalink( $post ) );
-						$single = new SB_Instagram_Single( $permalink );
+						$single    = new SB_Instagram_Single( $permalink );
 						$single->init();
 						$post = $single->get_post();
 
@@ -201,7 +200,6 @@ class SB_Instagram_Display_Elements
 					return trailingslashit( SBI_PLUGIN_URL ) . 'img/thumb-placeholder.png';
 				}
 			}
-
 		}
 
 		return $media_url;
@@ -222,10 +220,10 @@ class SB_Instagram_Display_Elements
 	 * @since 2.1.1/5.2.1 added support for resized images
 	 */
 	public static function get_sbi_photo_style_element( $post, $settings, $resized_images = array() ) {
-		if ( !$settings['disable_js_image_loading'] ) {
+		if ( ! $settings['disable_js_image_loading'] ) {
 			return '';
 		} else {
-			$full_res_image = SB_Instagram_Display_Elements::get_optimum_media_url( $post, $settings, $resized_images );
+			$full_res_image = self::get_optimum_media_url( $post, $settings, $resized_images );
 			/*
 			 * By setting the height to "0" the bottom padding can be used
 			 * as a percent to square the images. Since it needs to be a percent
@@ -233,10 +231,10 @@ class SB_Instagram_Display_Elements
 			 */
 			$padding_bottom = '100%';
 			if ( $settings['imagepaddingunit'] === '%' ) {
-				$padding_bottom = 100 - ($settings['imagepadding'] * 2) . '%';
+				$padding_bottom = 100 - ( $settings['imagepadding'] * 2 ) . '%';
 			} else {
-				$padding_percent = $settings['imagepadding'] > 0 ? 100 - ($settings['cols'] / 2 * $settings['imagepadding'] / 5) : 100;
-				$padding_bottom = $padding_percent . '%';
+				$padding_percent = $settings['imagepadding'] > 0 ? 100 - ( $settings['cols'] / 2 * $settings['imagepadding'] / 5 ) : 100;
+				$padding_bottom  = $padding_percent . '%';
 			}
 			return ' style="background-image: url(&quot;' . esc_url( $full_res_image ) . '&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; opacity: 1;height: 0;padding-bottom: ' . esc_attr( $padding_bottom ) . ';"';
 		}
@@ -255,23 +253,23 @@ class SB_Instagram_Display_Elements
 	public static function get_feed_style( $settings ) {
 		$styles = '';
 		if ( ! empty( $settings['imagepadding'] )
-		     || ! empty( $settings['background'] )
-		     || ! empty( $settings['width'] )
-		     || ! empty( $settings['height'] ) ) {
+			 || ! empty( $settings['background'] )
+			 || ! empty( $settings['width'] )
+			 || ! empty( $settings['height'] ) ) {
 			$styles = ' style="';
 			if ( ! empty( $settings['imagepadding'] ) ) {
-				$styles .= 'padding-bottom: ' . ((int)$settings['imagepadding'] * 2) . esc_attr( $settings['imagepaddingunit'] ) . ';';
+				$styles .= 'padding-bottom: ' . ( (int) $settings['imagepadding'] * 2 ) . esc_attr( $settings['imagepaddingunit'] ) . ';';
 			}
 			if ( ! empty( $settings['background'] ) ) {
-				$styles .= 'background-color: rgb(' . esc_attr( sbi_hextorgb( $settings['background'] ) ). ');';
+				$styles .= 'background-color: rgb(' . esc_attr( sbi_hextorgb( $settings['background'] ) ) . ');';
 			}
 			if ( ! empty( $settings['width'] ) ) {
 				$width_unit = ! empty( $settings['widthunit'] ) && $settings['widthunit'] === '%' ? '%' : 'px';
-				$styles .= 'width: ' . (int) $settings['width'] . $width_unit . ';';
+				$styles    .= 'width: ' . (int) $settings['width'] . $width_unit . ';';
 			}
 			if ( ! empty( $settings['height'] ) ) {
 				$height_unit = ! empty( $settings['heightunit'] ) && $settings['heightunit'] === '%' ? '%' : 'px';
-				$styles .= 'height: ' . (int) $settings['height'] . $height_unit . ';';
+				$styles     .= 'height: ' . (int) $settings['height'] . $height_unit . ';';
 			}
 			$styles .= '"';
 		}
@@ -294,13 +292,15 @@ class SB_Instagram_Display_Elements
 		} else {
 			$disable_mobile = $settings['disablemobile'];
 			( $disable_mobile == 'on' || $disable_mobile == 'true' || $disable_mobile == true ) ? $disable_mobile = true : $disable_mobile = false;
-			if( $settings[ 'disablemobile' ] === 'false' ) $disable_mobile = '';
+			if ( $settings['disablemobile'] === 'false' ) {
+				$disable_mobile = '';
+			}
 
 			if ( $disable_mobile !== ' sbi_disable_mobile' && $settings['colsmobile'] !== 'same' ) {
-				$colsmobile = (int)( $settings['colsmobile'] ) > 0 ? (int)$settings['colsmobile'] : 'auto';
+				$colsmobile = (int) ( $settings['colsmobile'] ) > 0 ? (int) $settings['colsmobile'] : 'auto';
 				return ' sbi_mob_col_' . $colsmobile;
 			} else {
-				$colsmobile = (int)( $settings['cols'] ) > 0 ? (int)$settings['cols'] : 4;
+				$colsmobile = (int) ( $settings['cols'] ) > 0 ? (int) $settings['cols'] : 4;
 				return ' sbi_disable_mobile sbi_mob_col_' . $colsmobile;
 			}
 		}
@@ -320,7 +320,7 @@ class SB_Instagram_Display_Elements
 		if ( $customizer ) {
 			return ' $parent.getTabletColsClass() ';
 		} else {
-			$colstablet = (int)( $settings['colstablet'] ) > 0 ? (int)$settings['colstablet'] : 3;
+			$colstablet = (int) ( $settings['colstablet'] ) > 0 ? (int) $settings['colstablet'] : 3;
 
 			return ' sbi_tab_col_' . $colstablet;
 		}
@@ -336,8 +336,8 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function get_sbi_images_style( $settings ) {
-		if ( ! empty ( $settings['imagepadding'] ) ) {
-			return ' style="padding: '.(int)$settings['imagepadding'] . esc_attr( $settings['imagepaddingunit'] ) . ';"';
+		if ( ! empty( $settings['imagepadding'] ) ) {
+			return ' style="padding: ' . (int) $settings['imagepadding'] . esc_attr( $settings['imagepaddingunit'] ) . ';"';
 		}
 		return '';
 	}
@@ -354,7 +354,7 @@ class SB_Instagram_Display_Elements
 	 */
 	public static function get_header_text_color_styles( $settings ) {
 		if ( ! empty( $settings['headercolor'] ) ) {
-			return ' style="color: rgb(' . esc_attr( sbi_hextorgb( $settings['headercolor'] ) ). ');"';
+			return ' style="color: rgb(' . esc_attr( sbi_hextorgb( $settings['headercolor'] ) ) . ');"';
 		}
 		return '';
 	}
@@ -369,7 +369,7 @@ class SB_Instagram_Display_Elements
 	 * @since 2.0.1/5.0
 	 */
 	public static function get_header_size_class( $settings ) {
-		$header_size_class = in_array( strtolower( $settings['headersize'] ), array( 'medium', 'large' ) ) ? ' sbi_'.strtolower( $settings['headersize'] ) : '';
+		$header_size_class = in_array( strtolower( $settings['headersize'] ), array( 'medium', 'large' ) ) ? ' sbi_' . strtolower( $settings['headersize'] ) : '';
 		return $header_size_class;
 	}
 
@@ -386,17 +386,17 @@ class SB_Instagram_Display_Elements
 	public static function get_follow_styles( $settings ) {
 		$styles = '';
 
-		if ( (empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit') && ( ! empty( $settings['followcolor'] ) || ! empty( $settings['followtextcolor'] ) ) ) {
+		if ( ( empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit' ) && ( ! empty( $settings['followcolor'] ) || ! empty( $settings['followtextcolor'] ) ) ) {
 			$styles = ' style="';
 			if ( ! empty( $settings['followcolor'] ) ) {
 				$styles .= 'background: rgb(' . esc_attr( sbi_hextorgb( $settings['followcolor'] ) ) . ');';
 			}
 			if ( ! empty( $settings['followtextcolor'] ) ) {
-				$styles .= 'color: rgb(' . esc_attr( sbi_hextorgb( $settings['followtextcolor'] ) ). ');';
+				$styles .= 'color: rgb(' . esc_attr( sbi_hextorgb( $settings['followtextcolor'] ) ) . ');';
 			}
 			$styles .= '"';
 		}
-		if ( (empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit') && ! empty( $settings['followhovercolor'] ) ) {
+		if ( ( empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit' ) && ! empty( $settings['followhovercolor'] ) ) {
 			$styles .= ' data-button-hover="' . esc_attr( $settings['followhovercolor'] ) . '"';
 		}
 		return $styles;
@@ -419,7 +419,7 @@ class SB_Instagram_Display_Elements
 				$styles .= 'background: rgb(' . esc_attr( sbi_hextorgb( $settings['buttoncolor'] ) ) . ');';
 			}
 			if ( ! empty( $settings['buttontextcolor'] ) ) {
-				$styles .= 'color: rgb(' . esc_attr( sbi_hextorgb( $settings['buttontextcolor'] ) ). ');';
+				$styles .= 'color: rgb(' . esc_attr( sbi_hextorgb( $settings['buttontextcolor'] ) ) . ');';
 			}
 			$styles .= '"';
 		}
@@ -448,7 +448,6 @@ class SB_Instagram_Display_Elements
 			} else {
 				return '<i class="fa fa-clone sbi_carousel_icon" aria-hidden="true"></i>';
 			}
-
 		} elseif ( $type === 'video' ) {
 			if ( $icon_type === 'svg' ) {
 				return '<svg style="color: rgba(255,255,255,1)" class="svg-inline--fa fa-play fa-w-14 sbi_playbtn" aria-label="Play" aria-hidden="true" data-fa-processed="" data-prefix="fa" data-icon="play" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>';
@@ -487,17 +486,17 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function get_feed_container_css_classes( $settings, $additional_classes ) {
-		$customizer = sbi_doing_customizer( $settings );
-		$mobilecols_class = SB_Instagram_Display_Elements::get_mobilecols_class( $settings );
-		$tabletcols_class = SB_Instagram_Display_Elements::get_tabletcols_class( $settings );
-		$cols_setting = ( $customizer ) ? ' $parent.getColsPreviewScreen() ' : $settings['cols'];
+		$customizer                    = sbi_doing_customizer( $settings );
+		$mobilecols_class              = self::get_mobilecols_class( $settings );
+		$tabletcols_class              = self::get_tabletcols_class( $settings );
+		$cols_setting                  = ( $customizer ) ? ' $parent.getColsPreviewScreen() ' : $settings['cols'];
 		$additional_customizer_classes = ( $customizer ) ? ' $parent.getAdditionalCustomizerClasses() ' : '';
-		$palette_class = SB_Instagram_Display_Elements::get_palette_class( $settings );
+		$palette_class                 = self::get_palette_class( $settings );
 
-		if ( $customizer ){
-			return ' :class="\'sbi \' + ' . $mobilecols_class . ' + \' \' + ' . $tabletcols_class .' + \' sbi_col_\' + '. $cols_setting . ' + \' \' + ' . $palette_class . ' + \' \' + ' . $additional_customizer_classes . '" ';
+		if ( $customizer ) {
+			return ' :class="\'sbi \' + ' . $mobilecols_class . ' + \' \' + ' . $tabletcols_class . ' + \' sbi_col_\' + ' . $cols_setting . ' + \' \' + ' . $palette_class . ' + \' \' + ' . $additional_customizer_classes . '" ';
 		} else {
-			$classes = 'sbi'. esc_attr( $mobilecols_class ) . esc_attr( $tabletcols_class ) . ' sbi_col_'. esc_attr( $cols_setting ) . esc_attr( $additional_classes ) . esc_attr( $palette_class );
+			$classes = 'sbi' . esc_attr( $mobilecols_class ) . esc_attr( $tabletcols_class ) . ' sbi_col_' . esc_attr( $cols_setting ) . esc_attr( $additional_classes ) . esc_attr( $palette_class );
 			$classes = ' class="' . $classes . '"';
 		}
 		return $classes;
@@ -515,11 +514,11 @@ class SB_Instagram_Display_Elements
 	 */
 	public static function get_palette_class( $settings, $context = '' ) {
 		$customizer = sbi_doing_customizer( $settings );
-		if( $customizer ){
+		if ( $customizer ) {
 			return ' $parent.getPaletteClass() ';
-		}else{
-			$feed_id_addition      = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] === 'custom' ? '_' . $settings['feed'] : '';
-			$palette_class      = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] !== 'inherit' ? ' sbi' . $context . '_palette_' . $settings['colorpalette'] . $feed_id_addition : '';
+		} else {
+			$feed_id_addition = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] === 'custom' ? '_' . $settings['feed'] : '';
+			$palette_class    = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] !== 'inherit' ? ' sbi' . $context . '_palette_' . $settings['colorpalette'] . $feed_id_addition : '';
 			return $palette_class;
 		}
 	}
@@ -549,42 +548,60 @@ class SB_Instagram_Display_Elements
 	public static function get_feed_container_data_attributes( $settings ) {
 		$customizer = sbi_doing_customizer( $settings );
 
-		$atts = '';
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-res',
-			'vue_content' => '$parent.customizerFeedData.settings.imageres',
-			'php_content' => $settings['imageres']
-		]);
+		$atts  = '';
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-res',
+				'vue_content' => '$parent.customizerFeedData.settings.imageres',
+				'php_content' => $settings['imageres'],
+			)
+		);
 
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-cols',
-			'vue_content' => '$parent.getColsPreviewScreen()',
-			'php_content' => $settings['cols']
-		]);
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-cols',
+				'vue_content' => '$parent.getColsPreviewScreen()',
+				'php_content' => $settings['cols'],
+			)
+		);
 
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-colsmobile',
-			'vue_content' => '$parent.customizerFeedData.settings.colsmobile',
-			'php_content' => $settings['colsmobile']
-		]);
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-colsmobile',
+				'vue_content' => '$parent.customizerFeedData.settings.colsmobile',
+				'php_content' => $settings['colsmobile'],
+			)
+		);
 
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-colstablet',
-			'vue_content' => '$parent.customizerFeedData.settings.colstablet',
-			'php_content' => $settings['colstablet']
-		]);
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-colstablet',
+				'vue_content' => '$parent.customizerFeedData.settings.colstablet',
+				'php_content' => $settings['colstablet'],
+			)
+		);
 
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-num',
-			'vue_content' => '$parent.getModerationShoppableMode ? 10 : $parent.getPostNumberPreviewScreen()',
-			'php_content' => $settings['num']
-		]);
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-num',
+				'vue_content' => '$parent.getModerationShoppableMode ? 10 : $parent.getPostNumberPreviewScreen()',
+				'php_content' => $settings['num'],
+			)
+		);
 
-		$atts .= SB_Instagram_Display_Elements::print_element_attribute( $customizer, [
-			'attr' => 'data-nummobile',
-			'vue_content' => '$parent.customizerFeedData.settings.nummobile',
-			'php_content' => $settings['nummobile']
-		]);
+		$atts .= self::print_element_attribute(
+			$customizer,
+			array(
+				'attr'        => 'data-nummobile',
+				'vue_content' => '$parent.customizerFeedData.settings.nummobile',
+				'php_content' => $settings['nummobile'],
+			)
+		);
 
 		return $atts;
 	}
@@ -602,13 +619,13 @@ class SB_Instagram_Display_Elements
 
 		$customizer = sbi_doing_customizer( $settings );
 		if ( $customizer ) {
-			return ' :class="$parent.getHeaderClass(\''.$type.'\')" ';
+			return ' :class="$parent.getHeaderClass(\'' . $type . '\')" ';
 		} else {
-			$size_class        	= SB_Instagram_Display_Elements::get_header_size_class( $settings );
-			$avatar_class 	   	= $avatar !== '' ? '' : ' sbi_no_avatar';
-			$palette_class = SB_Instagram_Display_Elements::get_palette_class( $settings, '_header' );
+			$size_class    = self::get_header_size_class( $settings );
+			$avatar_class  = $avatar !== '' ? '' : ' sbi_no_avatar';
+			$palette_class = self::get_palette_class( $settings, '_header' );
 			$outside_class = $settings['headeroutside'] ? ' sbi_header_outside' : '';
-			return ' class="sb_instagram_header ' . esc_attr( $size_class ) . esc_attr( $avatar_class ) . esc_attr( $outside_class ) . esc_attr( $palette_class ) .'" ';
+			return ' class="sb_instagram_header ' . esc_attr( $size_class ) . esc_attr( $avatar_class ) . esc_attr( $outside_class ) . esc_attr( $palette_class ) . '" ';
 		}
 	}
 
@@ -622,11 +639,11 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function get_header_link( $settings, $username ){
-		if ( sbi_doing_customizer( $settings ) ){
+	public static function get_header_link( $settings, $username ) {
+		if ( sbi_doing_customizer( $settings ) ) {
 			return ' :href="\'https://www.instagram.com/\' + $parent.getHeaderUserName() "';
-		} else{
-			return ' href="'. esc_url( 'https://www.instagram.com/' . $username . '/' ) .'"';
+		} else {
+			return ' href="' . esc_url( 'https://www.instagram.com/' . $username . '/' ) . '"';
 		}
 	}
 
@@ -640,8 +657,15 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function get_header_link_title( $settings, $username ){
-		return SB_Instagram_Display_Elements::print_element_attribute( sbi_doing_customizer( $settings ), [ 'attr' => 'title', 'vue_content' => '\'@\' + $parent.getHeaderUserName()', 'php_content' => "@".esc_attr( $username ) ]);
+	public static function get_header_link_title( $settings, $username ) {
+		return self::print_element_attribute(
+			sbi_doing_customizer( $settings ),
+			array(
+				'attr'        => 'title',
+				'vue_content' => '\'@\' + $parent.getHeaderUserName()',
+				'php_content' => '@' . esc_attr( $username ),
+			)
+		);
 	}
 
 	/**
@@ -653,8 +677,8 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function get_follow_attribute( $settings ){
-		return SB_Instagram_Display_Elements::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.settings.followtext' );
+	public static function get_follow_attribute( $settings ) {
+		return self::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.settings.followtext' );
 	}
 
 	/**
@@ -666,8 +690,8 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function get_button_attribute( $settings ){
-		return SB_Instagram_Display_Elements::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.settings.buttontext' );
+	public static function get_button_attribute( $settings ) {
+		return self::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.settings.buttontext' );
 	}
 
 	/**
@@ -699,15 +723,15 @@ class SB_Instagram_Display_Elements
 
 		if ( sbi_doing_customizer( $settings ) ) {
 			if ( isset( $settings['generic_header'] ) ) {
-				return SB_Instagram_Display_Elements::vue_check_header_enabled( $settings, 'header-generic', $settings['vue_args'] );
+				return self::vue_check_header_enabled( $settings, 'header-generic', $settings['vue_args'] );
 			}
-			$header_vue = $settings['vue_args'];
+			$header_vue              = $settings['vue_args'];
 			$header_vue['condition'] = $settings['vue_args']['condition'];
 
-			$header_enabeld_vue = SB_Instagram_Display_Elements::vue_check_header_enabled( $settings, 'header', $header_vue );
-			$atts               .= ' ' . $header_enabeld_vue;
+			$header_enabeld_vue = self::vue_check_header_enabled( $settings, 'header', $header_vue );
+			$atts              .= ' ' . $header_enabeld_vue;
 		}
-		$avatar = SB_Instagram_Parse::get_avatar( $header_data, $settings );
+		$avatar         = SB_Instagram_Parse::get_avatar( $header_data, $settings );
 		$story_data_att = '';
 		if ( sbi_is_pro_version() ) {
 			$story_data_att = SB_Instagram_Display_Elements_Pro::get_story_attributes( sbi_doing_customizer( $settings ), $settings, $header_data, $avatar );
@@ -730,26 +754,46 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function get_header_img_data_attributes( $settings, $header_data = array(), $location = 'default' ) {
-		$instagram_cdn_avatar    = SB_Instagram_Parse::get_avatar( $header_data, $settings, true );
-		$doing_customizer = sbi_doing_customizer( $settings );
-		$return = '';
+		$instagram_cdn_avatar = SB_Instagram_Parse::get_avatar( $header_data, $settings, true );
+		$doing_customizer     = sbi_doing_customizer( $settings );
+		$return               = '';
 		if ( $settings['headerstyle'] === 'boxed' ) {
 			if ( ! empty( $instagram_cdn_avatar ) ) {
-				$return = SB_Instagram_Display_Elements::print_element_attribute( $doing_customizer, [ 'attr' => 'data-avatar-url', 'vue_content' => '$parent.getHeaderAvatar()', 'php_content' => $instagram_cdn_avatar ] );
+				$return = self::print_element_attribute(
+					$doing_customizer,
+					array(
+						'attr'        => 'data-avatar-url',
+						'vue_content' => '$parent.getHeaderAvatar()',
+						'php_content' => $instagram_cdn_avatar,
+					)
+				);
 			} else {
-				$return = SB_Instagram_Display_Elements::create_condition_vue( $doing_customizer, '$parent.getHeaderAvatar() === false');
+				$return = self::create_condition_vue( $doing_customizer, '$parent.getHeaderAvatar() === false' );
 			}
 		} else {
 			if ( $location !== 'centered' ) {
-				if ( ! empty( $instagram_cdn_avatar ) || $doing_customizer) {
-					$return = SB_Instagram_Display_Elements::print_element_attribute( $doing_customizer, [ 'attr' => 'data-avatar-url', 'vue_content' => '$parent.getHeaderAvatar()', 'php_content' => $instagram_cdn_avatar ] ) .
-					SB_Instagram_Display_Elements::create_condition_vue( $doing_customizer, ' $parent.customizerFeedData.settings.headerstyle !== \'centered\'' );
+				if ( ! empty( $instagram_cdn_avatar ) || $doing_customizer ) {
+					$return = self::print_element_attribute(
+						$doing_customizer,
+						array(
+							'attr'        => 'data-avatar-url',
+							'vue_content' => '$parent.getHeaderAvatar()',
+							'php_content' => $instagram_cdn_avatar,
+						)
+					) .
+					self::create_condition_vue( $doing_customizer, ' $parent.customizerFeedData.settings.headerstyle !== \'centered\'' );
 				}
-
 			} else {
 				if ( ! empty( $instagram_cdn_avatar ) || $doing_customizer ) {
-					$return = SB_Instagram_Display_Elements::print_element_attribute( $doing_customizer, [ 'attr' => 'data-avatar-url', 'vue_content' => '$parent.getHeaderAvatar()', 'php_content' => $instagram_cdn_avatar ] ) .
-					SB_Instagram_Display_Elements::create_condition_vue( $doing_customizer, ' $parent.customizerFeedData.settings.headerstyle === \'centered\'' );
+					$return = self::print_element_attribute(
+						$doing_customizer,
+						array(
+							'attr'        => 'data-avatar-url',
+							'vue_content' => '$parent.getHeaderAvatar()',
+							'php_content' => $instagram_cdn_avatar,
+						)
+					) .
+					self::create_condition_vue( $doing_customizer, ' $parent.customizerFeedData.settings.headerstyle === \'centered\'' );
 				}
 			}
 		}
@@ -776,7 +820,14 @@ class SB_Instagram_Display_Elements
 		$should_show_bio = $settings['showbio'] && $bio !== '';
 		$bio_class       = ! $should_show_bio ? ' sbi_no_bio' : '';
 
-		return SB_Instagram_Display_Elements::print_element_attribute( sbi_doing_customizer( $settings ), [ 'attr' => 'class', 'vue_content' => '$parent.getTextHeaderClass()', 'php_content' => "sbi_header_text".esc_attr( $bio_class ) ]);
+		return self::print_element_attribute(
+			sbi_doing_customizer( $settings ),
+			array(
+				'attr'        => 'class',
+				'vue_content' => '$parent.getTextHeaderClass()',
+				'php_content' => 'sbi_header_text' . esc_attr( $bio_class ),
+			)
+		);
 	}
 
 	/**
@@ -793,9 +844,23 @@ class SB_Instagram_Display_Elements
 		$avatar = SB_Instagram_Parse::get_avatar( $header_data, $settings );
 		$name   = SB_Instagram_Parse::get_name( $header_data );
 
-		return ' ' . 	SB_Instagram_Display_Elements::print_element_attribute( sbi_doing_customizer( $settings ), [ 'attr' => 'src', 'vue_content' => '$parent.getHeaderAvatar()', 'php_content' => $avatar ] ) .
-					 	SB_Instagram_Display_Elements::print_element_attribute( sbi_doing_customizer( $settings ), [ 'attr' => 'alt', 'vue_content' => '$parent.getHeaderName()', 'php_content' => $name ] ).
-					 	SB_Instagram_Display_Elements::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() !== false' );
+		return ' ' . self::print_element_attribute(
+			sbi_doing_customizer( $settings ),
+			array(
+				'attr'        => 'src',
+				'vue_content' => '$parent.getHeaderAvatar()',
+				'php_content' => $avatar,
+			)
+		) .
+						self::print_element_attribute(
+							sbi_doing_customizer( $settings ),
+							array(
+								'attr'        => 'alt',
+								'vue_content' => '$parent.getHeaderName()',
+								'php_content' => $name,
+							)
+						) .
+						self::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() !== false' );
 	}
 
 	/**
@@ -808,7 +873,7 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function get_avatar_hover_data_attributes( $settings ) {
-		return ' '. SB_Instagram_Display_Elements::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() !== false' );
+		return ' ' . self::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() !== false' );
 	}
 
 	/**
@@ -821,7 +886,7 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function get_avatar_svg_data_attributes( $settings ) {
-		return ' '. SB_Instagram_Display_Elements::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() === false' );
+		return ' ' . self::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.getHeaderAvatar() === false' );
 	}
 
 	/**
@@ -837,7 +902,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::should_show_element_vue( $settings, 'showfollowers' ) . SB_Instagram_Display_Elements::should_print_element_vue( sbi_doing_customizer( $settings ), ' $parent.svgIcons[\'headerPhoto\']+ \' \' + $parent.getHeaderMediaCount()' );
+		return ' ' . self::should_show_element_vue( $settings, 'showfollowers' ) . self::should_print_element_vue( sbi_doing_customizer( $settings ), ' $parent.svgIcons[\'headerPhoto\']+ \' \' + $parent.getHeaderMediaCount()' );
 	}
 
 	/**
@@ -853,7 +918,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::should_show_element_vue( $settings, 'showfollowers' ) . SB_Instagram_Display_Elements::should_print_element_vue( sbi_doing_customizer( $settings ), ' $parent.svgIcons[\'headerUser\'] + \' \' + $parent.getHeaderFollowersCount()' );
+		return ' ' . self::should_show_element_vue( $settings, 'showfollowers' ) . self::should_print_element_vue( sbi_doing_customizer( $settings ), ' $parent.svgIcons[\'headerUser\'] + \' \' + $parent.getHeaderFollowersCount()' );
 	}
 
 	/**
@@ -869,7 +934,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.headerData.username' );
+		return ' ' . self::should_print_element_vue( sbi_doing_customizer( $settings ), '$parent.customizerFeedData.headerData.username' );
 	}
 
 	/**
@@ -885,7 +950,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.checkNotEmpty( $parent.getHeaderBio() ) ? $parent.valueIsEnabled( $parent.customizerFeedData.settings[\'showbio\'] ) : false' );
+		return ' ' . self::create_condition_vue( sbi_doing_customizer( $settings ), '$parent.checkNotEmpty( $parent.getHeaderBio() ) ? $parent.valueIsEnabled( $parent.customizerFeedData.settings[\'showbio\'] ) : false' );
 	}
 
 	/**
@@ -898,7 +963,7 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function hoverdisplay_vue_condition( $setting_name ) {
-		return SB_Instagram_Display_Elements::create_condition_vue( true, '$parent.customizerFeedData.settings.hoverdisplay.includes(\''. $setting_name . '\')' );
+		return self::create_condition_vue( true, '$parent.customizerFeedData.settings.hoverdisplay.includes(\'' . $setting_name . '\')' );
 	}
 
 	/**
@@ -911,7 +976,7 @@ class SB_Instagram_Display_Elements
 	 * @since 6.0
 	 */
 	public static function display_vue_condition( $setting_name ) {
-		return SB_Instagram_Display_Elements::create_condition_vue( true, '$parent.valueIsEnabled( $parent.customizerFeedData.settings.'.$setting_name.' )' );
+		return self::create_condition_vue( true, '$parent.valueIsEnabled( $parent.customizerFeedData.settings.' . $setting_name . ' )' );
 	}
 
 	/**
@@ -927,7 +992,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::hoverdisplay_vue_condition( 'username' );
+		return ' ' . self::hoverdisplay_vue_condition( 'username' );
 	}
 
 	/**
@@ -944,9 +1009,9 @@ class SB_Instagram_Display_Elements
 			return '';
 		}
 
-		$caption = SB_Instagram_Display_Elements::sanitize_caption( $caption );
+		$caption = self::sanitize_caption( $caption );
 
-		return ' ' . SB_Instagram_Display_Elements::display_vue_condition( 'showcaption' ) . ' v-html="$parent.getPostCaption(\'' . htmlspecialchars($caption) . '\', ' . $post_id . ')"';
+		return ' ' . self::display_vue_condition( 'showcaption' ) . ' v-html="$parent.getPostCaption(\'' . htmlspecialchars( $caption ) . '\', ' . $post_id . ')"';
 	}
 
 	/**
@@ -962,7 +1027,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::hoverdisplay_vue_condition( 'caption' );
+		return ' ' . self::hoverdisplay_vue_condition( 'caption' );
 	}
 
 
@@ -975,16 +1040,16 @@ class SB_Instagram_Display_Elements
 	 * @return mixed
 	 */
 	public static function sanitize_caption( $caption ) {
-		$caption = str_replace( array( "'"), '`', $caption );
-		$caption = str_replace( '&amp;', '&',   $caption  );
-		$caption = str_replace('&lt;', '<',   $caption  );
-		$caption = str_replace('&gt;', '>',   $caption  );
-		$caption = str_replace('&quot;', '"',   $caption  );
-		$caption = str_replace('&#039;', "/",   $caption  );
-		$caption = str_replace('&#92;', '\/',   $caption  );
+		$caption = str_replace( array( "'" ), '`', $caption );
+		$caption = str_replace( '&amp;', '&', $caption );
+		$caption = str_replace( '&lt;', '<', $caption );
+		$caption = str_replace( '&gt;', '>', $caption );
+		$caption = str_replace( '&quot;', '"', $caption );
+		$caption = str_replace( '&#039;', '/', $caption );
+		$caption = str_replace( '&#92;', '\/', $caption );
 
 		$caption = str_replace( array( "\r", "\n" ), '<br>', $caption );
-		$caption = str_replace( '&lt;br /&gt;', '<br>', nl2br( $caption  ) );
+		$caption = str_replace( '&lt;br /&gt;', '<br>', nl2br( $caption ) );
 
 		return $caption;
 	}
@@ -1002,7 +1067,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::hoverdisplay_vue_condition( 'instagram' );
+		return ' ' . self::hoverdisplay_vue_condition( 'instagram' );
 	}
 
 	/**
@@ -1018,7 +1083,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::hoverdisplay_vue_condition( 'date' );
+		return ' ' . self::hoverdisplay_vue_condition( 'date' );
 	}
 
 	/**
@@ -1034,7 +1099,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::hoverdisplay_vue_condition( 'likes' );
+		return ' ' . self::hoverdisplay_vue_condition( 'likes' );
 	}
 
 	/**
@@ -1050,7 +1115,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::display_vue_condition( 'showlikes' );
+		return ' ' . self::display_vue_condition( 'showlikes' );
 	}
 
 	/**
@@ -1066,7 +1131,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::display_vue_condition( 'showbutton' );
+		return ' ' . self::display_vue_condition( 'showbutton' );
 	}
 
 	/**
@@ -1082,7 +1147,7 @@ class SB_Instagram_Display_Elements
 		if ( ! sbi_doing_customizer( $settings ) ) {
 			return '';
 		}
-		return ' ' . SB_Instagram_Display_Elements::display_vue_condition( 'showfollow' );
+		return ' ' . self::display_vue_condition( 'showfollow' );
 	}
 
 	/**
@@ -1123,7 +1188,7 @@ class SB_Instagram_Display_Elements
 	public static function vue_check_header_enabled( $settings, $header_type, $vue_args ) {
 		$customizer = sbi_doing_customizer( $settings );
 		$result_vue = '';
-		if ( $customizer ){
+		if ( $customizer ) {
 			$result_vue = '$parent.valueIsEnabled($parent.customizerFeedData.settings.showheader) ' . $vue_args['condition'];
 			$result_vue = ' v-if=" ' . $result_vue . '" ';
 		}
@@ -1140,10 +1205,10 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @return string
 	 */
-	public static function should_show_element_vue( $settings, $setting_name, $custom_condition = false ){
+	public static function should_show_element_vue( $settings, $setting_name, $custom_condition = false ) {
 		$customizer = sbi_doing_customizer( $settings );
 		if ( $customizer ) {
-			return ' v-if="$parent.valueIsEnabled($parent.customizerFeedData.settings.'.$setting_name.')' . ($custom_condition != false ? $custom_condition : '' ). '" ';
+			return ' v-if="$parent.valueIsEnabled($parent.customizerFeedData.settings.' . $setting_name . ')' . ( $custom_condition != false ? $custom_condition : '' ) . '" ';
 		}
 		return '';
 	}
@@ -1158,7 +1223,7 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function should_print_element_vue( $customizer, $content ){
+	public static function should_print_element_vue( $customizer, $content ) {
 		if ( $customizer ) {
 			return ' v-html="' . $content . '" ';
 		}
@@ -1175,8 +1240,8 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function create_condition_vue( $customizer, $condition ){
-		if( $customizer ) {
+	public static function create_condition_vue( $customizer, $condition ) {
+		if ( $customizer ) {
 			return ' v-if="' . $condition . '" ';
 		}
 		return '';
@@ -1192,7 +1257,7 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function print_element_attribute( $customizer, $args ){
+	public static function print_element_attribute( $customizer, $args ) {
 		if ( $customizer ) {
 			return ' :' . $args['attr'] . '="' . $args['vue_content'] . '"';
 		}
@@ -1209,10 +1274,10 @@ class SB_Instagram_Display_Elements
 	 *
 	 * @since 6.0
 	 */
-	public static function get_footer_attributes( $settings ){
+	public static function get_footer_attributes( $settings ) {
 		$customizer = sbi_doing_customizer( $settings );
-		if($customizer){
-			return SB_Instagram_Display_Elements::create_condition_vue( $customizer, '!$parent.getModerationShoppableMode');
+		if ( $customizer ) {
+			return self::create_condition_vue( $customizer, '!$parent.getModerationShoppableMode' );
 		}
 		return '';
 	}

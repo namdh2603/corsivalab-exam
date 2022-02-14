@@ -195,6 +195,15 @@ class SB_Instagram_API_Connect
 		if ( ! is_wp_error( $response ) ) {
 			// certain ways of representing the html for double quotes causes errors so replaced here.
 			$response = json_decode( str_replace( '%22', '&rdquo;', $response['body'] ), true );
+
+			if ( empty( $response ) ) {
+				$response = array(
+					'error' => array(
+						'code' => 'unknown',
+						'message' => __( "An unknown error occurred when trying to connect to Instagram's API.", 'instagram-feed' )
+					)
+				);
+			}
 		}
 
 		$this->response = $response;

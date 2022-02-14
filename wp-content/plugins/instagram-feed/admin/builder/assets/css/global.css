@@ -2279,6 +2279,9 @@
 	word-break: break-word;
 	background: #FFEFCC
 }
+.sbi-connection-error .sb-alert {
+  margin: 20px;
+}
 .sbi-connect-actions .sbi-fb-source-btn {
 	margin-top: 0;
 }

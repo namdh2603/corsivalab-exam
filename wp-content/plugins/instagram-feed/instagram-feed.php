@@ -3,7 +3,7 @@
 Plugin Name: Smash Balloon Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds.
-Version: 6.0.1
+Version: 6.0.2
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -29,7 +29,7 @@ if ( ! defined( 'SBI_PLUGIN_NAME' ) ) {
 	define( 'SBI_PLUGIN_NAME', 'Instagram Feed Free' );
 }
 if ( ! defined( 'SBIVER' ) ) {
-	define( 'SBIVER', '6.0.1' );
+	define( 'SBIVER', '6.0.2' );
 }
 // Db version.
 if ( ! defined( 'SBI_DBVERSION' ) ) {
@@ -353,7 +353,18 @@ if ( function_exists( 'sb_instagram_feed_init' ) ) {
 	 *
 	 * @since  2.0
 	 */
-	function sbi_create_database_table() {
+	function sbi_create_database_table ( $include_charset_collate = true ) {
+		if ( ! function_exists( 'dbDelta' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/upgrade.php';
+		}
+
+		global $wpdb;
+		$max_index_length = 191;
+		$charset_collate  = '';
+		if ( $include_charset_collate && method_exists( $wpdb, 'get_charset_collate' ) ) { // get_charset_collate introduced in WP 3.5
+			$charset_collate = $wpdb->get_charset_collate();
+		}
+
 		global $wpdb;
 		global $sb_instagram_posts_manager;
 
@@ -364,102 +375,61 @@ if ( function_exists( 'sb_instagram_feed_init' ) ) {
 			$sb_instagram_posts_manager = new SB_Instagram_Posts_Manager();
 		}
 
-		global $wp_version;
+		$table_name      = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_POSTS_TYPE );
 
-		if ( version_compare( $wp_version, '3.5', '<' ) ) {
-			$table_name = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_POSTS_TYPE );
+		if ( $wpdb->get_var( "show tables like '$table_name'" ) !== $table_name ) {
+			$sql = "CREATE TABLE " . $table_name . " (
+            id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            created_on DATETIME,
+            instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
+            time_stamp DATETIME,
+            top_time_stamp DATETIME,
+            json_data LONGTEXT DEFAULT '' NOT NULL,
+            media_id VARCHAR(1000) DEFAULT '' NOT NULL,
+            sizes VARCHAR(1000) DEFAULT '' NOT NULL,
+            aspect_ratio DECIMAL (4,2) DEFAULT 0 NOT NULL,
+            images_done TINYINT(1) DEFAULT 0 NOT NULL,
+            last_requested DATE
+        ) $charset_collate;";
+			$wpdb->query( $sql );
+		}
+		$error = $wpdb->last_error;
+		$query = $wpdb->last_query;
 
-			if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) {
-				$sql = "CREATE TABLE " . $table_name . " (
-                id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                created_on DATETIME,
-                instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                time_stamp DATETIME,
-                top_time_stamp DATETIME,
-                json_data LONGTEXT DEFAULT '' NOT NULL,
-                media_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                sizes VARCHAR(1000) DEFAULT '' NOT NULL,
-                aspect_ratio DECIMAL (4,2) DEFAULT 0 NOT NULL,
-                images_done TINYINT(1) DEFAULT 0 NOT NULL,
-                last_requested DATE
-            );";
-				$wpdb->query( $sql );
-			}
+		if ( $wpdb->get_var( "show tables like '$table_name'" ) !== $table_name ) {
+			$had_error = true;
+			$sb_instagram_posts_manager->add_error( 'database_create', '<strong>' . __( 'There was an error when trying to create the database tables used for resizing images.', 'instagram-feed' ) .'</strong><br>' . $error . '<br><code>' . $query . '</code>' );
+		}
 
-			$feeds_posts_table_name = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_FEEDS_POSTS );
+		$feeds_posts_table_name = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_FEEDS_POSTS );
 
-			if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
-				$sql = "CREATE TABLE " . $feeds_posts_table_name . " (
-				record_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                id INT(11) UNSIGNED NOT NULL,
-                instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                feed_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                hashtag VARCHAR(1000) DEFAULT '' NOT NULL,
-                INDEX hashtag (hashtag(100)),
-                INDEX feed_id (feed_id(100))
-            );";
-				$wpdb->query( $sql );
-			}
+		if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
+			$sql = "CREATE TABLE " . $feeds_posts_table_name . " (
+			record_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            id INT(11) UNSIGNED NOT NULL,
+            instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
+            feed_id VARCHAR(1000) DEFAULT '' NOT NULL,
+            hashtag VARCHAR(1000) DEFAULT '' NOT NULL,
+            INDEX hashtag (hashtag($max_index_length)),
+            INDEX feed_id (feed_id($max_index_length))
+        ) $charset_collate;";
+			$wpdb->query( $sql );
+			$sbi_statuses_option = get_option( 'sbi_statuses', array() );
 
-			return;
-		} else {
-			$charset_collate = $wpdb->get_charset_collate();
-			$table_name      = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_POSTS_TYPE );
+			$sbi_statuses_option['database']['hashtag_column'] = true;
 
-			if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) {
-				$sql = "CREATE TABLE " . $table_name . " (
-                id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                created_on DATETIME,
-                instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                time_stamp DATETIME,
-                top_time_stamp DATETIME,
-                json_data LONGTEXT DEFAULT '' NOT NULL,
-                media_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                sizes VARCHAR(1000) DEFAULT '' NOT NULL,
-                aspect_ratio DECIMAL (4,2) DEFAULT 0 NOT NULL,
-                images_done TINYINT(1) DEFAULT 0 NOT NULL,
-                last_requested DATE
-            ) $charset_collate;";
-				$wpdb->query( $sql );
-			}
-			$error = $wpdb->last_error;
-			$query = $wpdb->last_query;
+			update_option( 'sbi_statuses', $sbi_statuses_option );
+		}
+		$error = $wpdb->last_error;
+		$query = $wpdb->last_query;
 
-			if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) {
-				$had_error = true;
-				$sb_instagram_posts_manager->add_error( 'database_create', '<strong>' . __( 'There was an error when trying to create the database tables used for resizing images.', 'instagram-feed' ) .'</strong><br>' . $error . '<br><code>' . $query . '</code>' );
-			}
+		if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
+			$had_error = true;
+			$sb_instagram_posts_manager->add_error( 'database_create', '<strong>' . __( 'There was an error when trying to create the database tables used for resizing images.', 'instagram-feed' ) .'</strong><br>' . $error . '<br><code>' . $query . '</code>' );
+		}
 
-			$feeds_posts_table_name = esc_sql( $wpdb->prefix . SBI_INSTAGRAM_FEEDS_POSTS );
-
-			if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
-				$sql = "CREATE TABLE " . $feeds_posts_table_name . " (
-				record_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                id INT(11) UNSIGNED NOT NULL,
-                instagram_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                feed_id VARCHAR(1000) DEFAULT '' NOT NULL,
-                hashtag VARCHAR(1000) DEFAULT '' NOT NULL,
-                INDEX hashtag (hashtag(100)),
-                INDEX feed_id (feed_id(100))
-            ) $charset_collate;";
-				$wpdb->query( $sql );
-				$sbi_statuses_option = get_option( 'sbi_statuses', array() );
-
-				$sbi_statuses_option['database']['hashtag_column'] = true;
-
-				update_option( 'sbi_statuses', $sbi_statuses_option );
-			}
-			$error = $wpdb->last_error;
-			$query = $wpdb->last_query;
-
-			if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
-				$had_error = true;
-				$sb_instagram_posts_manager->add_error( 'database_create', '<strong>' . __( 'There was an error when trying to create the database tables used for resizing images.', 'instagram-feed' ) .'</strong><br>' . $error . '<br><code>' . $query . '</code>' );
-			}
-
-			if ( ! $had_error ) {
-				$sb_instagram_posts_manager->remove_error( 'database_create' );
-			}
+		if ( ! $had_error ) {
+			$sb_instagram_posts_manager->remove_error( 'database_create' );
 		}
 	}
 

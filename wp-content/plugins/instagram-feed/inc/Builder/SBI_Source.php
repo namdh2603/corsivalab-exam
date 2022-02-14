@@ -308,6 +308,7 @@ class SBI_Source {
 		$source_data['error'] = '';
 		if ( ! $connection->is_wp_error() && ! $connection->is_instagram_error() ) {
 			$header_details_array    = $connection->get_data();
+
 			$header_details_array    = self::merge_account_details( $header_details_array, $source_data );
 			$source_data['username'] = $header_details_array['username'];
 			$header_details          = sbi_json_encode( $header_details_array );
@@ -315,21 +316,29 @@ class SBI_Source {
 			$source_data['error'] = $connection;
 			if ( $connection->is_wp_error() ) {
 				$page_error = $connection->get_wp_error();
-				if ( isset( $page_error ) && isset( $page_error->errors ) ) {
+				if ( ! empty( $page_error ) && isset( $page_error['response']->errors ) ) {
 					$error_message = '';
-					foreach ( $page_error->errors as $key => $item ) {
+					foreach ( $page_error['response']->errors as $key => $item ) {
 						$error_message .= $key . ': ' . $item[0] . ' ';
 					}
+
 					return array(
 						'error' => array(
 							'code'    => 'HTTP Request',
-							'message' => __( 'Your server could not complete a remote request to Facebook\'s API. Your host may be blocking access or there may be a problem with your server.', 'instagram-feed' ),
+							'message' => $error_message,
 							'details' => $error_message,
 						),
 					);
 				}
 			} else {
-				$source_data['error'] = $connection->get_data();
+				$error = $connection->get_data();
+				return array(
+					'error' => array(
+						'code'    => $error['error']['code'],
+						'message' => $error['error']['message'],
+						'details' => $error['error']['message'],
+					),
+				);
 			}
 		}
 

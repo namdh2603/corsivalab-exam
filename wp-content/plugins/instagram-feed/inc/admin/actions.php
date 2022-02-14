@@ -213,9 +213,29 @@ function sbi_admin_error_notices() {
 		$errors = $sb_instagram_posts_manager->get_errors();
 		if ( ! empty( $errors ) && (! empty( $errors['database_create'] ) || ! empty( $errors['upload_dir'] )) ) : ?>
 			<div class="sbi-admin-notices sbi-critical-error-notice">
-				<?php if ( ! empty( $errors['database_create'] ) ) echo '<p>' . wp_kses_post( $errors['database_create'] ) . '</p>'; ?>
-				<?php if ( ! empty( $errors['upload_dir'] ) ) echo '<p>' . wp_kses_post( $errors['upload_dir'] ) . '</p>'; ?>
-				<p><?php echo wp_kses_post( sprintf( __(  'Visit our %s page for help', 'instagram-feed' ), '<a href="https://smashballoon.com/docs/instagram/" class="sbi-notice-btn sbi-btn-grey" target="_blank">FAQ</a>' ) ); ?></p>
+					<span class="sb-notice-icon sb-error-icon">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#D72C2C"/>
+						</svg>
+					</span>
+				<div class="sbi-notice-body">
+
+					<?php if ( ! empty( $errors['database_create'] ) ) : ?>
+						<h3 class="sb-notice-title">
+							<?php echo esc_html__( 'Instagram Feed was unable to create new database tables.', 'instagram-feed') ; ?>
+						</h3>
+						<p><?php echo wp_kses_post( $errors['database_create'] ); ?></p><br><br>
+						<p class="sbi-error-directions"><a href="https://smashballoon.com/docs/instagram/" class="sbi-license-btn sbi-btn-blue sbi-notice-btn" target="_blank"><?php esc_html_e(  'Visit our FAQ page for help', 'instagram-feed' ); ?></a> <button class="sbi-retry-db sbi-space-left sbi-btn sbi-notice-btn sbi-btn-grey"><?php esc_html_e(  'Try creating database tables again', 'instagram-feed' ); ?></button></p>
+					<?php
+					endif;
+					?>
+					<?php if ( ! empty( $errors['upload_dir'] ) ) : ?>
+						<p><?php echo wp_kses_post( $errors['upload_dir'] ); ?></p><br><br>
+
+						<p class="sbi-error-directions"><a href="https://smashballoon.com/docs/instagram/" class="sbi-license-btn sbi-btn-blue sbi-notice-btn" target="_blank"><?php esc_html_e(  'Visit our FAQ page for help', 'instagram-feed' ); ?></a></p>
+
+					<?php endif; ?>
+				</div>
 			</div>
 
 		<?php endif;
