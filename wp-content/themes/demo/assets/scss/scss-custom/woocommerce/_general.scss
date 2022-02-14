@@ -1,0 +1,193 @@
+.woocommerce {
+  position: relative;
+  a {
+    text-decoration: none;
+    color: $primary-color;
+  }
+  a.added_to_cart {
+    display: none;
+  }
+  img{
+    width: 100%;
+  }
+
+  div.product span.price,
+  div.product p.price {
+    display: block;
+    text-align: left;
+    @include font(18, 24);
+    color: $black;
+    font-weight: 700;
+    margin-bottom: (15 / $d-fs) * 1rem;
+  }
+  div.product span.price ins,
+  div.product p.price ins {
+    text-decoration: none;
+    font-weight: 600;
+  }
+  div.product span.price del,
+  div.product p.price del {
+    @include font(16, 22);
+    margin-right: (5 / $d-fs) * 1rem;
+  }
+
+
+
+
+
+  .list-categories {
+    font-family: $primary-ff;
+    font-weight: 400;
+    @include font($fs-16, $fs-16+4);
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+
+  .quantity-txt, .variations label {
+    font-weight: 700;
+    @include font($fs-16, $fs-16 + 4);
+    margin-bottom: (20 / $d-fs) * 1rem!important;
+}
+  .quantity {
+    position: relative;
+    overflow: hidden;
+    float: left;
+    @include margin(0, 4, 20, 0);
+    margin-right: (20 / $d-fs) * 1rem;
+    display: inline-flex;
+    .qty {
+      display: inline-block;
+      background: none;
+      outline: none;
+      border: none;
+      background: none;
+      padding: 0;
+      color: $second-color;
+      @include font($fs-20, $fs-20 + 4);
+      font-weight: 400;
+      text-align: center;
+      height: (60 / $d-fs) * 1rem;
+      height: (46 / $d-fs) * 1rem;
+      background: #F4F6F8;
+    }
+    button.minus,
+    button.plus {
+      display: inline-block;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border-radius: 0;
+      outline: none;
+      cursor: pointer;
+      border: 0;
+      background: #F4F6F8;
+      height: (46 / $d-fs) * 1rem;
+      width: (30 / $d-fs) * 1rem;
+      img {
+        width: 10px;
+      }
+    }
+  }
+
+
+}
+// End Woocommerce
+
+
+.wrapper-title {
+  display: flex;
+  justify-content: space-between;
+  background: #fafafa;
+  border: 1px solid rgba($black, 0.1);
+  @include padding(9, 15, 9, 15);
+  margin-bottom: 0;
+  h2 {
+    @include font(15, 18);
+    font-family: $primary-ff;
+    font-weight: 600;
+  }
+  a {
+    color: #16a2b7;
+    text-decoration: underline;
+    @include font(13, 16);
+    font-family: $primary-ff;
+    font-weight: 500;
+  }
+}
+
+
+
+.page-woocommerce-content {
+  margin-bottom: (50 / $d-fs) * 1rem;
+}
+
+
+
+.woocommerce {
+  table.account-orders-table {
+    border: none;
+    th {
+      text-align: left;
+      background-color: transparent;
+      @include padding(5, 0, 5, 0);
+      border-bottom: 1px solid $black;
+      font-weight: 700;
+      font-family: $primary-ff;
+      @include font(12, 14);
+      &.woocommerce-orders-table__header-order-actions {
+        text-align: right;
+      }
+    }
+    td {
+      border: 0;
+      border-bottom: 1px solid #eee;
+      @include padding(10, 0, 10, 0);
+      text-align: left;
+      @include font($d-fs, $d-fs + 2);
+      &.woocommerce-orders-table__cell-order-actions {
+        text-align: right;
+      }
+    }
+    a.button {
+      background-color: $black;
+      display: inline-block;
+      color: $white;
+      border-radius: 0;
+      @include padding(6, 10, 6, 10);
+      font-weight: 400;
+      font-family: $primary-ff;
+      @include font(12, 14);
+    }
+  }
+
+  .order_details {
+    tr.payment_method {
+      display: none;
+    }
+    td {
+      &.product-total {
+        text-align: right;
+      }
+    }
+
+    tr.order_total {
+      background-color: #6d747d;
+      color: #fff;
+    }
+  }
+
+  .view-order-title {
+    @include font($d-fs, $d-fs + 4);
+    font-weight: 500;
+    font-family: $primary-ff;
+    margin-bottom: (30 / $d-fs) * 1rem;
+  }
+  .woocommerce-customer-details {
+    .billing-list,
+    .shipping-list {
+      margin-bottom: (40 / $d-fs) * 1rem;
+    }
+    .form-row {
+      margin-bottom: (10 / $d-fs) * 1rem;
+    }
+  }
+}

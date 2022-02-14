@@ -1,0 +1,318 @@
+// Cart
+.woocommerce {
+  table.shop_table {
+    border: 0;
+    margin: 0;
+    border-radius: 0;
+    thead {
+      display: none;
+      th {
+        @include font($fs-20, $fs-20 + 4);
+        font-weight: 500;
+        font-family: $primary-ff;
+        @include padding(10, 20, 10, 20);
+      }
+    }
+
+    td {
+      @include padding(10, 20, 10, 20);
+
+      vertical-align: top;
+      &.product-name{
+        text-align: left;
+        .price{
+          
+        text-align: left;
+        margin-bottom: (20 / $d-fs) * 1rem;
+        }
+        h4.title{
+          margin-bottom: (20 / $d-fs) * 1rem;
+
+        }
+      }
+      &.product-remove{
+        vertical-align: bottom;
+        text-align: right;
+        a.remove {
+          display: inline-block;
+          height: auto;
+          img{
+            width: 16px;
+          }
+      }
+      }
+      &.actions {
+        text-align: center;
+        button.button, a{
+          border: 1px solid $second-color;
+          font-family: $primary-ff;
+          float: none;
+          clear: both;
+          display: block;
+          background: $second-color;
+          @include padding(8, 30, 10, 30);
+          display: inline-block;
+          color: $white;
+          @include font($d-fs, $d-fs + 4);
+          font-weight: 400;
+          text-decoration: none;
+          border-radius: 19px;
+          @include transition();
+          opacity: 1;
+          &:hover {
+            background: $primary-color;
+            color: $white;
+          }
+        }
+        a{
+          background: $white;
+          color: $second-color;
+        }
+      }
+    }
+    .p-row {
+      display: flex;
+      .product-thumb{
+        width: 30%;
+        
+        @include bp-mobile {
+          width: 20%;
+        }
+      img {
+        width: 100%;
+      }
+    }
+      .p-item {
+        margin-left: (30 / $d-fs) * 1rem;
+        line-height: 1.5;
+        font-family: $primary-ff;
+        width: 70%;
+        
+        @include bp-mobile {
+          width: 80%;
+        }
+        a {
+          font-size: 18px;
+          margin-bottom: 10px;
+          display: block;
+          color: #000;
+          text-decoration: none;
+          font-weight: 500;
+          line-height: 1.5;
+          font-family: $primary-ff;
+        }
+        .p-meta {
+          opacity: 0.5;
+        }
+      }
+    }
+    .quantity {
+      margin: 0;
+    }
+  }
+  .notification-cart {
+    color: #164489;
+    background-color: #d2ecf1;
+    @include padding(10, 20, 10, 20);
+    display: block;
+    margin-bottom: (15 / $d-fs) * 1rem;
+    a {
+      text-decoration: underline;
+      color: #164489;
+    }
+  }
+  .woocommerce table.cart td,
+  .woocommerce table.cart th,
+  .woocommerce-checkout table.cart td,
+  .woocommerce-checkout table.cart th {
+    vertical-align: middle;
+    padding: 15px 30px;
+  }
+  tr.cart_item {
+    border-bottom: 1px solid rgba($black, 0.1);
+  }
+
+  .coupon {
+    display: block;
+    //@include padding(10, 30, 10, 30);
+    margin-bottom: (60 / $d-fs) * 1rem;
+  }
+  .coupon input#coupon_code,
+  input.point_code {
+    background: #F4F6F8;
+    border: 0;
+    @include padding(14, 20, 14, 20);
+    @include font($d-fs, $d-fs + 4);
+    font-family: $primary-ff;
+    border-right: 0;
+    width: 100%;
+    margin: 0;
+    outline: none;
+    margin-bottom: (20 / $d-fs) * 1rem;
+  }
+
+  .coupon .button {
+    border: 1px solid $second-color;
+    font-family: $primary-ff;
+    float: none;
+    clear: both;
+    display: block;
+    background: $second-color !important;
+    @include padding(8, 30, 10, 30);
+    display: inline-block;
+    color: $white !important;
+    @include font($d-fs, $d-fs + 4);
+    font-weight: 400;
+    text-decoration: none;
+    border-radius: 19px;
+    @include transition();
+    &:hover {
+      background: $primary-color;
+    }
+  }
+
+  .point-note {
+    color: #cdcdcd;
+  }
+  .action-btn {
+    display: flex;
+    justify-content: space-between;
+    input {
+      border: 0;
+      width: 45%;
+      text-transform: uppercase;
+      @include padding(5, 0, 5, 0);
+    }
+    input.button.btn-cart {
+      @include transition();
+      font-weight: 700;
+      @include font($d-fs, $d-fs + 4);
+      font-family: $primary-ff;
+      @include padding(8, 0, 8, 0);
+      background: $second-color;
+      color: $white;
+      &.btn-outline {
+        background: none;
+        border: 2px solid $second-color;
+        color: $second-color;
+      }
+    }
+  }
+
+  .cart-section{
+    h2{
+      
+      font-family: $primary-ff;
+      @include font(30, 34);
+      font-weight: 700;
+      margin-bottom: (20 / $d-fs) * 1rem;
+      color: $second-color;
+    }
+  }
+
+  .cart-collaterals {
+    margin-top: 15px;
+    h2 {
+      font-family: $primary-ff;
+      @include font(30, 34);
+      font-weight: 700;
+      margin-bottom: (20 / $d-fs) * 1rem;
+      color: $second-color;
+    }
+    .cart_totals {
+      float: none;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  .cart_totals {
+    table.shop_table {
+      border: 0;
+      background: #F4F6F8;
+      tr {
+        //border-bottom: 2px solid #e6e6e6;
+        &.order-total,
+        &.order_total {
+          // background: #505050;
+          // color: #fff;
+          text-transform: uppercase;
+          td{
+
+            font-weight: 800;
+            color: $second-color;
+          }
+        }
+      }
+
+      th {
+        border-top: 0;
+        @include font($d-fs, $d-fs + 4);
+        font-weight: 800;
+        font-family: $primary-ff;
+        @include padding(15, 30, 15, 30);
+        color: $second-color;
+
+
+        a {
+          color: #07b8ff;
+          text-transform: capitalize;
+          margin-left: 5px;
+          text-decoration: underline;
+          font-family: $primary-ff;
+        }
+      }
+      td {
+        border-top: 0;
+        text-align: right;
+        @include padding(15, 30, 15, 30);
+        @include font($fs-20, $fs-20 + 4);
+        font-family: $primary-ff;
+        font-weight: 400;
+      }
+    }
+    .code {
+      color: #cdcdcd;
+      margin-top: 10px;
+    }
+    .amount {
+      @include font($fs-20, $fs-20 + 4);
+    }
+    .woocommerce-remove-coupon {
+      display: block;
+      color: $second-color;
+      text-transform: capitalize;
+      margin-left: 5px;
+      text-decoration: underline;
+      font-family: $primary-ff;
+      @include font($d-fs, $d-fs + 4);
+    }
+  }
+
+  .wc-proceed-to-checkout{
+    text-align: center;
+    a.checkout-button {
+
+      border: 1px solid $second-color;
+      font-family: $primary-ff;
+      float: none;
+      clear: both;
+      display: block;
+      background: $second-color !important;
+      @include padding(8, 30, 10, 30);
+      display: inline-block;
+      color: $white !important;
+      @include font($d-fs, $d-fs + 4);
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 19px;
+      @include transition();
+      &:hover {
+        background: $primary-color;
+      }
+  
+  
+    }
+
+  } 
+}

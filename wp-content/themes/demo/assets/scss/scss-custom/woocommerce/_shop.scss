@@ -1,0 +1,379 @@
+.woocommerce {
+  .woocommerce-breadcrumb{
+    color: $primary-color;
+    margin-bottom: (40 / $d-fs) * 1rem;
+    a, span{
+      @include font($fs-16, $fs-16+4);
+    color: $primary-color;
+    }
+  }
+  span.onsale {
+    background-color: $second-color;
+    color: $white;
+    top: (20 / $d-fs) * 1rem;
+    right: 0;
+    left: unset;
+    border-radius: 0;
+    @include font($fs-16, $fs-16 + 4);
+    font-weight: 400;
+    min-height: unset;
+    min-width: unset;
+    @include padding(5, 13, 5, 13);
+    z-index: 2;
+  }
+  form.woocommerce-ordering {
+    display: block;
+  }
+  .top-header-woo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: (50 / $d-fs) * 1rem;
+  }
+  .woocommerce-result-count {
+    margin-bottom: 0;
+    @include font($fs-16, $fs-16 + 4);
+    float: none;
+  }
+  .filter {
+    @include padding(10, 0, 30, 0);
+    .filter-top {
+      @include padding(0, 0, 20, 0);
+    }
+  }
+  .hide-filter {
+    img {
+      width: 14px;
+      margin-right: (10 / $d-fs) * 1rem;
+      filter: brightness(0%);
+    }
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $black;
+      background: none;
+      border: 1px solid #000000;
+      font-family: $primary-ff;
+      @include font($d-fs, 17);
+      @include transition();
+      outline: none;
+      cursor: pointer;
+      @include padding(10, 20, 10, 20);
+      &.open-filter {
+        background: $black;
+        color: $white;
+        img {
+          filter: unset;
+        }
+      }
+    }
+  }
+  .woocommerce-ordering {
+    margin: 0;
+    max-width: (240 / $d-fs) * 1rem;
+    select {
+      color: $second-color;
+      background: #f4f6f8;
+      border: 0;
+      text-align: center;
+      margin: 0;
+      @include padding(9, 20, 10, 20);
+      font-family: $primary-ff;
+      @include font($d-fs, 17);
+      outline: none;
+    }
+  }
+  .filter-main,
+  .filter-bottom {
+    background: #f3f3f3;
+  }
+  .reset-all {
+    .bapf_reset {
+      text-decoration: underline;
+      color: #07b8ff;
+      text-transform: uppercase;
+      @include font(12, 16);
+      font-family: $primary-ff;
+      background: none;
+      border: 0;
+    }
+    .berocket_single_filter_widget {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+  }
+  .berocket_single_filter_widget {
+    padding-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (60 / $d-fs) * 1rem;
+    border-bottom: 1px solid rgba($second-color, 0.3);
+    &:last-child() {
+      border-bottom: 0;
+    }
+  }
+  .bapf_sfilter {
+    margin-bottom: 0;
+    ul {
+      margin: 0;
+      padding: 0 !important;
+    }
+    .bapf_head {
+      h3 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid rgba($second-color, 0.3);
+        padding-top: 20px;
+        margin-bottom: 20px;
+        @include font($fs-16, $fs-16 + 4);
+        font-weight: 700;
+        text-transform: uppercase;
+        padding-right: 0;
+      }
+    }
+    ul,
+    #custom-ordering {
+      text-align: left;
+      @include padding(0, 30, 0, 30);
+    }
+    li {
+      display: block;
+      margin-bottom: (10 / $d-fs) * 1rem !important;
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    label {
+      margin-bottom: 0;
+      color: $primary-color;
+      @include font($d-fs, $d-fs + 4);
+      font-family: $primary-ff;
+      font-weight: 300;
+      cursor: pointer;
+      @include transition();
+      &:hover {
+        font-weight: 500;
+      }
+    }
+    input {
+      @include margin(0, 10, 0, 0);
+      outline: none;
+      outline-offset: unset;
+      width: auto;
+      -webkit-appearance: none;
+      background-color: #fff;
+      padding: 6px;
+      border: 0;
+      border-radius: 0;
+      vertical-align: text-bottom;
+      position: relative;
+      border: 1px solid $second-color;
+      &:checked:after {
+        content: "\2713";
+        font-size: 18px;
+        font-weight: bold;
+        position: absolute;
+        top: -6px;
+        left: 1px;
+        color: #014693;
+        line-height: 1;
+      }
+    }
+
+    .bapf_button.bapf_update {
+      background: $second-color !important;
+      @include padding(8, 30, 10, 30);
+      display: inline-block;
+      color: $white;
+      @include font($d-fs, $d-fs + 4);
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 19px;
+      @include transition();
+      border: 0;
+      display: block !important;
+      margin: 0 auto;
+      @include font($d-fs, $d-fs + 4);
+      font-family: $primary-ff;
+    }
+
+    .ui-slider-range,
+    .ui-slider-handle {
+      background: $second-color !important;
+    }
+
+    .bapf_slidr_main.ui-widget-content {
+      height: 2px;
+    }
+  }
+  .filter-bottom {
+    .btn-group {
+      justify-content: center;
+      display: flex;
+      @include padding(20, 0, 20, 0);
+    }
+    .bapf_reset {
+      background-color: #cacaca;
+      @include padding(10, 50, 10, 50);
+      @include font($d-fs, 17);
+      font-family: $primary-ff;
+      display: inline-block;
+      width: auto;
+      border: 0;
+    }
+  }
+  .product-image {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    .tag {
+      position: absolute;
+      bottom: 0;
+      top: unset;
+      left: 0;
+      background: #fffc01;
+      color: #000;
+      text-transform: capitalize;
+      @include font($d-fs, $d-fs + 4);
+      font-family: $primary-ff;
+      font-weight: 400;
+      @include padding(8, 50, 8, 50);
+      transition: all ease-in-out 0.2s;
+      border-radius: 0px 10px 0px 0px;
+      bottom: 0;
+      top: unset;
+      transform: translateY(0);
+      @include bp-mobile {
+        @include padding(4, 15, 4, 15);
+        border-radius: 0px 0px 10px 0px;
+        bottom: unset;
+        top: 0;
+      }
+    }
+    .btn-addtocart {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: unset;
+      width: 70%;
+      margin: 0 auto;
+      transform: translateY(100%);
+
+      background: $second-color !important;
+      @include padding(8, 20, 10, 20);
+      display: inline-block;
+      color: $white;
+      @include font($d-fs, $d-fs + 4);
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 19px;
+      @include transition();
+
+      @include bp-mobile {
+        bottom: 0;
+        top: unset;
+      }
+      img {
+        max-width: 22px;
+        margin-left: 4px;
+      }
+    }
+    &:hover .btn-addtocart {
+      transform: translateY(-20%);
+    }
+  }
+
+  .woocommerce-loop-product__title {
+    font-weight: 800;
+    color: $second-color;
+    position: relative;
+    @include margin(0, 0, 10, 0);
+    text-align: left;
+  }
+
+  .product-top-info {
+    @include padding(16, 0, 0, 0);
+    overflow: hidden;
+    @include bp-mobile {
+      max-height: unset;
+      min-height: unset;
+    }
+  }
+
+  #btn-sidebar-expend {
+    display: none;
+    @include bp-mobile {
+      display: block;
+      position: fixed;
+      top: 50vh;
+      z-index: 999;
+      padding: 4px 20px;
+      color: $white;
+      background-color: $second-color;
+      letter-spacing: 2px;
+      border: none;
+      text-transform: uppercase;
+      transform: rotateZ(90deg);
+      transform-origin: center;
+      width: 100px;
+      height: 34px;
+      left: -34px;
+      cursor: pointer;
+    }
+  }
+
+  .sidebar-product {
+    &.active{
+      left: 0;
+      #btn-sidebar-expend{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: unset;
+        transform: unset;
+      }
+    }
+    @include bp-mobile {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9;
+      background: $white;
+      overflow-y: auto;
+      padding: 50px 20px;
+      transition: left 0.5s ease-in-out;
+    }
+  }
+}
+
+
+
+.corsivalab-nav-woocommerce{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: (20 / $d-fs) * 1rem;
+  span{
+    @include padding(0,20,0,20);
+  }
+  a{
+    position: relative;
+    border: 1px solid $second-color;
+    background-color: $white;
+    outline: none;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: (10 / $d-fs) * 1rem;
+    }
+  }
+}

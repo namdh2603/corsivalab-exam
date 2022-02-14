@@ -1,0 +1,58 @@
+// Login and Register
+.woocommerce {
+    form.login,
+    form.register {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      border-radius: 0;
+    }
+    .u-columns .col-6:first-child() {
+      border-right: 1px solid $black;
+    }
+    .u-column1 {
+      margin-right: (40 / $d-fs) * 1rem;
+    }
+    .u-column2 {
+      margin-left: (40 / $d-fs) * 1rem;
+    }
+  }
+  .profile-popup {
+    display: none;
+    position: absolute;
+    min-width: 200px;
+    height: auto;
+    right: -90px;
+    background: #ffffff;
+    box-shadow: 2px 5px 6px #00000033;
+    margin-top: (10 / $d-fs) * 1rem;
+    &.active {
+      display: block;
+    }
+    a {
+      color: $black;
+      display: block;
+      text-align: center;
+      @include font(13, 17);
+      font-weight: 500;
+      font-family: $primary-ff;
+      @include padding(7, 15, 7, 15);
+      text-decoration: none;
+      cursor: pointer;
+      &:hover {
+        background-color: $black;
+        color: $white;
+      }
+    }
+  }
+  .user-change-password {
+    display: none;
+  }
+  .form-change-password {
+    .user-detail {
+      display: none;
+    }
+    .user-change-password {
+      display: block;
+    }
+  }

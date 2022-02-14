@@ -1,0 +1,37 @@
+// Thank you
+
+
+  
+.sub-thankyou {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.orrder-num {
+  @include font($d-fs, $d-fs+4);
+  font-weight: 700;
+}
+.point-txt-thankyou {
+  background: $second-color;
+  text-align: center;
+  color: #fff;
+  @include padding(20, 0, 20, 0);
+  font-size: 20px;
+}
+
+.point-txt-thankyou p:last-child {
+  font-weight: 700;
+}
+
+.point-txt-thankyou p {
+  margin: 0;
+  padding: 0;
+}
+
+.woocommerce{
+  table.shop_table{
+    thead{
+      background: none;
+    }
+  }
+} 

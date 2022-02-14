@@ -1,0 +1,126 @@
+/*--------------------------------------------------------------
+# Function
+--------------------------------------------------------------*/
+@import "bootstrap-460/functions";
+
+/*--------------------------------------------------------------
+# Variables and mixins
+--------------------------------------------------------------*/
+@import "bootstrap-460/variables";
+@import "scss-custom/variables";
+
+@import "bootstrap-460/mixins";
+
+/*--------------------------------------------------------------
+# Fonts
+--------------------------------------------------------------*/
+@import "scss-custom/fonts";
+
+/*--------------------------------------------------------------
+# Icon
+--------------------------------------------------------------*/
+// @import "fontawesome-pro-5153/scss/solid.scss";
+// @import "fontawesome-pro-5153/scss/regular.scss";
+// @import "fontawesome-pro-5153/scss/light.scss";
+// @import "fontawesome-pro-5153/scss/variables";
+
+
+/*--------------------------------------------------------------
+# Base
+--------------------------------------------------------------*/
+@import "scss-custom/base";
+
+/*--------------------------------------------------------------
+# Utilities
+--------------------------------------------------------------*/
+@import "bootstrap-460/utilities";
+
+/*--------------------------------------------------------------
+# Grid
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Display
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Card
+--------------------------------------------------------------*/
+//@import "bootstrap-460/card";
+
+/*--------------------------------------------------------------
+# Accordion 
+--------------------------------------------------------------*/
+@import "bootstrap-460/transitions";
+
+/*--------------------------------------------------------------
+# Modal
+--------------------------------------------------------------*/
+//@import "bootstrap-460/modal";
+
+/*--------------------------------------------------------------
+# Carousel
+--------------------------------------------------------------*/
+//@import "bootstrap-460/carousel";
+
+/*--------------------------------------------------------------
+# Tabs
+--------------------------------------------------------------*/
+
+@import "bootstrap-460/nav";
+@import "bootstrap-460/navbar";
+
+/*--------------------------------------------------------------
+# Woocommerce
+--------------------------------------------------------------*/
+// @import "woocommerce/woocommerce-layout.scss";
+// @import "woocommerce/woocommerce";
+
+// @import "scss-custom/woocommerce/general";
+// @import "scss-custom/woocommerce/price";
+// @import "scss-custom/woocommerce/shop";
+// @import "scss-custom/woocommerce/single-product";
+// @import "scss-custom/woocommerce/cart";
+// @import "scss-custom/woocommerce/checkout";
+// @import "scss-custom/woocommerce/thankyou";
+// @import "scss-custom/woocommerce/account";
+
+/*--------------------------------------------------------------
+# Custom
+--------------------------------------------------------------*/
+@import "scss-custom/wp/general";
+@import "scss-custom/wp/custom";
+// @import "scss-custom/wp/menu-mobile";
+// @import "scss-custom/wp/carousel";
+// @import "scss-custom/wp/header";
+// @import "scss-custom/wp/footer";
+// @import "scss-custom/wp/sub-menu";
+// @import "scss-custom/wp/homepage";
+// @import "scss-custom/wp/contact";
+// @import "scss-custom/wp/content";
+
+// @import "scss-custom/helpers/variables";
+// @import "scss-custom/helpers/mixin";
+// @import "scss-custom/component/typography";
+// @import "scss-custom/component/elements";
+// @import "scss-custom/component/select";
+
+// @import "scss-custom/layouts/header";
+// @import "scss-custom/layouts/panel";
+// @import "scss-custom/layouts/subcribe";
+// @import "scss-custom/layouts/footer";
+
+// @import "scss-custom/pages/home";
+// @import "scss-custom/pages/about";
+// @import "scss-custom/pages/referral-program";
+// @import "scss-custom/pages/fresh_fruits";
+// @import "scss-custom/pages/shop-details";
+// @import "scss-custom/pages/cart";
+// @import "scss-custom/pages/checkout";
+// @import "scss-custom/pages/thankyou";
+// @import "scss-custom/pages/subscribe";
+// @import "scss-custom/pages/subscribe_details";
+// @import "scss-custom/pages/contactus";
+// @import "scss-custom/pages/corporate_partnership";
+// @import "scss-custom/pages/faqs";
+// @import "scss-custom/pages/testimonials";

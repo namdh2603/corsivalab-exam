@@ -1,0 +1,131 @@
+$font-path: "../fonts";
+$font-name-1: "Futura PT";
+$font-name-2: "Stevie Sans";
+$font-name-3: "Carolissa";
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 300;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Light.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 300;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-LightOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 400;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Book.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 400;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-BookOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 500;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Medium.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 500;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-MediumOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 600;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Demi.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 600;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-DemiOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 700;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Heavy.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 700;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-HeavyOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 800;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-ExtraBold.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 800;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-ExtraBoldOblique.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: normal;
+  font-weight: 900;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-Bold.otf");
+}
+@font-face {
+  font-family: "#{$font-name-1}";
+  font-style: italic;
+  font-weight: 900;
+  src: url("#{$font-path}/#{$font-name-1}/#{$font-name-1}-BoldOblique.otf");
+}
+
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 200;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Thin.otf");
+}
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 300;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Light.otf");
+}
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 400;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Book.otf");
+}
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 500;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Medium.otf");
+}
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 700;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Bold.otf");
+}
+@font-face {
+  font-family: "#{$font-name-2}";
+  font-style: normal;
+  font-weight: 900;
+  src: url("#{$font-path}/#{$font-name-2}/#{$font-name-2}-Black.otf");
+}
+@font-face {
+  font-family: "#{$font-name-3}";
+  font-style: normal;
+  font-weight: 400;
+  src: url("#{$font-path}/#{$font-name-3}/#{$font-name-3}.otf");
+}

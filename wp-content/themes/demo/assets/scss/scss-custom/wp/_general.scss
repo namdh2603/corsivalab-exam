@@ -1,0 +1,75 @@
+.fu-book {
+  font-family: $primary-ff;
+  font-weight: 400;
+}
+
+.fu-medium {
+  font-family: $primary-ff;
+  font-weight: 500;
+}
+
+.fu-demi {
+  font-family: $primary-ff;
+  font-weight: 600;
+}
+
+.st-light {
+  font-family: $second-ff;
+  font-weight: 300;
+}
+
+.st-book {
+  font-family: $second-ff;
+  font-weight: 400;
+}
+
+.st-medium {
+  font-family: $second-ff;
+  font-weight: 500;
+}
+
+// .st-demi {
+//   font-family: $second-ff;
+//   font-weight: 600;
+// }
+
+.st-bold {
+  font-family: $second-ff;
+  font-weight: 700;
+}
+.st-black {
+  font-family: $second-ff;
+  font-weight: 900;
+}
+
+.carolissa-font{
+
+  font-family: $third-ff;
+  font-weight: 400;
+}
+
+
+.img-cover {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+}
+
+.img-fit {
+	aspect-ratio: unset !important;
+}
+
+.col-revert {
+	display: flex;
+	// @include lg {
+	// 	flex-direction: column-reverse !important;
+	// }
+}
+
+del {
+	opacity: 0.5;
+}
+
+ins {
+	text-decoration: none;
+}

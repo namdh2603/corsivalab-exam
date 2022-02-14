@@ -1,0 +1,36 @@
+// .product-inner,
+// .cart .cart_item td {
+  .price {
+      @include font($d-fs, $d-fs+4);
+    font-family: $primary-ff;
+    font-weight: 800;
+    text-align: right;
+    ins {
+      color: $primary-color;
+      text-decoration: none;
+      margin-bottom: (8 / $d-fs) * 1rem;
+      display: block;
+    }
+    del {
+      color: $primary-color;
+      //@include font($d-fs, $d-fs+4);
+      font-weight: 400;
+      margin-bottom: (8 / $d-fs) * 1rem;
+      display: block;
+    }
+  }
+// }
+
+.entry-summary{
+  .price {
+    @include font(30, 34);
+    margin-bottom: (20 / $d-fs) * 1rem;
+    text-align: left;
+    ins{
+      color: $second-color;
+    }
+    del {
+      @include font($fs-20, $fs-20+4);
+    }
+  }
+} 
