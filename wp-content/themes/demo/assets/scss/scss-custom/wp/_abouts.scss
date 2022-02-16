@@ -25,7 +25,7 @@
       text-align: left;
       color: $second-color;
       display: block;
-      font-family: $second-ff;
+      font-family: $primary-ff;
       @include font(25, 29);
       font-weight: 700;
       margin-bottom: (35 / $d-fs) * 1rem;
@@ -49,7 +49,7 @@
         color: #72481e;
         @include padding(0, 25, 0, 25);
         @include font($fs-18, $fs-18 + 4);
-        font-family: $second-ff;
+        font-family: $primary-ff;
         font-weight: 700;
         width: 100%;
         text-align: center;
@@ -68,7 +68,7 @@
   .number-title {
     color: $third-color;
     display: block;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     @include font($fs-40, $fs-40+4);
     font-weight: 700;
     text-align: center;
@@ -77,7 +77,7 @@
   .content-inner {
     text-align: center;
     @include font($fs-22, $fs-22+4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 500;
     color: $primary-color;
   }

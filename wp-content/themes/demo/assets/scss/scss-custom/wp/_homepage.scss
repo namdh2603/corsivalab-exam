@@ -124,7 +124,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: $second-ff;
+  font-family: $primary-ff;
   width: 100%;
   border-bottom: 2px solid #dfdfdf;
   margin-bottom: (30 / $d-fs) * 1rem;
@@ -171,7 +171,7 @@
   a {
     @include font(23, 27);
     font-weight: 700;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     text-decoration: none;
     color: $primary-color;
     @include transition();
@@ -191,12 +191,12 @@
     color: $second-color;
     @include font($d-fs, $d-fs + 4);
     font-weight: 500;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     margin-bottom: (6 / $d-fs) * 1rem;
   }
   .position {
     opacity: 0.25;
-    font-family: $second-ff;
+    font-family: $primary-ff;
   }
   .customer-row {
     border-bottom: 1px solid rgba($black, 0.15);
@@ -208,7 +208,7 @@
     margin-bottom: (20 / $d-fs) * 1rem;
   }
   .description {
-    font-family: $second-ff;
+    font-family: $primary-ff;
     p {
       margin-bottom: 0;
     }
@@ -341,7 +341,7 @@
   }
   .top-main-title {
     @include font($fs-20, $fs-20 + 4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     color: #f9f9f9;
     text-shadow: 0px 3px 6px #00000029;
     text-transform: capitalize;
@@ -391,7 +391,7 @@
   }
   .name {
     @include font(23, 27);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 700;
     //color: $primary-color;
     margin-bottom: (10 / $d-fs) * 1rem;
@@ -439,7 +439,7 @@
       @include padding(55, 70, 55, 70);
       .title {
         @include font(23, 27);
-        font-family: $second-ff;
+        font-family: $primary-ff;
         font-weight: 700;
         color: $second-color;
         margin-bottom: (20 / $d-fs) * 1rem;

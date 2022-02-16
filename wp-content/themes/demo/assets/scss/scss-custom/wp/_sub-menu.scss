@@ -119,7 +119,7 @@
   h4 {
     &.title-sub-block {
       @include font($fs-20, $fs-20 + 4);
-      font-family: $second-ff;
+      font-family: $primary-ff;
       font-weight: 700;
       color: $second-color;
       padding-bottom: (20 / $d-fs) * 1rem;

@@ -53,12 +53,12 @@ footer {
   // border-top: 1px solid rgba($black, 0.1);
   @include padding(20, 0, 20, 0);
   @include font($d-fs, $d-fs + 4);
-  font-family: $second-ff;
+  font-family: $primary-ff;
   font-weight: 500;
 }
 h4.widget-title {
   @include font($fs-20, $fs-20 + 4);
-  font-family: $second-ff;
+  font-family: $primary-ff;
   font-weight: 700;
   margin-bottom: (30 / $d-fs) * 1rem;
   color: $second-color;
@@ -76,7 +76,7 @@ h4.widget-title {
       a {
         color: $primary-color;
         font-weight: 500;
-        font-family: $second-ff;
+        font-family: $primary-ff;
         @include font($d-fs, $d-fs + 4);
         text-decoration: none;
       }

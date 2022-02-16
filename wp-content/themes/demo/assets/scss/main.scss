@@ -7,14 +7,12 @@
 # Variables and mixins
 --------------------------------------------------------------*/
 @import "bootstrap-513/variables";
-@import "scss-custom/variables";
-
 @import "bootstrap-513/mixins";
-
+@import "scss-custom/variables";
 /*--------------------------------------------------------------
 # Fonts
 --------------------------------------------------------------*/
-//@import "scss-custom/fonts";
+@import "scss-custom/fonts";
 
 /*--------------------------------------------------------------
 # Icon
@@ -23,7 +21,6 @@
 // @import "fontawesome-pro-5153/scss/regular.scss";
 // @import "fontawesome-pro-5153/scss/light.scss";
 // @import "fontawesome-pro-5153/scss/variables";
-
 
 /*--------------------------------------------------------------
 # Base
@@ -89,7 +86,6 @@
 # Custom
 --------------------------------------------------------------*/
 @import "scss-custom/wp/general";
-//@import "scss-custom/wp/custom";
 // @import "scss-custom/wp/menu-mobile";
 // @import "scss-custom/wp/carousel";
 // @import "scss-custom/wp/header";

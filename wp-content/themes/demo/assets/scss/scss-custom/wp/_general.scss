@@ -18,7 +18,7 @@
 .main-title{
   @include font(35, 39);
   font-weight: 700;
-  font-family: $second-ff;
+  font-family: $primary-ff;
   color: $third-color;
   z-index: 1;
   position: relative;
@@ -38,7 +38,7 @@
     display: inline-block;
     color: $white;
     @include font($fs-15, $fs-15+4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;

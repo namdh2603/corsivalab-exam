@@ -13,7 +13,7 @@ body.single-post {
   a.title {
     color: $primary-color;
     @include font($fs-25, $fs-25 + 4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
     display: block;
@@ -26,7 +26,7 @@ body.single-post {
   .link {
     color: $third-color;
     @include font($fs-20, $fs-20 + 4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 500;
     text-decoration: none;
     &:after {
@@ -42,7 +42,7 @@ body.single-post {
   .news-meta {
     display: flex;
     align-items: center;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     color: #6c6c6c;
     margin-bottom: (30 / $d-fs) * 1rem;
     svg {
@@ -58,7 +58,7 @@ body.single-post {
   h1 {
     color: $second-color;
     @include font($fs-25, $fs-25 + 4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
     display: block;
@@ -67,7 +67,7 @@ body.single-post {
   .news-meta {
     display: flex;
     align-items: center;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     color: #6c6c6c;
     margin-bottom: (30 / $d-fs) * 1rem;
     svg {
@@ -80,7 +80,7 @@ body.single-post {
   .widgettitle-news {
     color: $primary-color;
     @include font($fs-25, $fs-25 + 4);
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
     display: block;
@@ -108,7 +108,7 @@ border-radius: 10px;
     width: 65%;
     a {
       color: $second-color;
-      font-family: $second-ff;
+      font-family: $primary-ff;
       font-weight: 500;
       text-decoration: none;
       display: block;
@@ -134,7 +134,7 @@ border-radius: 10px;
     @include padding(0, 10, 0, 10);
     display: block;
     background-color: transparent;
-    font-family: $second-ff;
+    font-family: $primary-ff;
     font-weight: 500;
     @include font($fs-25, $fs-25 + 4);
   }
