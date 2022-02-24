@@ -90,9 +90,9 @@ html {
 }
 
 .container {
-  max-width: 3.28125rem;
-  padding-left: 0.02604rem;
-  padding-right: 0.02604rem;
+  max-width: 78.75rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
   margin-right: auto;
   margin-left: auto;
 }
@@ -100,15 +100,15 @@ html {
 @media (max-width: 767.98px) {
   .container {
     max-width: 100%;
-    padding-left: 0.01736rem;
-    padding-right: 0.01736rem;
+    padding-left: 0.41667rem;
+    padding-right: 0.41667rem;
   }
 }
 
 .container-fluid {
   width: 100%;
-  padding-left: 0.02604rem;
-  padding-right: 0.02604rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
   margin-right: auto;
   margin-left: auto;
 }
@@ -119,54 +119,54 @@ html {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin-right: -0.02604rem;
-  margin-left: -0.02604rem;
+  margin-right: -0.625rem;
+  margin-left: -0.625rem;
 }
 
 @media (max-width: 767.98px) {
   .row {
-    margin-left: -0.01736rem;
-    margin-right: -0.01736rem;
+    margin-left: -0.41667rem;
+    margin-right: -0.41667rem;
   }
 }
 
 .row [class^="col-"],
 .row [class*=" col-"] {
-  padding-left: 0.02604rem;
-  padding-right: 0.02604rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 
 @media (max-width: 767.98px) {
   .row [class^="col-"],
   .row [class*=" col-"] {
-    padding-left: 0.01736rem;
-    padding-right: 0.01736rem;
+    padding-left: 0.41667rem;
+    padding-right: 0.41667rem;
   }
 }
 
 .row-sm {
-  margin-right: -0.01302rem;
-  margin-left: -0.01302rem;
+  margin-right: -0.3125rem;
+  margin-left: -0.3125rem;
 }
 
 @media (max-width: 767.98px) {
   .row-sm {
-    margin-left: -0.01736rem;
-    margin-right: -0.01736rem;
+    margin-left: -0.41667rem;
+    margin-right: -0.41667rem;
   }
 }
 
 .row-sm [class^="col-"],
 .row-sm [class*=" col-"] {
-  padding-left: 0.01302rem;
-  padding-right: 0.01302rem;
+  padding-left: 0.3125rem;
+  padding-right: 0.3125rem;
 }
 
 @media (max-width: 767.98px) {
   .row-sm [class^="col-"],
   .row-sm [class*=" col-"] {
-    padding-left: 0.01736rem;
-    padding-right: 0.01736rem;
+    padding-left: 0.41667rem;
+    padding-right: 0.41667rem;
   }
 }
 

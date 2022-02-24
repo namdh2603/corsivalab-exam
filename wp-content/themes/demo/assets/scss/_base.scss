@@ -19,57 +19,57 @@ html {
   }
 }
 .container {
-  max-width: toRem($w-container/$d-fs);
-  padding-left: toRem($grid-gutter-width/2/$d-fs);
-  padding-right: toRem($grid-gutter-width/2/$d-fs);
+  max-width: toRem($w-container);
+  padding-left: toRem($grid-gutter-width/2);
+  padding-right: toRem($grid-gutter-width/2);
   margin-right: auto;
   margin-left: auto;
   @include bp-mobile {
     max-width: 100%;
-    padding-left: toRem($mobile-grid-gutter-width/2/$d-fs);
-    padding-right: toRem($mobile-grid-gutter-width/2/$d-fs);
+    padding-left: toRem($mobile-grid-gutter-width/2);
+    padding-right: toRem($mobile-grid-gutter-width/2);
   }
 }
 .container-fluid {
   width: 100%;
-  padding-left: toRem($grid-gutter-width/2/$d-fs);
-  padding-right: toRem($grid-gutter-width/2/$d-fs);
+  padding-left: toRem($grid-gutter-width/2);
+  padding-right: toRem($grid-gutter-width/2);
   margin-right: auto;
   margin-left: auto;
 }
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -(toRem($grid-gutter-width/2/$d-fs));
-  margin-left: -(toRem($grid-gutter-width/2/$d-fs));
+  margin-right: -(toRem($grid-gutter-width/2));
+  margin-left: -(toRem($grid-gutter-width/2));
   @include bp-mobile {
-    margin-left: -(toRem($mobile-grid-gutter-width/2/$d-fs));
-    margin-right: -(toRem($mobile-grid-gutter-width/2/$d-fs));
+    margin-left: -(toRem($mobile-grid-gutter-width/2));
+    margin-right: -(toRem($mobile-grid-gutter-width/2));
   }
   [class^="col-"],
   [class*=" col-"] {
-    padding-left: toRem($grid-gutter-width/2/$d-fs);
-    padding-right: toRem($grid-gutter-width/2/$d-fs);
+    padding-left: toRem($grid-gutter-width/2);
+    padding-right: toRem($grid-gutter-width/2);
     @include bp-mobile {
-      padding-left: toRem($mobile-grid-gutter-width/2/$d-fs);
-      padding-right: toRem($mobile-grid-gutter-width/2/$d-fs);
+      padding-left: toRem($mobile-grid-gutter-width/2);
+      padding-right: toRem($mobile-grid-gutter-width/2);
     }
   }
 }
 .row-sm {
-  margin-right: -(toRem($grid-gutter-width/4/$d-fs));
-  margin-left: -(toRem($grid-gutter-width/4/$d-fs));
+  margin-right: -(toRem($grid-gutter-width/4));
+  margin-left: -(toRem($grid-gutter-width/4));
   @include bp-mobile {
-    margin-left: -(toRem($mobile-grid-gutter-width/2/$d-fs));
-    margin-right: -(toRem($mobile-grid-gutter-width/2/$d-fs));
+    margin-left: -(toRem($mobile-grid-gutter-width/2));
+    margin-right: -(toRem($mobile-grid-gutter-width/2));
   }
   [class^="col-"],
   [class*=" col-"] {
-    padding-left: toRem($grid-gutter-width/4/$d-fs);
-    padding-right: toRem($grid-gutter-width/4/$d-fs);
+    padding-left: toRem($grid-gutter-width/4);
+    padding-right: toRem($grid-gutter-width/4);
     @include bp-mobile {
-      padding-left: toRem($mobile-grid-gutter-width/2/$d-fs);
-      padding-right: toRem($mobile-grid-gutter-width/2/$d-fs);
+      padding-left: toRem($mobile-grid-gutter-width/2);
+      padding-right: toRem($mobile-grid-gutter-width/2);
     }
   }
 }
