@@ -8,14 +8,14 @@
     ins {
       color: $primary-color;
       text-decoration: none;
-      margin-bottom: (8 / $d-fs) * 1rem;
+      margin-bottom: (8 / $d-fs)+rem;
       display: block;
     }
     del {
       color: $primary-color;
       //@include font($d-fs, $d-fs+4);
       font-weight: 400;
-      margin-bottom: (8 / $d-fs) * 1rem;
+      margin-bottom: (8 / $d-fs)+rem;
       display: block;
     }
   }
@@ -24,7 +24,7 @@
 .entry-summary{
   .price {
     @include font(30, 34);
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
     text-align: left;
     ins{
       color: $second-color;

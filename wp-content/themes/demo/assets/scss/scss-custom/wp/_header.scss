@@ -10,21 +10,21 @@
 
 
 img.logo {
-  max-width: (130 / $d-fs) * 1rem;
+  max-width: (130 / $d-fs)+rem;
 }
 .logo-list {
   a {
     display: inline-block;
     &:not(:last-child) {
       border-right: 1px solid $primary-color;
-      margin-right: (30 / $d-fs) * 1rem;
-      padding-right: (30 / $d-fs) * 1rem;
+      margin-right: (30 / $d-fs)+rem;
+      padding-right: (30 / $d-fs)+rem;
     }
   }
 }
 
 .addon-header {
-  margin-bottom: (25 / $d-fs) * 1rem;
+  margin-bottom: (25 / $d-fs)+rem;
   @include bp-mobile {
     text-align: center;
     @include padding(0, 0, 0, 0);
@@ -50,8 +50,8 @@ header {
     }
   }
   .social-list {
-    margin-right: (20 / $d-fs) * 1rem;
-    padding-right: (20 / $d-fs) * 1rem;
+    margin-right: (20 / $d-fs)+rem;
+    padding-right: (20 / $d-fs)+rem;
     border-right: 1px solid #231f20;
   }
 }
@@ -87,9 +87,9 @@ header {
   position: relative;
   // font-family: $primary-ff;
   // font-weight: 700;
-  // width: (19 / $d-fs) * 1rem;
+  // width: (19 / $d-fs)+rem;
   img{
-    height: (24 / $d-fs) * 1rem;
+    height: (24 / $d-fs)+rem;
   }
 }
 .cart-count {
@@ -108,7 +108,7 @@ header {
   right: -5px;
 }
 .cart-total{
-  margin-left:  (10 / $d-fs) * 1rem;
+  margin-left:  (10 / $d-fs)+rem;
   font-family: $primary-ff;
 }
 

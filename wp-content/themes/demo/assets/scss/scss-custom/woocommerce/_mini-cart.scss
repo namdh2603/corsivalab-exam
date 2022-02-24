@@ -4,7 +4,7 @@
       color: black;
       @include font(18, 24);
       text-transform: uppercase;
-      margin-bottom: (5 / $d-fs) * 1rem;
+      margin-bottom: (5 / $d-fs)+rem;
       display: block;
     }
     .price {
@@ -12,7 +12,7 @@
       color: #052452;
       @include font($d-fs, 18);
       font-weight: 700;
-      margin-bottom: (5 / $d-fs) * 1rem;
+      margin-bottom: (5 / $d-fs)+rem;
       display: block;
     }
     .quantity {
@@ -25,16 +25,16 @@
     a.remove_from_cart_button {
       background: #e2334c;
       color: #fff;
-      height: (18 / $d-fs) * 1rem;
-      width: (18 / $d-fs) * 1rem;
+      height: (18 / $d-fs)+rem;
+      width: (18 / $d-fs)+rem;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .mini_cart_item {
         border-bottom: 1px solid #eeeeee;
-        padding-bottom: (15 / $d-fs) * 1rem;
-        margin-bottom: (15 / $d-fs) * 1rem;
+        padding-bottom: (15 / $d-fs)+rem;
+        margin-bottom: (15 / $d-fs)+rem;
       }
       .woocommerce-mini-cart__total {
         font-weight: 700;
@@ -51,7 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: (10 / $d-fs) * 1rem;
+    margin-bottom: (10 / $d-fs)+rem;
     color: $white;
     @include font($d-fs, 17);
     font-family: $primary-ff;
@@ -63,7 +63,7 @@
     }
     img {
       width: 12px;
-      margin-right: (10 / $d-fs) * 1rem;
-      margin-left: (10 / $d-fs) * 1rem;
+      margin-right: (10 / $d-fs)+rem;
+      margin-left: (10 / $d-fs)+rem;
     }
   }

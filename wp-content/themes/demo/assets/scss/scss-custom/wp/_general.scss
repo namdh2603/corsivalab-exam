@@ -1,21 +1,17 @@
 .row-eq-height {
   flex-wrap: wrap;
 }
-.swiper-slide {
-  padding: 1px;
-}
 .default-section {
   position: relative;
-  
   @include padding(45, 0, 45, 0);
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto;
-  @include bp-mobile{
+  @include bp-mobile {
     @include padding(20, 0, 20, 0);
   }
 }
-.main-title{
+.main-title {
   @include font(35, 39);
   font-weight: 700;
   font-family: $primary-ff;
@@ -29,24 +25,24 @@
 }
 .btn-group {
   text-align: center;
-  //margin-bottom: (30 / $d-fs) * 1rem;
+  //margin-bottom: (30 / $d-fs)+rem;
   .btn-main {
-    background: #E88233;
-    border: 1px solid #E88233;
+    background: #e88233;
+    border: 1px solid #e88233;
     border-radius: 23px;
     @include padding(12, 45, 12, 45);
     display: inline-block;
     color: $white;
-    @include font($fs-15, $fs-15+4);
+    @include font($fs-15, $fs-15 + 4);
     font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
     @include transition();
-    &.btn-outline{
+    &.btn-outline {
       background-color: transparent;
     }
-    &.btn-ajax{
+    &.btn-ajax {
       text-transform: uppercase;
       @include padding(12, 45, 12, 45);
     }
@@ -71,7 +67,7 @@
 form.wpcf7-form {
   .wpcf7-form-control-wrap {
     display: block;
-    margin-bottom: (15 / $d-fs) * 1rem;
+    margin-bottom: toRem(15);
   }
   .wpcf7-response-output {
     margin: 0;
@@ -89,10 +85,10 @@ form.wpcf7-form {
     @include font($d-fs, $d-fs + 4);
     font-family: $primary-ff;
     font-weight: 400;
-    margin-bottom: (5 / $d-fs) * 1rem;
+    margin-bottom: toRem(5);
   }
   textarea.wpcf7-form-control {
-    min-height: (150 / $d-fs) * 1rem;
+    min-height: toRem(150);
     border: 0;
     background-color: rgba(#eaedf2, 0.5);
     outline: none;
@@ -127,12 +123,11 @@ form.wpcf7-form {
     background-image: none !important;
   }
   .container {
-    min-height: (400 / $d-fs) * 1rem;
-    
-  @include bp-mobile {
-    min-height: auto;
-    margin-top: (20 / $d-fs) * 1rem;
-  }
+    min-height: toRem(400);
+    @include bp-mobile {
+      min-height: auto;
+      margin-top: toRem(20);
+    }
     display: flex;
     align-items: center;
   }
@@ -140,7 +135,7 @@ form.wpcf7-form {
     @include font(50, 60);
     font-weight: 700;
     color: $third-color;
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: toRem(20);
   }
   .sub-title {
     @include font(25, 30);
@@ -190,25 +185,9 @@ form.mc4wp-form {
     border: 0;
     img {
       width: 15px;
-      margin-left: (10 / $d-fs) * 1rem;
+      margin-left: toRem(10);
     }
   }
-}
-.mess {
-  width: 60px;
-  height: 60px;
-  position: fixed;
-  bottom: 50px;
-  right: 20px;
-  background: #8bc240;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 35px;
-  }
-  z-index: 3;
 }
 select:focus > option:checked {
   background: #e3effb;

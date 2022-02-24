@@ -1,7 +1,7 @@
 // FOOTER
 footer {
-  // margin-top: (20 / $d-fs) * 1rem;
-  // padding-top: (50 / $d-fs) * 1rem;
+  // margin-top: (20 / $d-fs)+rem;
+  // padding-top: (50 / $d-fs)+rem;
   position: relative;
   .footer {
     background: $white;
@@ -31,9 +31,9 @@ footer {
   }
 }
 .middle-footer {
-  padding-bottom: (60 / $d-fs) * 1rem;
+  padding-bottom: (60 / $d-fs)+rem;
   @include bp-mobile {
-    padding-bottom: (20 / $d-fs) * 1rem;
+    padding-bottom: (20 / $d-fs)+rem;
   }
 }
 .footer-widget {
@@ -42,7 +42,7 @@ footer {
     @include font($fs-14, $fs-14 + 4);
   }
   @include bp-mobile {
-    padding-bottom: (40 / $d-fs) * 1rem;
+    padding-bottom: (40 / $d-fs)+rem;
   }
 }
 .copyright {
@@ -60,7 +60,7 @@ h4.widget-title {
   @include font($fs-20, $fs-20 + 4);
   font-family: $primary-ff;
   font-weight: 700;
-  margin-bottom: (30 / $d-fs) * 1rem;
+  margin-bottom: (30 / $d-fs)+rem;
   color: $second-color;
 }
 .textwidget {
@@ -72,7 +72,7 @@ h4.widget-title {
 .widget-content {
   ul {
     li {
-      margin-bottom: (15 / $d-fs) * 1rem;
+      margin-bottom: (15 / $d-fs)+rem;
       a {
         color: $primary-color;
         font-weight: 500;
@@ -84,13 +84,13 @@ h4.widget-title {
   }
 }
 .item-company {
-  margin-bottom: (20 / $d-fs) * 1rem;
+  margin-bottom: (20 / $d-fs)+rem;
   // display: flex;
   // align-items: center;
   color: $primary-color;
   // img {
   //   width: 20px;
-  //   margin-right: (10 / $d-fs) * 1rem;
+  //   margin-right: (10 / $d-fs)+rem;
   // }
   em {
     display: block;
@@ -101,14 +101,14 @@ h4.widget-title {
   }
 }
 .social-footer-section {
-  margin-top: (20 / $d-fs) * 1rem;
+  margin-top: (20 / $d-fs)+rem;
   .social-title {
-    margin-right: (30 / $d-fs) * 1rem;
+    margin-right: (30 / $d-fs)+rem;
   }
   ul {
     li {
       margin-bottom: 0;
-      margin-right: (20 / $d-fs) * 1rem;
+      margin-right: (20 / $d-fs)+rem;
       a {
         img {
           max-width: 24px;

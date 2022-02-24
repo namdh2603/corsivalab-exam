@@ -15,8 +15,8 @@
     @include padding(160, 0, 160, 0);
   }
   .main-title {
-    margin-bottom: (30 / $d-fs) * 1rem;
-    letter-spacing: (4 / $d-fs) * 1rem;
+    margin-bottom: toRem(30);
+    letter-spacing: (4 / $d-fs)+rem;
     color: #fff;
   }
 }
@@ -49,16 +49,16 @@
     background: #e4f8f7;
   }
   .post-award {
-    padding-bottom: (30 / $d-fs) * 1rem;
+    padding-bottom: (30 / $d-fs)+rem;
     .title-post {
       @include padding(10, 10, 10, 10);
       @include font($d-fs, $d-fs + 4);
       font-weight: 800;
-      letter-spacing: (0.3 / $d-fs) * 1rem;
+      letter-spacing: (0.3 / $d-fs)+rem;
     }
   }
   .post-latest {
-    margin-bottom: (40 / $d-fs) * 1rem;
+    margin-bottom: (40 / $d-fs)+rem;
     background-color: #f8f8f8;
     .post-info {
       @include padding(30, 30, 30, 30);
@@ -70,27 +70,27 @@
         @include font($fs-14, $fs-14 + 4);
       }
       .post-meta {
-        margin-bottom: (15 / $d-fs) * 1rem;
+        margin-bottom: (15 / $d-fs)+rem;
         display: block;
       }
       .post-title {
         @include font($fs-18, $fs-18 + 4);
         font-weight: 600;
-        letter-spacing: (0.7 / $d-fs) * 1rem;
+        letter-spacing: (0.7 / $d-fs)+rem;
         text-transform: capitalize;
-        margin-bottom: (20 / $d-fs) * 1rem;
+        margin-bottom: (20 / $d-fs)+rem;
       }
       .small-text {
         font-weight: 300;
         font-style: italic;
         color: #2a3739;
-        margin-bottom: (40 / $d-fs) * 1rem;
+        margin-bottom: (40 / $d-fs)+rem;
       }
       .link {
         color: #dc5454;
         text-decoration: underline;
         @include font($fs-18, $fs-18 + 4);
-        letter-spacing: (0.4 / $d-fs) * 1rem;
+        letter-spacing: (0.4 / $d-fs)+rem;
       }
     }
   }
@@ -101,19 +101,19 @@
   background-size: auto;
   background-position: center;
   .store-item {
-    padding-bottom: (30 / $d-fs) * 1rem;
+    padding-bottom: (30 / $d-fs)+rem;
     .name {
       color: #dc5454;
       font-weight: 500;
-      letter-spacing: (0.3 / $d-fs) * 1rem;
+      letter-spacing: (0.3 / $d-fs)+rem;
       text-transform: capitalize;
-      padding-bottom: (10 / $d-fs) * 1rem;
+      padding-bottom: (10 / $d-fs)+rem;
     }
     .address,
     .phone {
       font-weight: 300;
       font-style: italic;
-      letter-spacing: (0.15 / $d-fs) * 1rem;
+      letter-spacing: (0.15 / $d-fs)+rem;
     }
   }
 }
@@ -127,7 +127,7 @@
   font-family: $primary-ff;
   width: 100%;
   border-bottom: 2px solid #dfdfdf;
-  margin-bottom: (30 / $d-fs) * 1rem;
+  margin-bottom: (30 / $d-fs)+rem;
   &.center-title {
     text-align: center;
     color: #72481e;
@@ -192,7 +192,7 @@
     @include font($d-fs, $d-fs + 4);
     font-weight: 500;
     font-family: $primary-ff;
-    margin-bottom: (6 / $d-fs) * 1rem;
+    margin-bottom: (6 / $d-fs)+rem;
   }
   .position {
     opacity: 0.25;
@@ -200,12 +200,12 @@
   }
   .customer-row {
     border-bottom: 1px solid rgba($black, 0.15);
-    margin-bottom: (15 / $d-fs) * 1rem;
-    padding-bottom: (15 / $d-fs) * 1rem;
+    margin-bottom: (15 / $d-fs)+rem;
+    padding-bottom: (15 / $d-fs)+rem;
   }
   .rating {
     width: 40%;
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
   }
   .description {
     font-family: $primary-ff;
@@ -233,7 +233,7 @@
   h3 {
     position: absolute;
     top: 0;
-    right: (15 / $d-fs) * 1rem;
+    right: (15 / $d-fs)+rem;
     @include font(60, 72);
     font-weight: 900;
     text-transform: uppercase;
@@ -260,7 +260,7 @@
       img {
         display: block;
         margin: 0 auto 40px;
-        width: (110 / $d-fs) * 1rem;
+        width: (110 / $d-fs)+rem;
       }
       .btn-main {
         background-color: transparent;
@@ -278,24 +278,24 @@
   .title-post {
     @include font(26, 30);
     font-weight: 600;
-    padding-bottom: (15 / $d-fs) * 1rem;
+    padding-bottom: (15 / $d-fs)+rem;
   }
   .sub-content {
     @include font($fs-14, $fs-14 + 4);
     font-weight: 300;
-    padding-bottom: (30 / $d-fs) * 1rem;
+    padding-bottom: (30 / $d-fs)+rem;
   }
 }
 .home-why {
   .title {
     @include font(40, 44);
     font-weight: 700;
-    letter-spacing: (4 / $d-fs) * 1rem;
-    padding-bottom: (30 / $d-fs) * 1rem;
+    letter-spacing: (4 / $d-fs)+rem;
+    padding-bottom: (30 / $d-fs)+rem;
   }
   .content-inner {
     @include bp-mobile {
-      padding-top: (30 / $d-fs) * 1rem;
+      padding-top: (30 / $d-fs)+rem;
     }
     p:last-child {
       margin-bottom: 0;
@@ -303,8 +303,8 @@
   }
 }
 .slide-section {
-  padding-top: (0 / $d-fs) * 1rem;
-  padding-bottom: (0 / $d-fs) * 1rem;
+  padding-top: (0 / $d-fs)+rem;
+  padding-bottom: (0 / $d-fs)+rem;
   position: relative;
   .slide-inner {
     position: relative;
@@ -345,29 +345,29 @@
     color: #f9f9f9;
     text-shadow: 0px 3px 6px #00000029;
     text-transform: capitalize;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
     @include bp-mobile {
-      margin-bottom: (10 / $d-fs) * 1rem;
+      margin-bottom: (10 / $d-fs)+rem;
     }
   }
   .main-title {
     color: #fff;
     text-shadow: 0px 3px 6px #00000029;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
     @include font(45, 49);
     strong {
       color: $third-color;
     }
     @include bp-mobile {
       @include font(18, 22);
-      margin-bottom: (10 / $d-fs) * 1rem;
+      margin-bottom: (10 / $d-fs)+rem;
     }
   }
   .content-inner {
     color: #fff;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
     p {
-      margin-bottom: (6 / $d-fs) * 1rem;
+      margin-bottom: (6 / $d-fs)+rem;
     }
   }
 }
@@ -379,7 +379,7 @@
         width: 50%;
         
     text-align: center;
-    margin: (10 / $d-fs) * 1rem auto;
+    margin: (10 / $d-fs)+rem auto;
     display: block;
       }
     }
@@ -394,7 +394,7 @@
     font-family: $primary-ff;
     font-weight: 700;
     //color: $primary-color;
-    margin-bottom: (10 / $d-fs) * 1rem;
+    margin-bottom: (10 / $d-fs)+rem;
 
     @include bp-mobile {
       @include font(20, 24);
@@ -416,7 +416,7 @@
     width: 100%;
 }
   @include bp-mobile {
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
   }
 
   .promotion-item {
@@ -442,12 +442,12 @@
         font-family: $primary-ff;
         font-weight: 700;
         color: $second-color;
-        margin-bottom: (20 / $d-fs) * 1rem;
+        margin-bottom: (20 / $d-fs)+rem;
       }
       .sub-title {
-        padding-left: (50 / $d-fs) * 1rem;
+        padding-left: (50 / $d-fs)+rem;
         position: relative;
-        margin-bottom: (30 / $d-fs) * 1rem;
+        margin-bottom: (30 / $d-fs)+rem;
         color: #8bbe60;
         font-weight: 700;
         &:before {
@@ -602,7 +602,7 @@
     .main-title {
       color: $white;
       text-shadow: 0px 3px 6px #00000029;
-      margin-bottom: (30 / $d-fs) * 1rem;
+      margin-bottom: (30 / $d-fs)+rem;
       
     @include bp-mobile {
       
@@ -644,12 +644,12 @@
     }
   }
   .content-inner {
-    letter-spacing: (0.3 / $d-fs) * 1rem;
-    margin-bottom: (50 / $d-fs) * 1rem;
+    letter-spacing: (0.3 / $d-fs)+rem;
+    margin-bottom: (50 / $d-fs)+rem;
   }
   .main-title {
     color: $primary-color;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
 }
 .tabs-section {
@@ -664,20 +664,20 @@
     position: relative;
     .view-video {
       position: absolute;
-      bottom: (20 / $d-fs) * 1rem;
-      left: (20 / $d-fs) * 1rem;
+      bottom: (20 / $d-fs)+rem;
+      left: (20 / $d-fs)+rem;
       display: flex;
       align-items: center;
       cursor: pointer;
       img {
-        width: (33 / $d-fs) * 1rem;
-        margin-right: (10 / $d-fs) * 1rem;
+        width: (33 / $d-fs)+rem;
+        margin-right: (10 / $d-fs)+rem;
       }
       span {
         @include font(13, 17);
         font-weight: 500;
         color: #262262;
-        letter-spacing: (0.5 / $d-fs) * 1rem;
+        letter-spacing: (0.5 / $d-fs)+rem;
       }
     }
   }
@@ -697,7 +697,7 @@
       font-weight: 600;
       // padding-top: 0;
       // padding-bottom: 0;
-      margin-bottom: (15 / $d-fs) * 1rem;
+      margin-bottom: (15 / $d-fs)+rem;
       @include transition();
     }
     a {
@@ -730,12 +730,12 @@
   //     min-height: unset;
   //   }
   //   img {
-  //     margin-bottom: (30 / $d-fs) * 1rem;
+  //     margin-bottom: (30 / $d-fs)+rem;
   //   }
   //   .sub-content {
   //     @include font(25, 29);
   //     p {
-  //       margin-bottom: (20 / $d-fs) * 1rem;
+  //       margin-bottom: (20 / $d-fs)+rem;
   //     }
   //   }
   // }
@@ -781,7 +781,7 @@
       display: none;
     }
     img {
-      width: (10 / $d-fs) * 1rem;
+      width: (10 / $d-fs)+rem;
     }
   }
   .swiper-button-next {
@@ -797,10 +797,10 @@
     color: $black;
   }
   .product-image {
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
   }
   .product-cat {
-    margin-bottom: (8 / $d-fs) * 1rem;
+    margin-bottom: (8 / $d-fs)+rem;
     text-transform: uppercase;
   }
 }

@@ -23,10 +23,10 @@
         .price{
           
         text-align: left;
-        margin-bottom: (20 / $d-fs) * 1rem;
+        margin-bottom: (20 / $d-fs)+rem;
         }
         h4.title{
-          margin-bottom: (20 / $d-fs) * 1rem;
+          margin-bottom: (20 / $d-fs)+rem;
 
         }
       }
@@ -83,7 +83,7 @@
       }
     }
       .p-item {
-        margin-left: (30 / $d-fs) * 1rem;
+        margin-left: (30 / $d-fs)+rem;
         line-height: 1.5;
         font-family: $primary-ff;
         width: 70%;
@@ -115,7 +115,7 @@
     background-color: #d2ecf1;
     @include padding(10, 20, 10, 20);
     display: block;
-    margin-bottom: (15 / $d-fs) * 1rem;
+    margin-bottom: (15 / $d-fs)+rem;
     a {
       text-decoration: underline;
       color: #164489;
@@ -135,7 +135,7 @@
   .coupon {
     display: block;
     //@include padding(10, 30, 10, 30);
-    margin-bottom: (60 / $d-fs) * 1rem;
+    margin-bottom: (60 / $d-fs)+rem;
   }
   .coupon input#coupon_code,
   input.point_code {
@@ -148,7 +148,7 @@
     width: 100%;
     margin: 0;
     outline: none;
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
   }
 
   .coupon .button {
@@ -205,7 +205,7 @@
       font-family: $primary-ff;
       @include font(30, 34);
       font-weight: 700;
-      margin-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs)+rem;
       color: $second-color;
     }
   }
@@ -216,7 +216,7 @@
       font-family: $primary-ff;
       @include font(30, 34);
       font-weight: 700;
-      margin-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs)+rem;
       color: $second-color;
     }
     .cart_totals {

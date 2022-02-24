@@ -1,0 +1,29 @@
+@mixin make-transform($property) {
+  -moz-transform: $property;
+  -webkit-transform: $property;
+  -o-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+$transition-base: all 0.3s ease-in-out;
+@mixin font($fs, $lh, $fw: null) {
+  font-size: toRem($fs);
+  line-height: toRem($lh + 4);
+  font-weight: $fw;
+}
+@mixin margin($t, $r, $b, $l) {
+  margin: toRem($t) toRem($r) toRem($b) toRem($l);
+}
+@mixin padding($t, $r, $b, $l) {
+  padding: toRem($t) toRem($r) toRem($b) toRem($l);
+}
+@mixin bp-mobile {
+  @include media-breakpoint-down(md) {
+    @content;
+  }
+}
+@mixin bp-tablet {
+  @include media-breakpoint-down(lg) {
+    @content;
+  }
+}

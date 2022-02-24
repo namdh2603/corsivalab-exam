@@ -18,7 +18,7 @@
     @include font(18, 24);
     color: $black;
     font-weight: 700;
-    margin-bottom: (15 / $d-fs) * 1rem;
+    margin-bottom: (15 / $d-fs)+rem;
   }
   div.product span.price ins,
   div.product p.price ins {
@@ -28,7 +28,7 @@
   div.product span.price del,
   div.product p.price del {
     @include font(16, 22);
-    margin-right: (5 / $d-fs) * 1rem;
+    margin-right: (5 / $d-fs)+rem;
   }
 
 
@@ -39,20 +39,20 @@
     font-family: $primary-ff;
     font-weight: 400;
     @include font($fs-16, $fs-16+4);
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
 
   .quantity-txt, .variations label {
     font-weight: 700;
     @include font($fs-16, $fs-16 + 4);
-    margin-bottom: (20 / $d-fs) * 1rem!important;
+    margin-bottom: (20 / $d-fs)+rem!important;
 }
   .quantity {
     position: relative;
     overflow: hidden;
     float: left;
     @include margin(0, 4, 20, 0);
-    margin-right: (20 / $d-fs) * 1rem;
+    margin-right: (20 / $d-fs)+rem;
     display: inline-flex;
     .qty {
       display: inline-block;
@@ -65,8 +65,8 @@
       @include font($fs-20, $fs-20 + 4);
       font-weight: 400;
       text-align: center;
-      height: (60 / $d-fs) * 1rem;
-      height: (46 / $d-fs) * 1rem;
+      height: (60 / $d-fs)+rem;
+      height: (46 / $d-fs)+rem;
       background: #F4F6F8;
     }
     button.minus,
@@ -80,8 +80,8 @@
       cursor: pointer;
       border: 0;
       background: #F4F6F8;
-      height: (46 / $d-fs) * 1rem;
-      width: (30 / $d-fs) * 1rem;
+      height: (46 / $d-fs)+rem;
+      width: (30 / $d-fs)+rem;
       img {
         width: 10px;
       }
@@ -117,7 +117,7 @@
 
 
 .page-woocommerce-content {
-  margin-bottom: (50 / $d-fs) * 1rem;
+  margin-bottom: (50 / $d-fs)+rem;
 }
 
 
@@ -179,15 +179,15 @@
     @include font($d-fs, $d-fs + 4);
     font-weight: 500;
     font-family: $primary-ff;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   .woocommerce-customer-details {
     .billing-list,
     .shipping-list {
-      margin-bottom: (40 / $d-fs) * 1rem;
+      margin-bottom: (40 / $d-fs)+rem;
     }
     .form-row {
-      margin-bottom: (10 / $d-fs) * 1rem;
+      margin-bottom: (10 / $d-fs)+rem;
     }
   }
 }

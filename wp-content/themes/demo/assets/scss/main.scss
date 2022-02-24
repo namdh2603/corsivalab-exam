@@ -8,14 +8,16 @@
 --------------------------------------------------------------*/
 @import "bootstrap-513/variables";
 @import "bootstrap-513/mixins";
-@import "scss-custom/variables";
+@import "functions";
+@import "mixins";
+@import "variables";
 /*--------------------------------------------------------------
 # Fonts
 --------------------------------------------------------------*/
-@import "scss-custom/fonts";
+@import "fonts";
 
 /*--------------------------------------------------------------
-# Icon
+# FontAwesome Icon
 --------------------------------------------------------------*/
 // @import "fontawesome-pro-5153/scss/solid.scss";
 // @import "fontawesome-pro-5153/scss/regular.scss";
@@ -23,9 +25,22 @@
 // @import "fontawesome-pro-5153/scss/variables";
 
 /*--------------------------------------------------------------
+# Material Icon
+--------------------------------------------------------------*/
+// @import "material-design/scss/variables";
+// @import "material-design/scss/functions";
+// @import "material-design/scss/path";
+// @import "material-design/scss/core";
+// @import "material-design/scss/icons";
+// @import "material-design/scss/extras";
+// @import "material-design/scss/animated";
+
+
+
+/*--------------------------------------------------------------
 # Base
 --------------------------------------------------------------*/
-@import "scss-custom/base";
+@import "base";
 
 /*--------------------------------------------------------------
 # Utilities
@@ -33,8 +48,9 @@
 @import "bootstrap-513/utilities";
 
 /*--------------------------------------------------------------
-# Grid
+# Close Button
 --------------------------------------------------------------*/
+@import "bootstrap-513/close";
 
 /*--------------------------------------------------------------
 # Display
@@ -43,7 +59,7 @@
 /*--------------------------------------------------------------
 # Card
 --------------------------------------------------------------*/
-//@import "bootstrap-460/card";
+@import "bootstrap-513/card";
 
 /*--------------------------------------------------------------
 # Accordion 
@@ -53,12 +69,12 @@
 /*--------------------------------------------------------------
 # Modal
 --------------------------------------------------------------*/
-//@import "bootstrap-460/modal";
+@import "bootstrap-513/modal";
 
 /*--------------------------------------------------------------
 # Carousel
 --------------------------------------------------------------*/
-//@import "bootstrap-460/carousel";
+@import "bootstrap-513/carousel";
 
 /*--------------------------------------------------------------
 # Tabs
@@ -66,6 +82,8 @@
 
 @import "bootstrap-513/nav";
 @import "bootstrap-513/navbar";
+
+@import "bootstrap-513/helpers";
 
 /*--------------------------------------------------------------
 # Woocommerce

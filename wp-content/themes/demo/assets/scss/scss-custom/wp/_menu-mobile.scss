@@ -33,7 +33,7 @@
       width: 70%;
     }
     &.open-in-desktop {
-      width: (350 / $d-fs) * 1rem;
+      width: (350 / $d-fs)+rem;
     }
     ul {
       display: block;

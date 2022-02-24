@@ -1,8 +1,8 @@
 .sub-title-page {
-  margin-bottom: (55 / $d-fs) * 1rem;
+  margin-bottom: (55 / $d-fs)+rem;
 }
 .sub-left {
-  margin-bottom: (25 / $d-fs) * 1rem;
+  margin-bottom: (25 / $d-fs)+rem;
 }
 
 .company-list {
@@ -12,7 +12,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
 
     .icon {
       width: 40px;
@@ -23,15 +23,15 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      margin-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs)+rem;
       img {
         max-width: 100%;
         max-height: 100%;
       }
     }
     svg {
-      height: (46 / $d-fs) * 1rem;
-      width: (46 / $d-fs) * 1rem;
+      height: (46 / $d-fs)+rem;
+      width: (46 / $d-fs)+rem;
       width: 15%;
     }
     h2 {
@@ -40,9 +40,9 @@
       width: 85%;
     }
     span {
-      margin-bottom: (30 / $d-fs) * 1rem;
+      margin-bottom: (30 / $d-fs)+rem;
       display: block;
-      min-height: (55 / $d-fs) * 1rem;
+      min-height: (55 / $d-fs)+rem;
     }
     a {
       color: $second-color;
@@ -64,7 +64,7 @@
     font-family: $primary-ff;
     font-weight: 700;
     color: $second-color;
-    margin-bottom: (25 / $d-fs) * 1rem;
+    margin-bottom: (25 / $d-fs)+rem;
   }
   form.wpcf7-form {
     .wpcf7-form-control-wrap {

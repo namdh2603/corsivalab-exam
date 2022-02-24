@@ -1,7 +1,7 @@
 .woocommerce {
   .woocommerce-breadcrumb{
     color: $primary-color;
-    margin-bottom: (40 / $d-fs) * 1rem;
+    margin-bottom: (40 / $d-fs)+rem;
     a, span{
       @include font($fs-16, $fs-16+4);
     color: $primary-color;
@@ -10,7 +10,7 @@
   span.onsale {
     background-color: $second-color;
     color: $white;
-    top: (20 / $d-fs) * 1rem;
+    top: (20 / $d-fs)+rem;
     right: 0;
     left: unset;
     border-radius: 0;
@@ -29,7 +29,7 @@
     justify-content: space-between;
     align-items: center;
 
-    margin-bottom: (50 / $d-fs) * 1rem;
+    margin-bottom: (50 / $d-fs)+rem;
   }
   .woocommerce-result-count {
     margin-bottom: 0;
@@ -45,7 +45,7 @@
   .hide-filter {
     img {
       width: 14px;
-      margin-right: (10 / $d-fs) * 1rem;
+      margin-right: (10 / $d-fs)+rem;
       filter: brightness(0%);
     }
     button {
@@ -72,7 +72,7 @@
   }
   .woocommerce-ordering {
     margin: 0;
-    max-width: (240 / $d-fs) * 1rem;
+    max-width: (240 / $d-fs)+rem;
     select {
       color: $second-color;
       background: #f4f6f8;
@@ -106,8 +106,8 @@
     }
   }
   .berocket_single_filter_widget {
-    padding-bottom: (20 / $d-fs) * 1rem;
-    margin-bottom: (60 / $d-fs) * 1rem;
+    padding-bottom: (20 / $d-fs)+rem;
+    margin-bottom: (60 / $d-fs)+rem;
     border-bottom: 1px solid rgba($second-color, 0.3);
     &:last-child() {
       border-bottom: 0;
@@ -140,7 +140,7 @@
     }
     li {
       display: block;
-      margin-bottom: (10 / $d-fs) * 1rem !important;
+      margin-bottom: (10 / $d-fs)+rem !important;
       &:last-child {
         margin-bottom: 0 !important;
       }
@@ -357,7 +357,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: (20 / $d-fs) * 1rem;
+  margin-top: (20 / $d-fs)+rem;
   span{
     @include padding(0,20,0,20);
   }
@@ -373,7 +373,7 @@
     justify-content: center;
     align-items: center;
     img {
-      width: (10 / $d-fs) * 1rem;
+      width: (10 / $d-fs)+rem;
     }
   }
 }

@@ -5,7 +5,7 @@
 
     border: 2px solid #7070704d;
     border-radius: 10px;
-    margin-bottom: (40 / $d-fs) * 1rem;
+    margin-bottom: (40 / $d-fs)+rem;
 
     position: relative;
     overflow: hidden;
@@ -25,8 +25,8 @@
       }
   }
   .card-body {
-    margin-top: (25 / $d-fs) * 1rem;
-    padding-top: (25 / $d-fs) * 1rem;
+    margin-top: (25 / $d-fs)+rem;
+    padding-top: (25 / $d-fs)+rem;
     border-top: 2px solid #70707034;
   }
   .collapse {

@@ -7,7 +7,7 @@ body.single-post {
   border-radius: 10px;
   .image {
     img {
-      margin-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs)+rem;
     }
   }
   a.title {
@@ -17,11 +17,11 @@ body.single-post {
     font-weight: 700;
     text-decoration: none;
     display: block;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   .small-text {
     display: block;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   .link {
     color: $third-color;
@@ -32,11 +32,11 @@ body.single-post {
     &:after {
       content: "";
       display: inline-block;
-      width: (50 / $d-fs) * 1rem;
+      width: (50 / $d-fs)+rem;
       height: 2px;
       background: $third-color;
       vertical-align: middle;
-      margin-left: (10 / $d-fs) * 1rem;
+      margin-left: (10 / $d-fs)+rem;
     }
   }
   .news-meta {
@@ -44,16 +44,16 @@ body.single-post {
     align-items: center;
     font-family: $primary-ff;
     color: #6c6c6c;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
     svg {
       height: 15px;
-      margin-right: (10 / $d-fs) * 1rem;
+      margin-right: (10 / $d-fs)+rem;
     }
   }
 }
 .single-content {
   .single-post-img {
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   h1 {
     color: $second-color;
@@ -62,17 +62,17 @@ body.single-post {
     font-weight: 700;
     text-decoration: none;
     display: block;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   .news-meta {
     display: flex;
     align-items: center;
     font-family: $primary-ff;
     color: #6c6c6c;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
     svg {
       height: 15px;
-      margin-right: (10 / $d-fs) * 1rem;
+      margin-right: (10 / $d-fs)+rem;
     }
   }
 }
@@ -84,7 +84,7 @@ body.single-post {
     font-weight: 700;
     text-decoration: none;
     display: block;
-    margin-bottom: (30 / $d-fs) * 1rem;
+    margin-bottom: (30 / $d-fs)+rem;
   }
   .sb-post-item {
     background: $white;
@@ -94,7 +94,7 @@ body.single-post {
     justify-content: center;
     align-items: center;
     @include padding(15, 15, 15, 15);
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
   }
   .sb-post-image {
     width: 30%;
@@ -112,7 +112,7 @@ border-radius: 10px;
       font-weight: 500;
       text-decoration: none;
       display: block;
-      margin-bottom: (10 / $d-fs) * 1rem;
+      margin-bottom: (10 / $d-fs)+rem;
       text-transform: capitalize;
     }
     .small-text{
@@ -122,7 +122,7 @@ border-radius: 10px;
 }
 .pagi {
   text-align: center;
-  padding-top: (50 / $d-fs) * 1rem;
+  padding-top: (50 / $d-fs)+rem;
   display: flex;
   justify-content: center;
   align-items: center;

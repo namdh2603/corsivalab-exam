@@ -12,7 +12,7 @@
     font-family: $primary-ff;
     @include font(30, 34);
     font-weight: 700;
-    margin-bottom: (20 / $d-fs) * 1rem;
+    margin-bottom: (20 / $d-fs)+rem;
     color: $second-color;
   }
   form .form-row label {

@@ -1,0 +1,22 @@
+$d-fs: 24;
+$fs-14: 14;
+$fs-15: 15;
+$fs-16: 16;
+$fs-20: 20;
+$fs-22: 22;
+
+$primary-color: #000;
+$second-color: #20E3B6;
+$third-color: #20E3B6;
+$c-2C92E4: #2C92E4;
+
+$w-design: 1920; // width chuẩn design
+$container-gutter-width: 30; // padding ngoài container
+$grid-gutter-width: 30; // padding giữa 2 cột
+$mobile-grid-gutter-width: 20;
+$w-container: ($w-design)-($container-gutter-width)*2+$grid-gutter-width; // width đã trừ spacing 2 bên
+
+$re-sm: 575.98;
+$re-md: 767.98;
+$re-lg: 991.98;
+$re-xl: 1199.98;

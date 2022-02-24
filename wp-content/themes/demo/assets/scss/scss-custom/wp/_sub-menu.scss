@@ -5,16 +5,16 @@
   opacity: 0;
   visibility: hidden;
   text-align: left;
-  margin-top: 20px;
+  margin-top: toRem(20);
   border-radius: 0 0 3px 3px;
   background: #fff;
   @include padding(10, 20, 10, 20);
-  width: 200px;
+  width: toRem(200);
   @include transition();
   //box-shadow: -23px 23px 20px #0000000d;
   border: 1px solid $second-color;
-  @include font($d-fs, $d-fs + 4);
-  font-weight: 700;
+  @include font($d-fs, $d-fs, 700);
+  //font-weight: 700;
 }
 .menu-item-has-children {
   &:hover {
@@ -39,7 +39,7 @@
       //   border-bottom: 1px solid rgba($black, 0.2);
       // }
       position: relative;
-      padding-right: (20 / $d-fs) * 1rem;
+      padding-right: (20 / $d-fs)+rem;
       &.menu-item-has-children {
         padding-right: 0;
       }
@@ -73,12 +73,12 @@
       a {
         //@include padding(7, 5, 7, 5);
 
-        //padding-right: (20 / $d-fs) * 1rem;
+        //padding-right: (20 / $d-fs)+rem;
         display: inline-block;
         line-height: 1.5;
         height: auto;
         z-index: 1;
-        padding-bottom: (20 / $d-fs) * 1rem;
+        padding-bottom: (20 / $d-fs)+rem;
         padding-right: 0;
         @include transition();
 
@@ -122,8 +122,8 @@
       font-family: $primary-ff;
       font-weight: 700;
       color: $second-color;
-      padding-bottom: (20 / $d-fs) * 1rem;
-      margin-bottom: (20 / $d-fs) * 1rem;
+      padding-bottom: (20 / $d-fs)+rem;
+      margin-bottom: (20 / $d-fs)+rem;
       position: relative;
       &::after{
       content: "";
@@ -142,7 +142,7 @@
       a{
         text-decoration: none;
         color: $primary-color;
-        padding-bottom: (10 / $d-fs) * 1rem;
+        padding-bottom: (10 / $d-fs)+rem;
         display: inline-block;
         width: 100%;
       }
@@ -150,8 +150,8 @@
     &.product-tags{
       li{
         display: inline-block;
-        margin-bottom: (10 / $d-fs) * 1rem;
-        margin-right: (10 / $d-fs) * 1rem;
+        margin-bottom: (10 / $d-fs)+rem;
+        margin-right: (10 / $d-fs)+rem;
         a{
           @include padding(10, 15, 10, 15);
           text-decoration: none;
@@ -185,7 +185,7 @@
   .sub-menu-item {
     .menu-title {
       @include font($d-fs, $d-fs + 4);
-      margin-bottom: (20 / $d-fs) * 1rem;
+      margin-bottom: (20 / $d-fs)+rem;
       font-weight: 600;
       font-family: $primary-ff;
     }
@@ -196,7 +196,7 @@
         a {
           @include font($d-fs, $d-fs + 4);
           color: #898989;
-          margin-bottom: (10 / $d-fs) * 1rem;
+          margin-bottom: (10 / $d-fs)+rem;
           padding: 0;
           //@include padding(7, 5, 7, 5);
           display: block;

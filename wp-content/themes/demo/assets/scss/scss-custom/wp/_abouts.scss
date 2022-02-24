@@ -4,7 +4,7 @@
 .about-life-section {
   background-color: rgba(#72481e, 0.1);
   .title-section {
-    margin-bottom: (50 / $d-fs) * 1rem;
+    margin-bottom: (50 / $d-fs)+rem;
     h2 {
       color: #72481e;
       &:after {
@@ -19,7 +19,7 @@
     background-color: $white;
     border-radius: 10px;
     img {
-      margin-bottom: (35 / $d-fs) * 1rem;
+      margin-bottom: (35 / $d-fs)+rem;
     }
     .title-life {
       text-align: left;
@@ -28,7 +28,7 @@
       font-family: $primary-ff;
       @include font(25, 29);
       font-weight: 700;
-      margin-bottom: (35 / $d-fs) * 1rem;
+      margin-bottom: (35 / $d-fs)+rem;
     }
   }
   .about-life-right {
@@ -38,8 +38,8 @@
     .d-flex {
       justify-content: center;
       align-items: center;
-      margin-bottom: (15 / $d-fs) * 1rem;
-      margin-top: (15 / $d-fs) * 1rem;
+      margin-bottom: (15 / $d-fs)+rem;
+      margin-top: (15 / $d-fs)+rem;
       span {
         width: 100%;
         height: 1px;
@@ -72,7 +72,7 @@
     @include font($fs-40, $fs-40+4);
     font-weight: 700;
     text-align: center;
-    margin-bottom: (10 / $d-fs) * 1rem;
+    margin-bottom: (10 / $d-fs)+rem;
   }
   .content-inner {
     text-align: center;
