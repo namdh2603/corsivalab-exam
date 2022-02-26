@@ -396,10 +396,14 @@ class SB_Instagram_Display_Elements {
 			}
 			$styles .= '"';
 		}
-		if ( ( empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit' ) && ! empty( $settings['followhovercolor'] ) ) {
-			$styles .= ' data-button-hover="' . esc_attr( $settings['followhovercolor'] ) . '"';
-		}
 		return $styles;
+	}
+
+	public static function get_follow_hover_color( $settings ) {
+		if ( ! empty( $settings['followhovercolor'] ) && $settings['followhovercolor'] !== '#359dff' ) {
+			return $settings['followhovercolor'];
+		}
+		return '';
 	}
 
 	/**
@@ -423,10 +427,14 @@ class SB_Instagram_Display_Elements {
 			}
 			$styles .= '"';
 		}
-		if ( ! empty( $settings['buttonhovercolor'] ) ) {
-			$styles .= ' data-button-hover="' . esc_attr( $settings['buttonhovercolor'] ) . '"';
-		}
 		return $styles;
+	}
+
+	public static function get_load_button_hover_color( $settings ) {
+		if ( ! empty( $settings['buttonhovercolor'] ) && $settings['buttonhovercolor'] !== '#000' ) {
+			return $settings['buttonhovercolor'];
+		}
+		return '';
 	}
 
 	/**

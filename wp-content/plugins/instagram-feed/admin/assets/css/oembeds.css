@@ -60,16 +60,16 @@
 }
 /*orange*/
 .sb-btn-orange{
-	background: #E34F0E!important;
+	background: #FE544F!important;
 	color: #fff!important;
 }
 .sb-btn-orange:hover{
-	background: #F37036!important;
+	background: #EC352F!important;
 	color: #fff!important;
 }
 .sb-btn-orange:focus,
 .sb-btn-orange:active{
-	background: #B8400B!important;
+	background: #BC120E!important;
 	color: #fff!important;
 }
 /*** 2.0 - HEADER ***/
@@ -439,8 +439,8 @@
     min-width: 175px;
 }
 .sb-action-buttons .sbi-install-btn {
-    background-color: #E34F0E;
-    border-color: #E34F0E;
+    background-color: #FE544F;
+    border-color: #FE544F;
     color: #fff;
 }
 .sb-action-buttons .sbi-install-btn:disabled {
@@ -481,7 +481,7 @@
 }
 .sbi-stck-wdg-btn svg{
     width: 25px;
-    fill: #E34F0E;
+    fill: #FE544F;
     height: 33px;
 }
 

@@ -247,7 +247,7 @@
     margin-right: 5px;
 }
 .sb-btn-orange {
-    background: #E34F0E;
+    background: #FE544F;
     color: #fff;
     font-style: normal;
     font-weight: 600;
@@ -1532,7 +1532,7 @@ Sources Instance Popup
 }
 .sbi-stck-wdg-btn svg{
     width: 25px;
-    fill: #E34F0E;
+    fill: #FE544F;
     height: 33px;
     float: left;
 }

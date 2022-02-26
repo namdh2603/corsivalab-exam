@@ -1,0 +1,410 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Easy Auto SKU Generator for WooCommerce\n"
+"POT-Creation-Date: 2019-10-21 11:14+0300\n"
+"PO-Revision-Date: 2019-10-21 11:14+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: easy-woocommerce-auto-sku-generator.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: easy-woocommerce-auto-sku-generator.php:79
+msgid ""
+"This feature is intented to generate another SKU formats, but you are using "
+"generation by product slug. If you want to use this feature, please change "
+"the slug and save product, then use this button. Also, you can use this "
+"feature if you rewrite old saved SKU."
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:80
+#: easy-woocommerce-auto-sku-generator.php:152
+msgid ""
+"Leave a plugin review &#9733;&#9733;&#9733;&#9733;&#9733; and get free "
+"feature - RE-CREATE ONLINE right here by an additional button. Click by this "
+"icon and leave a review!"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:81
+#: easy-woocommerce-auto-sku-generator.php:153
+msgid "Do you want here a free feature?"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:82
+#: easy-woocommerce-auto-sku-generator.php:154
+msgid "Here can be a Re-Create button online"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:83
+#: easy-woocommerce-auto-sku-generator.php:155
+msgid "Settings SKU"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:84
+#: easy-woocommerce-auto-sku-generator.php:156
+msgid "Re-Create SKU online"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:85
+#: easy-woocommerce-auto-sku-generator.php:157
+msgid "Thank you!"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:149
+msgid ""
+"Attention! You use the \"Take previous product\" function for your SKU. If "
+"you want to rewrite this SKU manually, first save the product, after which "
+"you can rewrite SKU manually. Remember, this function generates an article "
+"based on the previous published product and its SKU.<br><span style=\"font-"
+"weight:700;color:red;padding:0\">Important! Do not use alphabetic values ​​in "
+"SKU when option \"Take previous product\" is enabled!</span> "
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:216
+msgid "SKU Settings"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:237
+msgid ""
+"If you use current SKU format, then Characters, Prefix SKU, and Add Product "
+"ID settings will not be respected. SKU will be generated basing on your "
+"product slug."
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:238
+msgid ""
+"This function is made especially for online store owners who want their "
+"product SKU to be formed on the basis of the previous product. The function "
+"works only with numbers, its detailed description can be found in <br><a "
+"href=\"https://wordpress.org/support/topic/does-it-do-this-2/\" target="
+"\"_blank\">this topic forum</a>.<br><br>At the moment, you see other options "
+"with a darkened color - they do not work when the \"Take previous product\" "
+"option is enabled. All characters, and with this setting only numbers, will "
+"come from the last published product <a href = \"http://alexodlw.beget.tech/"
+"wp-admin/edit.php?post_type=product\" target = \"_ blank\" > at the very top "
+"of the list </a> of your products. <br> <br> In connection with the above, "
+"it is required to configure or change the SKU of the last published product "
+"(in numbers). In this case, the articles will be published in order, for "
+"example 00801, 00802, 00803"
+msgstr ""
+
+#: easy-woocommerce-auto-sku-generator.php:259
+msgid "Settings"
+msgstr ""
+
+#: inc/generate_all.php:88
+msgid ""
+"Variable product. Depending on the settings, SKU variations may be generated."
+msgstr ""
+
+#: inc/generate_all.php:89
+msgid "SKU already exists and has not been recreated"
+msgstr ""
+
+#: inc/generate_all.php:90
+msgid "SKU was not detected but was recreated!"
+msgstr ""
+
+#: inc/generate_all.php:91
+msgid "SKU has been recreated"
+msgstr ""
+
+#: inc/generate_all.php:92
+msgid "Regular product"
+msgstr ""
+
+#: inc/generate_all.php:93
+msgid "SKU not detected"
+msgstr ""
+
+#: inc/generate_all.php:117
+msgid "New SKU:"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:27
+msgid "General plugin settings"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:29
+msgid "On this page you can configure sku"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:34
+msgid "Characters"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:35
+msgid "SKU prefix and product ID are not counted"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:45
+msgid "Specify the number of characters in SKU"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:49
+msgid "Prefix SKU"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:53
+msgid ""
+"Characters in the prefix are not assigned to the total number of characters "
+"(field above)"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:56
+msgid ""
+"Enter any prefix that will be displayed at the beginning of the SKU. <br>For "
+"example <b>BN_</b>893267"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:60
+msgid "Select SKU format"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:67
+msgid "Only numbers, for example - 893267"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:68
+msgid "Only letters, for example - KSZHGD"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:69
+msgid "Letters and numbers, for example - 7SZ4G2"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:70
+msgid "Use product slug, for example - your-product"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:76
+msgid "Add product ID"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:80
+msgid "If checked, product ID will be added to SKU"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:84
+msgid "Take previous product"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:88
+msgid "Take into account the previous product"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:92
+msgid "Variable product"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:96
+msgid "Turn off generation of variable product"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:151
+msgid "Products left:"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:157
+msgid "Product processing completed!"
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:158
+msgid ""
+"Thanks for waiting! If the process did not work correctly, please refer to "
+"the user support forum."
+msgstr ""
+
+#: inc/skuautoffxf_all_settings.php:168
+msgid ""
+"At the moment, the process of generating all articles is in progress. The "
+"process will take some time, please wait until the end!"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: inc/skuautoffxf_setting_block_and_generator.php:12
+msgid "Easy Auto SKU Generator for WooCommerce"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:21
+msgid "Bulk generation SKU"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:22
+msgid ""
+"These features are not yet available and are under development. Please wait "
+"for the update."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:26
+msgid ""
+"This function will save the SKU of the loy of all goods, but first set the "
+"settings and save the page. You can also turn off the SKU generation on "
+"those products that already have SKU"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:26
+#: inc/skuautoffxf_setting_block_and_generator.php:138
+msgid "Bulk generate SKU for all products"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:27
+msgid "Generate all SKU"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:31
+#: inc/skuautoffxf_setting_block_and_generator.php:36
+#: inc/skuautoffxf_setting_block_and_generator.php:41
+msgid ""
+"The function is under development and will most likely be available in paid "
+"versions."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:31
+msgid "Bulk generate SKU by Category"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:32
+msgid "Generate by Category"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:36
+msgid "Bulk generate SKU by Attributes"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:37
+msgid "Generate by Attributes"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:41
+msgid "Bulk generate SKU by product tags"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:42
+msgid "Generate by tags"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:55
+msgid "Recommended Plugins"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:56
+msgid ""
+"Let me recommend some plugins that can provide the greatest conversion for "
+"your store."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:61
+msgid "Carousel Upsells and Related Product for Woocommerce."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:68
+msgid "Art WooCommerce Order One Click"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:75
+msgid "LuckyWP Scripts Control"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:90
+msgid "Message from the author"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:91
+msgid ""
+"New function “Bulk generate SKU for all products” has been added. You can "
+"mass update the SKU now, but before save the general settings."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:92
+msgid ""
+"We will refine the function of mass generation and add new functions. We are "
+"waiting your advice on the"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:92
+msgid "support forum"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:93
+msgid ""
+"Some functions will be available only in the professional version of the "
+"plugin. The most active installers and testers are waiting gifts – pro "
+"version the plugin \"Easy Auto SKU Generator for WooCommerce\"."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:104
+msgid "Donate to development"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:106
+msgid ""
+"You can make a donation to make the plugin Easy Auto SKU Generator for "
+"WooCommerce even better!"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:108
+msgid "Choose how much you want to donate?"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:113
+msgid "To donate"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:114
+msgid "Leave feedback on the official repository"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:139
+msgid ""
+"If you saved the general settings, you can continue. Based on the saved "
+"settings, the next step will be performed. After clicking on the button "
+"“Create SKU for all products”, the creation process for all goods will be "
+"launched in your online store, and this will take some time."
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:141
+msgid "Create SKU for all products"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:144
+msgid "Re-create existing SKUs?"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:158
+msgid "There are"
+msgstr ""
+
+#: inc/skuautoffxf_setting_block_and_generator.php:158
+msgid "products in your store."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically assign a unique SKU for all variations of your product. Just "
+"activate the plugin"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Pds Zakirov"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://profiles.wordpress.org/alexodiy/"
+msgstr ""

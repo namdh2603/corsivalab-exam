@@ -117,7 +117,7 @@ add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('wpcf7_autop_or_not', '__return_false');
 require('typerocket/init.php');
 //require('inc/corsivalab-shortcode.php');
-//require('inc/menu-navwalker.php');
+require('inc/menu-navwalker.php');
 //require('inc/corsivalab-field-product.php');
 //require('inc/corsivalab-field-page.php');
 // require('inc/custom-field-post.php');
@@ -176,3 +176,8 @@ function disable_wp_responsive_images()
     return 1;
 }
 add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
+
+// Disables the block editor from managing widgets in the Gutenberg plugin.
+add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
+// Disables the block editor from managing widgets.
+add_filter( 'use_widgets_block_editor', '__return_false' );

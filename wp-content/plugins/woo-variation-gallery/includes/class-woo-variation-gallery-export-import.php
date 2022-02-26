@@ -2,15 +2,35 @@
 
 defined( 'ABSPATH' ) or die( 'Keep Quit' );
 
-if ( ! class_exists( 'Woo_Variation_Gallery_Export_Import' ) ):
+if ( ! class_exists( 'Woo_Variation_Gallery_Export_Import', false ) ):
 
 	class Woo_Variation_Gallery_Export_Import {
 
 		private $export_type = 'product';
 		private $column_id = 'woo_variation_gallery_images';
 
-		public function __construct() {
+		protected static $_instance = null;
 
+		protected function __construct() {
+			$this->includes();
+			$this->hooks();
+			$this->init();
+			do_action( 'woo_variation_gallery_export_import_loaded', $this );
+		}
+
+		public static function instance() {
+			if ( is_null( self::$_instance ) ) {
+				self::$_instance = new self();
+			}
+
+			return self::$_instance;
+		}
+
+		public function includes() {
+
+		}
+
+		public function hooks() {
 			// EXPORT
 			// "woocommerce_{$this->export_type}_export_column_names"
 			// add_filter( 'woocommerce_product_export_column_names', 'add_woo_variation_gallery_export_column' );
@@ -34,8 +54,12 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Export_Import' ) ):
 				$this,
 				'process_wc_import'
 			), 10, 2 );
+		}
+
+		public function init() {
 
 		}
+
 
 		// Export
 		public function export_column_name( $columns ) {
@@ -195,8 +219,6 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Export_Import' ) ):
 
 			return $id;
 		}
-
 	}
 
-	new Woo_Variation_Gallery_Export_Import();
 endif;

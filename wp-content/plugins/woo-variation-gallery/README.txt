@@ -4,9 +4,9 @@ Tags: woocommerce variation image gallery, additional variation image gallery, p
 Requires PHP: 7.0
 Stable tag: trunk
 Requires at least: 5.5
-Tested up to: 5.8
+Tested up to: 5.9
 WC requires at least: 5.3
-WC tested up to: 5.8
+WC tested up to: 6.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -157,6 +157,10 @@ Yes, it is.
 
 == Changelog ==
 
+= 1.3.0 - 25-02-2022 =
+
+* Update: Plugin structure and settings panel
+* Update: Add WordPress 5.9+ and WooCommerce 6.2+ Compatibility
 
 = 1.2.9 =
 

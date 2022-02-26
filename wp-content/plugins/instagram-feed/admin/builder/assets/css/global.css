@@ -136,18 +136,18 @@
 }
 /*orange*/
 .sb-btn-orange{
-	background: #E34F0E!important;
+	background: #FE544F!important;
 	color: #fff!important;
 }
 .sb-btn-orange:hover{
-	background: #F37036!important;
-	border-color: #F37036!important;
+	background: #EC352F!important;
+	border-color: #EC352F!important;
 	color: #fff!important;
 }
 .sb-btn-orange:focus,
 .sb-btn-orange:active{
-	background: #B8400B!important;
-	border-color: #B8400B!important;
+	background: #BC120E!important;
+	border-color: #BC120E!important;
 	color: #fff!important;
 }
 
@@ -218,7 +218,7 @@
 
 /*orange*/
 .sbi-btn-orange{
-	background: #E34F0E!important;
+	background: #FE544F!important;
 	color: #fff!important;
 }
 .sbi-btn-orange:hover{
@@ -227,7 +227,7 @@
 }
 .sbi-btn-orange:focus,
 .sbi-btn-orange:active{
-	background: #B8400B!important;
+	background: #BC120E!important;
 	color: #fff!important;
 }
 
@@ -984,6 +984,9 @@
 	margin-bottom: 40px;
 	margin-top: -55px;
 }
+.sb-full-screen-loader-logo svg {
+  height: auto;
+}
 .sb-full-screen-loader-border{
 	width: inherit;
 	height: inherit;
@@ -1008,7 +1011,7 @@
 .sb-full-screen-loader-img svg{
 	float: left;
 	width: 60px;
-	fill: #E34F0E;
+	fill: #FE544F;
 }
 .sb-full-screen-loader-txt{
 	color: #434960;
@@ -1022,7 +1025,7 @@
   border-radius: 50%;
 }
 .sb-full-screen-loader-spinner {
-	color: #E34F0E;
+	color: #FE544F;
 	position: relative;
 	width: 190px;
 	height: 190px;

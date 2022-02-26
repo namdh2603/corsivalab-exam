@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 4.1
 Tested up to: 5.9
-Stable tag: 6.0.2
+Stable tag: 6.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,6 +331,16 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 6.0.4 =
+* Fix: Added back the ability to use up to 10 columns in feeds for desktop and tablet devices, which was inadvertently removed in v6.0.
+* Fix: The reconnect link that would display when an account had an error would not successfully redirect to connect.smashballoon.com to reconnect the account.
+
+= 6.0.3 =
+* Tweak: Updated our logo throughout the plugin to match our new [website](https://smashballoon.com/).
+* Tweak: Changed how the hover color for follow and load more buttons is applied to prevent theme conflicts.
+* Fix: Fixed JavaScript file not being added to the page when using the plugin GDPR Cookie Consent by WebToffee.
+* Fix: Dismissing dashboard notifications would cause the "Add new feed" button to stop working until the page was refreshed.
+
 = 6.0.2 =
 * Fix: Fixed Instagram Feed JavaScript file missing from the page when using the "AJAX theme loading fix" setting causing blank images to display.
 * Fix: Added the ability to create the custom database tables if there was an error when first trying to create them.

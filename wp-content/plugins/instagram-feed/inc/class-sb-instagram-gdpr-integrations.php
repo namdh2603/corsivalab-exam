@@ -35,8 +35,7 @@ class SB_Instagram_GDPR_Integrations {
 		if ( ! self::doing_gdpr( $settings ) ) {
 			return $blocking;
 		}
-		remove_filter( 'wt_cli_third_party_scripts', 'wt_cli_instagram_feed_script' );
-
+		unset( $blocking['instagram-feed'] );
 		return $blocking;
 	}
 
@@ -50,7 +49,7 @@ class SB_Instagram_GDPR_Integrations {
 		if ( class_exists( 'Cookie_Notice' ) ) {
 			return 'Cookie Notice by dFactory';
 		}
-		if ( function_exists( 'run_cookie_law_info' ) || class_exists( 'Cookie_Law_Info' ) ) {
+		if ( class_exists( 'Cookie_Law_Info' ) ) {
 			return 'GDPR Cookie Consent by WebToffee';
 		}
 		if ( class_exists( 'Cookiebot_WP' ) ) {

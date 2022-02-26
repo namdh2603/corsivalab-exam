@@ -245,29 +245,6 @@ if(!sbi_js_exists) {
           });
         });
 
-        // customizer hover state for buttons
-        $('a[data-button-hover]').each(function() {
-          var color = $(this).attr('data-button-hover'),
-            originalColor = $(this).css('background-color');
-          var $thisButton = $(this);
-          $thisButton.on('mouseenter mouseleave', function(e) {
-            switch(e.type) {
-              case 'mouseenter':
-                $thisButton.css({
-                  'background-color' : color,
-                  'box-shadow' : 'inset 0 0 10px 20px ' + color
-                });
-                break;
-              case 'mouseleave':
-                $thisButton.css({
-                  'background-color' : originalColor,
-                  'box-shadow' : 'inset 0 0 10px 20px ' + originalColor
-                });
-                break;
-            }
-          });
-        });
-
       },
       encodeHTML: function(raw) {
         // make sure passed variable is defined

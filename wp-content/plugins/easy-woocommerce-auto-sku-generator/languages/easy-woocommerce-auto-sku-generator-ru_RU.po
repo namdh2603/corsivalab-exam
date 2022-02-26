@@ -1,0 +1,186 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Project-Id-Version: Easy Auto SKU Generator for WooCommerce\n"
+"POT-Creation-Date: 2019-05-31 23:28+0300\n"
+"PO-Revision-Date: 2019-05-31 23:42+0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: easy-woocommerce-auto-sku-generator.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: ru\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: easy-woocommerce-auto-sku-generator.php:95
+msgid ""
+"This feature is intented to generate another SKU formats, but you are using "
+"generation by product slug. If you want to use this feature, please change "
+"the slug and save product, then use this button. Also, you can use this "
+"feature if you rewrite old saved SKU."
+msgstr ""
+"Эта функция предназначена для других форматов генерации артикула, а вы "
+"используете генерацию по ярлыку товара. Если вы хотите воспользоваться этой "
+"функцией, то измените ярлык и сохраните товар, затем воспользуйтесь этой "
+"кнопкой. Так же вы можете воспользоваться данной функцией в том случае, если "
+"вы переписываете старый сохраненный артикул."
+
+#: easy-woocommerce-auto-sku-generator.php:96
+#: easy-woocommerce-auto-sku-generator.php:138
+msgid ""
+"Leave a plugin review &#9733;&#9733;&#9733;&#9733;&#9733; and get free "
+"feature - RE-CREATE ONLINE right here by an additional button. Click by this "
+"icon and leave a review!"
+msgstr ""
+"Оставьте отзыв о плагине &#9733;&#9733;&#9733;&#9733;&#9733; и получите "
+"бесплатную функцию - ПЕРЕСОЗДАТЬ ОНЛАЙН прямо на этом месте в виде "
+"дополнительной кнопки. Кликните по этой иконке и оставьте отзыв!"
+
+#: easy-woocommerce-auto-sku-generator.php:97
+#: easy-woocommerce-auto-sku-generator.php:139
+msgid "Do you want here a free feature?"
+msgstr "На этом месте может быть бесплатная функция?"
+
+#: easy-woocommerce-auto-sku-generator.php:98
+#: easy-woocommerce-auto-sku-generator.php:140
+msgid "Here can be a Re-Create button online"
+msgstr "На этом месте может бюыть кнопка ПЕРЕСОЗДАТЬ"
+
+#: easy-woocommerce-auto-sku-generator.php:99
+#: easy-woocommerce-auto-sku-generator.php:141
+msgid "Settings SKU"
+msgstr "Настройки артикула"
+
+#: easy-woocommerce-auto-sku-generator.php:100
+#: easy-woocommerce-auto-sku-generator.php:142
+msgid "Re-Create SKU online"
+msgstr "Пересоздать артикул онлайн"
+
+#: easy-woocommerce-auto-sku-generator.php:101
+#: easy-woocommerce-auto-sku-generator.php:143
+msgid "Thank you!"
+msgstr "Спасибо!"
+
+#: easy-woocommerce-auto-sku-generator.php:203
+msgid "SKU Settings"
+msgstr "Настройки артикула"
+
+#: easy-woocommerce-auto-sku-generator.php:219
+msgid ""
+"If you use current SKU format, then Characters, Prefix SKU, and Add Product "
+"ID settings will not be respected. SKU will be generated basing on your "
+"product slug."
+msgstr ""
+"Если вы используете данный формат артикула, то настройки количество "
+"символов, префикс артикула и ID товара не будут учитываться. Артикул будет "
+"сгенерирован на основе вашего ярлыка продукта."
+
+#. Plugin Name of the plugin/theme
+#: easy-woocommerce-auto-sku-generator.php:250
+msgid "Easy Auto SKU Generator for WooCommerce"
+msgstr "Easy Auto SKU Generator for WooCommerce"
+
+#: easy-woocommerce-auto-sku-generator.php:252
+msgid "On this page you can configure sku"
+msgstr "На этой странице вы можете настроить артикул товара"
+
+#: easy-woocommerce-auto-sku-generator.php:257
+msgid "Characters"
+msgstr "Количество символов"
+
+#: easy-woocommerce-auto-sku-generator.php:258
+msgid "SKU prefix and product ID are not counted"
+msgstr "Префикс артикула и ID товара не учитываются"
+
+#: easy-woocommerce-auto-sku-generator.php:268
+msgid "Specify the number of characters in SKU"
+msgstr "Укажите количество символов в артикуле"
+
+#: easy-woocommerce-auto-sku-generator.php:272
+msgid "Prefix SKU"
+msgstr "Префикс артикула"
+
+#: easy-woocommerce-auto-sku-generator.php:276
+msgid ""
+"Characters in the prefix are not assigned to the total number of characters "
+"(field above)"
+msgstr ""
+"Символы в префиксе не учитываются в общем количестве символов (поле выше)"
+
+#: easy-woocommerce-auto-sku-generator.php:279
+msgid ""
+"Enter any prefix that will be displayed at the beginning of the SKU. <br>For "
+"example <b>BN_</b>893267"
+msgstr ""
+"Введите любой префикс, который будет отображаться в начале артикула. "
+"<br>Например <b>BN _ </b> 893267"
+
+#: easy-woocommerce-auto-sku-generator.php:283
+msgid "Select SKU format"
+msgstr "Выберите формат артикула"
+
+#: easy-woocommerce-auto-sku-generator.php:290
+msgid "Only numbers, for example - 893267"
+msgstr "Только цифры, пример - 893267"
+
+#: easy-woocommerce-auto-sku-generator.php:291
+msgid "Only letters, for example - KSZHGD"
+msgstr "Только буквы, пример - KSZHGD"
+
+#: easy-woocommerce-auto-sku-generator.php:292
+msgid "Letters and numbers, for example - 7SZ4G2"
+msgstr "Буквы и цифры, пример - 7SZ4G2"
+
+#: easy-woocommerce-auto-sku-generator.php:293
+msgid "Use product slug, for example - your-product"
+msgstr "Использовать ярлык товара, пример - your-product"
+
+#: easy-woocommerce-auto-sku-generator.php:299
+msgid "Add product ID"
+msgstr "Учитывать ID товара"
+
+#: easy-woocommerce-auto-sku-generator.php:303
+msgid "If checked, product ID will be added to SKU"
+msgstr "Если отмечено, ID товара будет добавлен к артикулу"
+
+#: easy-woocommerce-auto-sku-generator.php:307
+msgid "Variable product"
+msgstr "Вариативыне товары"
+
+#: easy-woocommerce-auto-sku-generator.php:311
+msgid "Turn off generation of variable product"
+msgstr "Отключить генерацию артикула вариативных товаров"
+
+#: easy-woocommerce-auto-sku-generator.php:337
+msgid "Settings"
+msgstr "Настройки"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator/"
+msgstr "https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator/"
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically assign a unique SKU for all variations of your product. Just "
+"activate the plugin"
+msgstr ""
+"Автоматическая генерация артикулов товара при его создании, в том числе и "
+"вариативных товаров при сохранении. Просто активируйте плагин"
+
+#. Author of the plugin/theme
+msgid "Pds Zakirov"
+msgstr "Pds Zakirov"
+
+#. Author URI of the plugin/theme
+msgid "https://55x5.ru/"
+msgstr "https://55x5.ru/"

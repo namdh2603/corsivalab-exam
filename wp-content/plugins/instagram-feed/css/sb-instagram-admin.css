@@ -244,7 +244,7 @@
 	clear: both;
 }
 #sbi_admin .sbi_plugins_promo a{
-	color: #e34f0e;
+	color: #FE544F;
 }
 #sbi_admin .sbi_share_plugin{
 	border-top: 1px solid #ccc;
@@ -1597,7 +1597,7 @@
 }
 
 #sbi-notice-bar a {
-	color: #e34f0e;
+	color: #FE544F;
 }
 
 #sbi-notice-bar a:hover {
@@ -2336,7 +2336,7 @@
 }
 #sbi_admin.sbi-oembeds .sbi-success a{
 	margin-left: 5px;
-	color: #e34f0e;
+	color: #FE544F;
 }
 #sbi_admin .sbi-oembed-promo{
 	margin: 30px 0 0 0;
@@ -2686,12 +2686,12 @@
 
 /* Menu Pro link */
 #adminmenu .wp-submenu .sbi_get_pro_highlight{
-  color: #f37036;
+  color: #FE544F;
   font-weight: 600;
 }
 #adminmenu .wp-submenu .sbi_get_pro_highlight:hover,
 #adminmenu .wp-submenu .sbi_get_pro_highlight:active{
-  color: #f37036;
+  color: #FE544F;
 }
 
 /* Install another plugin modal */
@@ -2760,7 +2760,7 @@
 	padding: 20px 0;
 }
 #sbi_admin .sbi-more-plugins-intro span{
-	color: #e34f0e;
+	color: #FE544F;
 }
 #sbi_admin .sbi-cols-4{
 	max-width: 1100px;
@@ -3799,15 +3799,15 @@ body .sbi_review_step1_notice .sbi-btn-link:not(:last-child) {
   cursor: pointer;
 }
 .sbi-btn-orange {
-  background: #E34F0E!important;
+  background: #FE544F!important;
   color: #fff!important;
 }
 .sbi-btn-orange:hover {
-  background: #F37036!important;
+  background: #EC352F!important;
   color: #fff!important;
 }
 .sbi-btn-orange:focus, .sbi-btn-orange:active {
-  background: #B8400B!important;
+  background: #BC120E!important;
   color: #fff!important;
 }
 .sbi-btn-blue{

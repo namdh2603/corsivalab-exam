@@ -21,13 +21,13 @@ global $product;
 
 $product_id = $product->get_id();
 
-$default_attributes = wvg_get_product_default_attributes( $product_id );
+$default_attributes = woo_variation_gallery()->get_frontend()->get_product_default_attributes( $product_id );
 
-$default_variation_id = wvg_get_product_default_variation_id( $product, $default_attributes );
+$default_variation_id = woo_variation_gallery()->get_frontend()->get_product_default_variation_id( $product, $default_attributes );
 
 $product_type = $product->get_type();
 
-$columns = absint( get_option( 'woo_variation_gallery_thumbnails_columns', apply_filters( 'woo_variation_gallery_default_thumbnails_columns', 4 ) ) );
+$columns = absint( woo_variation_gallery()->get_option( 'thumbnails_columns', apply_filters( 'woo_variation_gallery_default_thumbnails_columns', 4 ) ) );
 
 $post_thumbnail_id = $product->get_image_id();
 
@@ -44,7 +44,7 @@ if ( ! $has_post_thumbnail && count( $attachment_ids ) > 0 ) {
 
 if ( 'variable' === $product_type && $default_variation_id > 0 ) {
 
-	$product_variation = wvg_get_product_variation( $product_id, $default_variation_id );
+	$product_variation = woo_variation_gallery()->get_frontend()->get_available_variation( $product_id, $default_variation_id );
 
 	if ( isset( $product_variation['image_id'] ) ) {
 		$post_thumbnail_id  = $product_variation['image_id'];
@@ -66,25 +66,25 @@ $only_has_post_thumbnail = ( $has_post_thumbnail && ( count( $attachment_ids ) =
 $slider_js_options = array(
 	'slidesToShow'   => 1,
 	'slidesToScroll' => 1,
-	'arrows'         => wc_string_to_bool( get_option( 'woo_variation_gallery_slider_arrow', 'yes' ) ),
+	'arrows'         => wc_string_to_bool( woo_variation_gallery()->get_option( 'slider_arrow', 'yes', 'woo_variation_gallery_slider_arrow' ) ),
 	'adaptiveHeight' => true,
 	// 'lazyLoad'       => 'progressive',
 	'rtl'            => is_rtl(),
 	'prevArrow'      => '<i class="wvg-slider-prev-arrow dashicons dashicons-arrow-left-alt2"></i>',
 	'nextArrow'      => '<i class="wvg-slider-next-arrow dashicons dashicons-arrow-right-alt2"></i>',
-	'speed'          => absint( get_option( 'woo_variation_gallery_slide_speed', 300 ) )
+	'speed'          => absint( woo_variation_gallery()->get_option( 'slide_speed', 300 ) )
 );
 
-if ( wc_string_to_bool( get_option( 'woo_variation_gallery_thumbnail_slide', 'yes' ) ) ) {
+if ( wc_string_to_bool( woo_variation_gallery()->get_option( 'thumbnail_slide', 'yes', 'woo_variation_gallery_thumbnail_slide' ) ) ) {
 	$slider_js_options['asNavFor'] = '.woo-variation-gallery-thumbnail-slider';
 }
 
-if ( wc_string_to_bool( get_option( 'woo_variation_gallery_slider_autoplay', 'no' ) ) ) {
+if ( wc_string_to_bool( woo_variation_gallery()->get_option( 'slider_autoplay', 'no', 'woo_variation_gallery_slider_autoplay' ) ) ) {
 	$slider_js_options['autoplay']      = true;
-	$slider_js_options['autoplaySpeed'] = absint( get_option( 'woo_variation_gallery_slider_autoplay_speed', 5000 ) );
+	$slider_js_options['autoplaySpeed'] = absint( woo_variation_gallery()->get_option( 'slider_autoplay_speed', 5000, 'woo_variation_gallery_slider_autoplay_speed' ) );
 }
 
-if ( wc_string_to_bool( get_option( 'woo_variation_gallery_slider_fade', 'no' ) ) ) {
+if ( wc_string_to_bool( woo_variation_gallery()->get_option( 'slider_fade', 'no', 'woo_variation_gallery_slider_fade' ) ) ) {
 	$slider_js_options['fade'] = true;
 }
 
@@ -98,7 +98,7 @@ $thumbnail_js_options = array(
 	'slidesToScroll' => $columns,
 	'focusOnSelect'  => true,
 	// 'dots'=>true,
-	'arrows'         => wc_string_to_bool( get_option( 'woo_variation_gallery_thumbnail_arrow', 'yes' ) ),
+	'arrows'         => wc_string_to_bool( woo_variation_gallery()->get_option( 'thumbnail_arrow', 'yes', 'woo_variation_gallery_thumbnail_arrow' ) ),
 	'asNavFor'       => '.woo-variation-gallery-slider',
 	'centerMode'     => true,
 	'infinite'       => true,
@@ -123,7 +123,7 @@ $thumbnail_js_options = array(
 	)
 );
 
-$gallery_thumbnail_position = sanitize_textarea_field( get_option( 'woo_variation_gallery_thumbnail_position', 'bottom' ) );
+$gallery_thumbnail_position = sanitize_textarea_field( woo_variation_gallery()->get_option( 'thumbnail_position', 'bottom', 'woo_variation_gallery_thumbnail_position' ) );
 
 if ( in_array( $gallery_thumbnail_position, array( 'left', 'right' ) ) ) {
 	$thumbnail_js_options['vertical'] = true;
@@ -131,7 +131,7 @@ if ( in_array( $gallery_thumbnail_position, array( 'left', 'right' ) ) ) {
 
 $thumbnail_slider_js_options = apply_filters( 'woo_variation_gallery_thumbnail_slider_js_options', $thumbnail_js_options );
 
-$gallery_width = absint( get_option( 'woo_variation_gallery_width', apply_filters( 'woo_variation_gallery_default_width', 30 ) ) );
+$gallery_width = absint( woo_variation_gallery()->get_option( 'width', apply_filters( 'woo_variation_gallery_default_width', 30 ), 'woo_variation_gallery_width' ) );
 
 $inline_style = apply_filters( 'woo_variation_product_gallery_inline_style', array(// 'max-width' => esc_attr( $gallery_width ) . '%'
 ) );
@@ -140,7 +140,7 @@ $wrapper_classes = apply_filters( 'woo_variation_gallery_product_wrapper_classes
 	'woo-variation-product-gallery',
 	'woo-variation-product-gallery-thumbnail-columns-' . absint( $columns ),
 	$has_gallery_thumbnail ? 'woo-variation-gallery-has-product-thumbnail' : '',
-	( 'yes' === get_option( 'woo_variation_gallery_thumbnail_slide', 'yes' ) ) ? 'woo-variation-gallery-enabled-thumbnail-slider' : ''
+	( 'yes' === woo_variation_gallery()->get_option( 'thumbnail_slide', 'yes', 'woo_variation_gallery_thumbnail_slide' ) ) ? 'woo-variation-gallery-enabled-thumbnail-slider' : ''
 ) );
 
 $post_thumbnail_id = (int) apply_filters( 'woo_variation_gallery_post_thumbnail_id', $post_thumbnail_id, $attachment_ids, $product );
@@ -149,15 +149,15 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 ?>
 
 <?php do_action( 'woo_variation_product_gallery_start', $product ); ?>
-	<div data-product_id="<?php echo esc_attr( $product_id ) ?>" data-variation_id="<?php echo esc_attr( $default_variation_id ) ?>" style="<?php echo esc_attr( wvg_generate_inline_style( $inline_style ) ) ?>" class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', array_unique( $wrapper_classes ) ) ) ); ?>">
+	<div data-product_id="<?php echo esc_attr( $product_id ) ?>" data-variation_id="<?php echo esc_attr( $default_variation_id ) ?>" style="<?php echo esc_attr( woo_variation_gallery()->get_inline_style( $inline_style ) ) ?>" class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', array_unique( $wrapper_classes ) ) ) ); ?>">
 		<div class="loading-gallery woo-variation-gallery-wrapper woo-variation-gallery-thumbnail-position-<?php echo esc_attr( $gallery_thumbnail_position ) ?> woo-variation-gallery-product-type-<?php echo esc_attr( $product_type ) ?>">
 
-			<div class="woo-variation-gallery-container preload-style-<?php echo trim( get_option( 'woo_variation_gallery_preload_style', 'blur' ) ) ?>">
+			<div class="woo-variation-gallery-container preload-style-<?php echo trim( woo_variation_gallery()->get_option( 'preload_style', 'blur', 'woo_variation_gallery_preload_style' ) ) ?>">
 
 				<div class="woo-variation-gallery-slider-wrapper">
 
-					<?php if ( $has_post_thumbnail && ( 'yes' === get_option( 'woo_variation_gallery_lightbox', 'yes' ) ) ): ?>
-						<a href="#" class="woo-variation-gallery-trigger woo-variation-gallery-trigger-position-<?php echo get_option( 'woo_variation_gallery_zoom_position', 'top-right' ) ?>">
+					<?php if ( $has_post_thumbnail && ( 'yes' === woo_variation_gallery()->get_option( 'lightbox', 'yes', 'woo_variation_gallery_lightbox' ) ) ): ?>
+						<a href="#" class="woo-variation-gallery-trigger woo-variation-gallery-trigger-position-<?php echo woo_variation_gallery()->get_option( 'zoom_position', 'top-right', 'woo_variation_gallery_zoom_position' ) ?>">
 							<span class="dashicons dashicons-search"></span>
 						</a>
 					<?php endif; ?>
@@ -166,7 +166,7 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 						<?php
 						// Main  Image
 						if ( $has_post_thumbnail ) {
-							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wvg_get_gallery_image_html( $product, $post_thumbnail_id, array(
+							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html',  woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $post_thumbnail_id, array(
 								'is_main_thumbnail'  => true,
 								'has_only_thumbnail' => $only_has_post_thumbnail
 							) ), $post_thumbnail_id );
@@ -178,7 +178,7 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 						// Gallery Image
 						if ( $has_gallery_thumbnail ) {
 							foreach ( $attachment_ids as $attachment_id ) :
-								echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wvg_get_gallery_image_html( $product, $attachment_id, array(
+								echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $attachment_id, array(
 									'is_main_thumbnail'  => true,
 									'has_only_thumbnail' => $only_has_post_thumbnail
 								) ), $attachment_id );
@@ -194,11 +194,11 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 						if ( $has_gallery_thumbnail ) {
 							// Main Image
 
-							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wvg_get_gallery_image_html( $product, $post_thumbnail_id, array( 'is_main_thumbnail' => false ) ), $post_thumbnail_id );
+							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $post_thumbnail_id, array( 'is_main_thumbnail' => false ) ), $post_thumbnail_id );
 
 							// Gallery Image
 							foreach ( $attachment_ids as $key => $attachment_id ) :
-								echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', wvg_get_gallery_image_html( $product, $attachment_id, array( 'is_main_thumbnail' => false ) ), $attachment_id );
+								echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $attachment_id, array( 'is_main_thumbnail' => false ) ), $attachment_id );
 							endforeach;
 						}
 						?>

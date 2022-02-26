@@ -1,105 +1,140 @@
 <?php
-	
-	defined( 'ABSPATH' ) || exit;
-	
-	/**
-	 * Regenerate Images Class
-	 */
+defined( 'ABSPATH' ) or die( 'Keep Quit' );
+
+if ( ! class_exists( 'Woo_Variation_Gallery_Migrate', false ) ):
 	class Woo_Variation_Gallery_Migrate {
-		/**
-		 * Background process to regenerate all images
-		 *
-		 * @var Woo_Variation_Gallery_Migrate_Request
-		 */
-		protected static $background_process;
-		
-		public static function init() {
-			
-			// Not required when Jetpack Photon is in use.
-			// class_exists( 'Jetpack' ) & method_exists( 'Jetpack', 'get_active_modules' ) & in_array( 'photon', Jetpack::get_active_modules() )
-			if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'is_module_active' ) && Jetpack::is_module_active( 'photon' ) ) {
-				return;
-			}
-			
-			if ( apply_filters( 'woo_variation_gallery_migrate', true ) ) {
-				
-				include_once woo_variation_gallery()->include_path( 'class-woo-variation-gallery-migrate-request.php' );
-				
-				self::$background_process = new Woo_Variation_Gallery_Migrate_Request();
-				
-				add_action( 'admin_init', array( __CLASS__, 'migrate_notice' ) );
-				
-				// From WC_Admin_Notices::add_custom_notice( 'woo_variation_gallery_migrate')...
-				// do_action( 'woocommerce_hide_' . $hide_notice . '_notice' );
-				add_action( 'woocommerce_hide_woo_variation_gallery_migrate_notice', array( __CLASS__, 'dismiss_notice' ) );
-				
-			}
+
+		protected static $_instance = null;
+
+		protected function __construct() {
+			$this->includes();
+			$this->hooks();
+			$this->init();
+			do_action( 'woo_variation_gallery_migrate_loaded', $this );
 		}
-		
-		/**
-		 * Dismiss notice and cancel jobs.
-		 */
-		public static function dismiss_notice() {
-			if ( self::$background_process ) {
-				self::$background_process->kill_process();
-				
-				$log = wc_get_logger();
-				$log->info( esc_html__( 'Cancelled migration job.', 'woo-variation-gallery' ), array( 'source' => 'woo-variation-gallery' ) );
+
+		public static function instance() {
+			if ( is_null( self::$_instance ) ) {
+				self::$_instance = new self();
 			}
-			WC_Admin_Notices::remove_notice( 'woo_variation_gallery_migrate' );
+
+			return self::$_instance;
 		}
-		
-		public static function notice_markup() {
-			ob_start();
-			?>
-            <div class="updated woocommerce-message"><a class="woocommerce-message-close notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'wc-hide-notice', 'woo_variation_gallery_migrate' ), 'woocommerce_hide_notices_nonce', '_wc_notice_nonce' ) ); ?>"><?php
-					esc_html_e( 'Cancel migration', 'woo-variation-gallery' ); ?></a>
-            <p><?php
-					esc_html_e( 'Variation Gallery Migration is running in the background. Depending on the amount of variation product in your store this may take a while.', 'woo-variation-gallery' ); ?></p></div><?php
-			return ob_get_clean();
+
+		public function includes() {
+			require_once dirname( __FILE__ ) . '/class-woo-variation-gallery-migration.php';
 		}
-		
-		/**
-		 * Show notice when job is running in background.
-		 */
-		public static function migrate_notice() {
-			if ( ! self::$background_process->is_running() ) {
-				// WC_Admin_Notices::add_custom_notice( 'woo_variation_gallery_migrate', self::notice_markup() );
-				WC_Admin_Notices::add_custom_notice( 'woo_variation_gallery_migrate', esc_html__( 'Variation Gallery Migration is running in the background. Depending on the amount of variation product in your store this may take a while.', 'woo-variation-gallery' ) );
-			} else {
-				WC_Admin_Notices::remove_notice( 'woo_variation_gallery_migrate' );
+
+		public function hooks() {
+			add_filter( 'woo_variation_gallery_migration_list', array( $this, 'add_migration_list' ) );
+			add_filter( 'woocommerce_debug_tools', array( $this, 'add_migration_list' ) );
+			add_filter( 'woo_variation_gallery_migrate_images', array( $this, 'migrate_images' ), 10, 3 );
+			add_action( 'init', array( 'Woo_Variation_Gallery_Migration', 'init' ) );
+		}
+
+		public function init() {
+
+		}
+
+		public function add_migration_list( $tools = array() ) {
+
+			$tools['woo_variation_gallery_wc_avi_migrate'] = array(
+				'name'     => esc_html__( 'Migrate from "WooCommerce Additional Variation Images" plugin', 'woo-variation-gallery' ),
+				'button'   => esc_html__( 'Start migration', 'woo-variation-gallery' ),
+				'desc'     => esc_html__( 'This will migrate from "WooCommerce Additional Variation Images" to "Additional Variation Images Gallery for WooCommerce".', 'woo-variation-gallery' ),
+				'callback' => array( $this, 'wc_avi_migration_queue' )
+			);
+
+			$tools['woo_variation_gallery_woothumbs_migrate'] = array(
+				'name'     => esc_html__( 'Migrate from "WooThumbs for WooCommerce by Iconic" plugin', 'woo-variation-gallery' ),
+				'button'   => esc_html__( 'Start migration', 'woo-variation-gallery' ),
+				'desc'     => esc_html__( 'This will migrate from "WooThumbs for WooCommerce by Iconic" to "Additional Variation Images Gallery for WooCommerce".', 'woo-variation-gallery' ),
+				'callback' => array( $this, 'woothumbs_migration_queue' )
+			);
+
+			$tools['woo_variation_gallery_smart_variations_images_migrate'] = array(
+				'name'     => esc_html__( 'Migrate from "Smart Variations Images for WooCommerce" plugin', 'woo-variation-gallery' ),
+				'button'   => esc_html__( 'Start migration', 'woo-variation-gallery' ),
+				'desc'     => esc_html__( 'This will migrate from "Smart Variations Images for WooCommerce" to "Additional Variation Images Gallery for WooCommerce".', 'woo-variation-gallery' ),
+				'callback' => array( $this, 'smart_variations_images_migration_queue' )
+			);
+
+			$tools['woo_variation_gallery_avmi_migrate'] = array(
+				'name'     => esc_html__( 'Migrate from "Ajaxy Woocommerce Multiple Variation Image" plugin', 'woo-variation-gallery' ),
+				'button'   => esc_html__( 'Start migration', 'woo-variation-gallery' ),
+				'desc'     => esc_html__( 'This will migrate from "Ajaxy Woocommerce Multiple Variation Image" to "Additional Variation Images Gallery for WooCommerce".', 'woo-variation-gallery' ),
+				'callback' => array( $this, 'avmi_migration_queue' )
+			);
+
+			$tools['woo_variation_gallery_rtwpvg_migrate'] = array(
+				'name'     => esc_html__( 'Migrate from "Variation Images Gallery for WooCommerce by RadiusTheme" plugin', 'woo-variation-gallery' ),
+				'button'   => esc_html__( 'Start migration', 'woo-variation-gallery' ),
+				'desc'     => esc_html__( 'This will migrate from "Variation Images Gallery for WooCommerce by RadiusTheme" to "Additional Variation Images Gallery for WooCommerce".', 'woo-variation-gallery' ),
+				'callback' => array( $this, 'rtwpvg_migration_queue' )
+			);
+
+			return apply_filters( 'woo_variation_gallery_add_to_migration_list', $tools );
+		}
+
+		public function wc_avi_migration_queue() {
+			Woo_Variation_Gallery_Migration::queue_migration( 'woocommerce-additional-variation-images' );
+
+			return esc_html__( 'Variation product migration has been scheduled to run in the background.', 'woo-variation-gallery' );
+		}
+
+		public function woothumbs_migration_queue() {
+			Woo_Variation_Gallery_Migration::queue_migration( 'woothumbs' );
+
+			return esc_html__( 'Variation product migration has been scheduled to run in the background.', 'woo-variation-gallery' );
+		}
+
+		public function smart_variations_images_migration_queue() {
+			Woo_Variation_Gallery_Migration::queue_migration( 'smart-variations-images' );
+
+			return esc_html__( 'Variation product migration has been scheduled to run in the background.', 'woo-variation-gallery' );
+		}
+
+		public function avmi_migration_queue() {
+			Woo_Variation_Gallery_Migration::queue_migration( 'avmi' );
+
+			return esc_html__( 'Variation product migration has been scheduled to run in the background.', 'woo-variation-gallery' );
+		}
+
+		public function rtwpvg_migration_queue() {
+			Woo_Variation_Gallery_Migration::queue_migration( 'rtwpvg' );
+			return esc_html__( 'Variation product migration has been scheduled to run in the background.', 'woo-variation-gallery' );
+		}
+
+		public function migrate_images( $images, $migrate_from, $product_id ) {
+
+			if ( 'woocommerce-additional-variation-images' === $migrate_from ) {
+				$wc_gallery_images = get_post_meta( $product_id, '_wc_additional_variation_images', true );
+				$images            = array_values( array_filter( explode( ',', $wc_gallery_images ) ) );
 			}
-		}
-		
-		/**
-		 * Get list of variation product and queue them for migrate
-		 *
-		 * @param string $migrate_from
-		 *
-		 * @return void
-		 */
-		
-		public static function queue_migration( $migrate_from = false ) {
-			global $wpdb;
-			// First lets cancel existing running queue to avoid running it more than once.
-			self::$background_process->kill_process();
-			
-			// Now lets find all product image attachments IDs and pop them onto the queue.
-			$variations = $wpdb->get_results( // @codingStandardsIgnoreLine
-				"SELECT ID
-			FROM $wpdb->posts
-			WHERE post_type = 'product_variation'
-			ORDER BY ID DESC" );
-			foreach ( $variations as $variation ) {
-				self::$background_process->push_to_queue( array(
-					                                          'variation_id' => absint( $variation->ID ),
-					                                          'migrate_from' => sanitize_text_field( $migrate_from ),
-				                                          ) );
+
+			if ( 'woothumbs' === $migrate_from ) {
+				$wc_gallery_images = get_post_meta( $product_id, 'variation_image_gallery', true );
+				$images            = array_values( array_filter( explode( ',', $wc_gallery_images ) ) );
 			}
-			
-			// Lets dispatch the queue to start processing.
-			self::$background_process->save()->dispatch();
+
+			if ( 'smart-variations-images' === $migrate_from ) {
+				$wc_gallery_images = get_post_meta( $product_id, '_product_image_gallery', true );
+				$images            = array_values( array_filter( explode( ',', $wc_gallery_images ) ) );
+			}
+
+			if ( 'avmi' === $migrate_from ) {
+				$wc_gallery_images = get_post_meta( $product_id, 'avmi_image_id', true );
+				$images            = array_values( array_filter( explode( ',', $wc_gallery_images ) ) );
+			}
+
+			if ( 'rtwpvg' === $migrate_from ) {
+				$wc_gallery_images = (array) get_post_meta( $product_id, 'rtwpvg_images', true );
+				$images            = array_values( array_filter( $wc_gallery_images ) );
+			}
+
+			return $images;
 		}
 	}
-	
-	add_action( 'init', array( 'Woo_Variation_Gallery_Migrate', 'init' ) );
+endif;
+
+

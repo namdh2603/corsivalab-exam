@@ -671,12 +671,6 @@
   outline: none;
   box-shadow: inset 0 0 10px 20px #359dff;
 }
-/* If a custom color is applied then just use opacity for the hover effect */
-#sb_instagram .sbi_follow_btn.sbi_custom a:hover,
-#sb_instagram .sbi_follow_btn.sbi_custom a:focus,
-#sb_instagram #sbi_load .sbi_load_btn.sbi_custom:hover{
-  box-shadow: inset 0 0 20px 20px rgba(255,255,255,0.15);
-}
 /* Active state */
 #sb_instagram .sbi_follow_btn a:active,
 #sb_instagram #sbi_load .sbi_load_btn:active{
@@ -796,6 +790,36 @@
   #sb_instagram.sbi_col_8 #sbi_images .sbi_item,
   #sb_instagram.sbi_col_9 #sbi_images .sbi_item,
   #sb_instagram.sbi_col_10 #sbi_images .sbi_item{
+    width: 100%;
+  }
+  #sb_instagram.sbi_mob_col_10 #sbi_images .sbi_item{
+    width: 10%;
+  }
+  #sb_instagram.sbi_mob_col_9 #sbi_images .sbi_item{
+    width: 11.11%;
+  }
+  #sb_instagram.sbi_mob_col_8 #sbi_images .sbi_item{
+    width: 12.5%;
+  }
+  #sb_instagram.sbi_mob_col_7 #sbi_images .sbi_item{
+    width: 14.28%;
+  }
+  #sb_instagram.sbi_mob_col_6 #sbi_images .sbi_item{
+    width: 16.66%;
+  }
+  #sb_instagram.sbi_mob_col_5 #sbi_images .sbi_item {
+    width: 20%;
+  }
+  #sb_instagram.sbi_mob_col_4 #sbi_images .sbi_item {
+    width: 25%;
+  }
+  #sb_instagram.sbi_mob_col_3 #sbi_images .sbi_item {
+    width: 33.33%;
+  }
+  #sb_instagram.sbi_mob_col_2 #sbi_images .sbi_item {
+    width: 50%;
+  }
+  #sb_instagram.sbi_mob_col_1 #sbi_images .sbi_item {
     width: 100%;
   }
 }
@@ -927,12 +951,36 @@
 }
 /** Mobile and Tablet Columns **/
 @media all and (max-width: 800px){
-  #sb_instagram.sbi_tab_col_2 #sbi_images .sbi_item{ width: 50%; }
-  #sb_instagram.sbi_tab_col_3 #sbi_images .sbi_item{ width: 33.33%; }
-  #sb_instagram.sbi_tab_col_4 #sbi_images .sbi_item{ width: 25%; }
-  #sb_instagram.sbi_tab_col_5 #sbi_images .sbi_item{ width: 20%; }
-  #sb_instagram.sbi_tab_col_6 #sbi_images .sbi_item{ width: 16.66%; }
-  #sb_instagram.sbi_tab_col_7 #sbi_images .sbi_item{ width: 14.28%; }
+  #sb_instagram.sbi_tab_col_10 #sbi_images .sbi_item{
+    width: 10%;
+  }
+  #sb_instagram.sbi_tab_col_9 #sbi_images .sbi_item{
+    width: 11.11%;
+  }
+  #sb_instagram.sbi_tab_col_8 #sbi_images .sbi_item{
+    width: 12.5%;
+  }
+  #sb_instagram.sbi_tab_col_7 #sbi_images .sbi_item{
+    width: 14.28%;
+  }
+  #sb_instagram.sbi_tab_col_6 #sbi_images .sbi_item{
+    width: 16.66%;
+  }
+  #sb_instagram.sbi_tab_col_5 #sbi_images .sbi_item {
+    width: 20%;
+  }
+  #sb_instagram.sbi_tab_col_4 #sbi_images .sbi_item {
+    width: 25%;
+  }
+  #sb_instagram.sbi_tab_col_3 #sbi_images .sbi_item {
+    width: 33.33%;
+  }
+  #sb_instagram.sbi_tab_col_2 #sbi_images .sbi_item {
+    width: 50%;
+  }
+  #sb_instagram.sbi_tab_col_1 #sbi_images .sbi_item {
+    width: 100%;
+  }
 }
 @media all and (max-width: 480px){
   /* Make all cols into 1 col */
@@ -953,6 +1001,9 @@
   #sb_instagram.sbi_mob_col_5 #sbi_images .sbi_item{ width: 20%; }
   #sb_instagram.sbi_mob_col_6 #sbi_images .sbi_item{ width: 16.66%; }
   #sb_instagram.sbi_mob_col_7 #sbi_images .sbi_item{ width: 14.28%; }
+  #sb_instagram.sbi_mob_col_8 #sbi_images .sbi_item{ width: 12.5%; }
+  #sb_instagram.sbi_mob_col_9 #sbi_images .sbi_item{ width: 11.11%; }
+  #sb_instagram.sbi_mob_col_10 #sbi_images .sbi_item{ width: 10%; }
 }
 #sb_instagram #sbi_images .sbi_item.sbi_num_diff_hide{
   display: none !important;

@@ -718,6 +718,36 @@ function sbi_maybe_palette_styles( $posts, $settings ) {
 }
 add_action( 'sbi_after_feed', 'sbi_maybe_palette_styles', 10, 2 );
 
+function sbi_maybe_button_hover_styles( $posts, $settings ) {
+	$follow_hover_color = str_replace( '#', '', SB_Instagram_Display_Elements::get_follow_hover_color( $settings ) );
+	$load_hover_color = str_replace( '#', '', SB_Instagram_Display_Elements::get_load_button_hover_color( $settings ) );
+
+	if ( empty( $load_hover_color ) && empty( $follow_hover_color ) ) {
+		return;
+	}
+
+	?>
+	<style type="text/css">
+		<?php if ( ! empty( $load_hover_color ) ) : ?>
+		#sb_instagram #sbi_load .sbi_load_btn:hover{
+			outline: none;
+			box-shadow: inset 0 0 20px 20px <?php echo sanitize_hex_color( '#' . $load_hover_color ); ?>;
+		}
+		<?php endif; ?>
+		<?php if ( ! empty( $follow_hover_color ) ) : ?>
+
+		#sb_instagram .sbi_follow_btn a:hover,
+		#sb_instagram .sbi_follow_btn a:focus{
+			outline: none;
+			box-shadow: inset 0 0 10px 20px <?php echo sanitize_hex_color( '#' . $follow_hover_color ); ?>;
+		}
+		<?php endif; ?>
+	</style>
+	<?php
+}
+add_action( 'sbi_after_feed', 'sbi_maybe_button_hover_styles', 10, 2 );
+
+
 /**
  * Uses post IDs to process images that may need resizing
  *
