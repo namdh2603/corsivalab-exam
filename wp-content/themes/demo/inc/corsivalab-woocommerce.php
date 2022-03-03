@@ -52,8 +52,8 @@ function custom_woocommerce_get_catalog_ordering_args( $args ) {
     return $args;
 }
 
-add_filter( 'woocommerce_catalog_orderby', 'misha_change_sorting_options_order', 5 );
-function misha_change_sorting_options_order( $options ){
+add_filter( 'woocommerce_catalog_orderby', 'corsivalab_change_sorting_options_order', 5 );
+function corsivalab_change_sorting_options_order( $options ){
 	$options = array(
 		//'title' => 'A-Z',
 		//'title-desc' => 'Z-A',
@@ -105,6 +105,8 @@ function corsivalab_cart_mini_fragments($fragments) {
   return $fragments;
 }
 
+//remove_action('template_redirect', 'wc_track_product_view', 20);
+//add_action('template_redirect', 'corsivalab_wc_track_product_view', 20);
 function corsivalab_wc_track_product_view()
 {
   if (!is_singular('product')) {
@@ -127,8 +129,6 @@ function corsivalab_wc_track_product_view()
   }
   wc_setcookie('woocommerce_recently_viewed', implode('|', $viewed_products));
 }
-//remove_action('template_redirect', 'wc_track_product_view', 20);
-//add_action('template_redirect', 'corsivalab_wc_track_product_view', 20);
 //add_shortcode('corsivalab-recently-products-viewed', 'corsivalab_recently_viewed_shortcode');
 function corsivalab_recently_viewed_shortcode()
 {
@@ -177,13 +177,13 @@ function corsivalab_change_breadcrumb_delimiter($defaults)
   $defaults['delimiter'] = '<img src="' . get_stylesheet_directory_uri() . '/assets/icons/Arrow_Grey.png" alt="">';
   return $defaults;
 }
-add_filter('woocommerce_product_description_heading', 'sam_product_description_heading');
-function sam_product_description_heading()
+add_filter('woocommerce_product_description_heading', 'corsivalab_tab_product_description_heading');
+function corsivalab_tab_product_description_heading()
 {
   return '';
 }
-//add_action('woocommerce_single_product_summary', 'add_form_email_when_stock_available', 31);
-function add_form_email_when_stock_available()
+//add_action('woocommerce_single_product_summary', 'corsivalab_form_when_stock_available', 31);
+function corsivalab_form_when_stock_available()
 {
   global $product;
   if (!$product->is_in_stock()) {  ?>
@@ -194,9 +194,9 @@ function add_form_email_when_stock_available()
   <?php
   }
 }
-add_filter('woocommerce_product_add_to_cart_text', 'change_text_addtocart_product');
-add_filter('woocommerce_product_single_add_to_cart_text', 'change_text_addtocart_product', 20, 2);
-function change_text_addtocart_product()
+add_filter('woocommerce_product_add_to_cart_text', 'corsivalab_change_text_addtocart');
+add_filter('woocommerce_product_single_add_to_cart_text', 'corsivalab_change_text_addtocart', 20, 2);
+function corsivalab_change_text_addtocart()
 {
   return esc_html__('ADD TO BAG');
 }
@@ -224,8 +224,8 @@ function corsivalab_woocommerce_loop_item_cat_func()
   $typesz = rtrim($types, ', ');
   echo '<div class="list-categories">' . $typesz . '</div>';
 }
-//add_filter( 'woocommerce_format_sale_price', 'invert_formatted_sale_price', 10, 3 );
-function invert_formatted_sale_price( $price, $regular_price, $sale_price ) {
+//add_filter( 'woocommerce_format_sale_price', 'corsivalab_invert_formatted_sale_price', 10, 3 );
+function corsivalab_invert_formatted_sale_price( $price, $regular_price, $sale_price ) {
     return '<ins>' . ( is_numeric( $sale_price ) ? wc_price( $sale_price ) : $sale_price ) . '</ins> <del>' . ( is_numeric( $regular_price ) ? wc_price( $regular_price ) : $regular_price ) . '</del>';
 }
 function my_commonPriceHtml($price_amt, $regular_price, $sale_price)
@@ -320,12 +320,6 @@ function corsivalab_add_cart_quantity_plus_minus()
 function corsivalab_add_to_wishlist()
 {
   echo do_shortcode('[yith_wcwl_add_to_wishlist]');
-}
-if (!function_exists('woocommerce_review_display_comment_text')) {
-  function woocommerce_review_display_comment_text()
-  {
-    comment_text();
-  }
 }
 add_action('woocommerce_cart_actions', 'corsivalab_btn_clear_cart', 1);
 function corsivalab_btn_clear_cart()
@@ -585,38 +579,8 @@ function corsivalab_woo_pagination()
   }
 }
 
-function product_benefits_tab_content(){
-  $data = tr_posts_field('benefits');
-  if ($data) { echo $data; }
-}
-
-//add_filter('woocommerce_product_tabs', 'jd_space_add_product_tabs');
-function jd_space_add_product_tabs($tabs = array())
-{
-    global $product;
-//     if (!empty(tr_posts_field('model_accessories'))) {
-// 		  $tabs['product_catalogue_tab'] = array(
-//     'title'   => 'Models & Accessories',
-//     'priority'   => 55,
-//     'callback'   => 'product_catalogue_tab_content'
-//   );
-//     }
-	
-    if (!empty(tr_posts_field('benefits'))) {
-	  $tabs['product_benefits_tab'] = array(
-    'title'   => 'Key Benefits',
-    'priority'   => 51,
-    'callback'   => 'product_benefits_tab_content'
-  );
-	}
-	
-
-    return $tabs;
-}
-
-
-
-function my_hide_shipping_when_free_is_available( $rates ) {
+//add_filter( 'woocommerce_package_rates', 'corsivalab_hide_shipping_when_free_is_available', 100 );
+function corsivalab_hide_shipping_when_free_is_available( $rates ) {
 	$free = array();
 	foreach ( $rates as $rate_id => $rate ) {
 		if ( 'free_shipping' === $rate->method_id ) {
@@ -626,4 +590,3 @@ function my_hide_shipping_when_free_is_available( $rates ) {
 	}
 	return ! empty( $free ) ? $free : $rates;
 }
-//add_filter( 'woocommerce_package_rates', 'my_hide_shipping_when_free_is_available', 100 );

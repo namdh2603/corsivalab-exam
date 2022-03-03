@@ -181,3 +181,22 @@ add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
 add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
 // Disables the block editor from managing widgets.
 add_filter( 'use_widgets_block_editor', '__return_false' );
+
+function wp_tsas_grid_column( $grid = '' ) {
+
+	if( $grid == '2' ) {
+		$grid_clmn = '6';
+	} else if( $grid == '3' ) {
+		$grid_clmn = '4';
+	} else if( $grid == '4' ) {
+		$grid_clmn = '3';
+	} else if( $grid == '6' ) {
+		$grid_clmn = '2';
+	} else if( $grid == '1' ) {
+		$grid_clmn = '12';
+	} else {
+		$grid_clmn = '12';
+	}
+
+	return $grid_clmn;
+}
