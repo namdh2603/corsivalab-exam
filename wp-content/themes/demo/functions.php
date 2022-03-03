@@ -39,19 +39,19 @@ function corsivalab_widgets()
         ),
         array(
             'name' => 'Footer Column 1',
-            'id' => 'widget-footer-1',
+            'id' => 'widget-sidebar-footer1',
         ),
         array(
             'name' => 'Footer Column 2',
-            'id' => 'widget-footer-2',
+            'id' => 'widget-sidebar-footer2',
         ),
         array(
             'name' => 'Footer Column 3',
-            'id' => 'widget-footer-3',
+            'id' => 'widget-sidebar-footer3',
         ),
         array(
             'name' => 'Footer Column 4',
-            'id' => 'widget-footer-4',
+            'id' => 'widget-sidebar-footer4',
         ),
     );
     $defaults = array(
