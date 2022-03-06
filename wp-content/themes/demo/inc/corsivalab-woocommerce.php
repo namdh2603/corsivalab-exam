@@ -411,8 +411,8 @@ function corsivalab_edit_default_address_fields($fields)
   $fields['postcode']['class'][0] = 'form-row-last';
   return $fields;
 }
-add_filter('woocommerce_product_tabs', 'corsivalab_rename_tabs', 98);
-function corsivalab_rename_tabs($tabs)
+add_filter('woocommerce_product_tabs', 'corsivalab_rename_and_remove_tabs', 98);
+function corsivalab_rename_and_remove_tabs($tabs)
 {
   //$tabs['description']['title'] = 'What\'s Included?';    // Rename the description tab
   //$tabs['reviews']['title'] = 'Product Reviews';        // Rename the reviews tab
