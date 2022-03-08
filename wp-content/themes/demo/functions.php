@@ -71,12 +71,11 @@ add_action('widgets_init', 'corsivalab_widgets');
 function corsivalab_scripts()
 {
     $ver = rand();
-	wp_enqueue_style( 'corsivalab-swiper-style', get_stylesheet_directory_uri().'/assets/swiper-741/swiper-bundle.min.css','', $ver);
-    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/scss/main.css','', $ver);
-
+    wp_enqueue_style('corsivalab-swiper-style', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.css', '', $ver);
+    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/scss/main.css', '', $ver);
     wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/js/bootstrap-513/bootstrap.bundle.min.js', array('jquery'), $ver, true);
     wp_enqueue_script('corsivalab-main-js', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), $ver, true);
-    wp_enqueue_script( 'corsivalab-swiper-min-js', get_stylesheet_directory_uri().'/assets/swiper-741/swiper-bundle.min.js', array('jquery'), $ver, false);
+    wp_enqueue_script('corsivalab-swiper-min-js', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.js', array('jquery'), $ver, false);
 }
 add_action('wp_enqueue_scripts', 'corsivalab_scripts');
 //add_action('init', 'corsivalab_remove_image_sizes');
@@ -112,7 +111,7 @@ function remove_version_wp($src)
 }
 //add_filter('style_loader_src', 'remove_version_wp', 9999);
 //add_filter('script_loader_src', 'remove_version_wp', 9999);
-add_filter( 'big_image_size_threshold', '__return_false' ); 
+add_filter('big_image_size_threshold', '__return_false');
 add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('wpcf7_autop_or_not', '__return_false');
 require('typerocket/init.php');
@@ -124,7 +123,6 @@ require('inc/menu-navwalker.php');
 //require('inc/corsivalab-register-post.php');
 //require('inc/corsivalab-woocommerce.php');
 //require('inc/ajax.php');
-
 add_filter('tr_theme_options_page', function () {
     return get_template_directory() . '/inc/theme-options.php';
 });
@@ -176,44 +174,40 @@ function disable_wp_responsive_images()
     return 1;
 }
 add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
-
 // Disables the block editor from managing widgets in the Gutenberg plugin.
-add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
+add_filter('gutenberg_use_widgets_block_editor', '__return_false');
 // Disables the block editor from managing widgets.
-add_filter( 'use_widgets_block_editor', '__return_false' );
-
-function wp_tsas_grid_column( $grid = '' ) {
-
-	if( $grid == '2' ) {
-		$grid_clmn = '6';
-	} else if( $grid == '3' ) {
-		$grid_clmn = '4';
-	} else if( $grid == '4' ) {
-		$grid_clmn = '3';
-	} else if( $grid == '6' ) {
-		$grid_clmn = '2';
-	} else if( $grid == '1' ) {
-		$grid_clmn = '12';
-	} else {
-		$grid_clmn = '12';
-	}
-
-	return $grid_clmn;
+add_filter('use_widgets_block_editor', '__return_false');
+function wp_tsas_grid_column($grid = '')
+{
+    if ($grid == '2') {
+        $grid_clmn = '6';
+    } else if ($grid == '3') {
+        $grid_clmn = '4';
+    } else if ($grid == '4') {
+        $grid_clmn = '3';
+    } else if ($grid == '6') {
+        $grid_clmn = '2';
+    } else if ($grid == '1') {
+        $grid_clmn = '12';
+    } else {
+        $grid_clmn = '12';
+    }
+    return $grid_clmn;
 }
-
-
-function corsivalab_menu_classes($classes, $item, $args) {
-    if($args->theme_location == 'main-menu') {
-      $classes[] = 'menu__item';
+function corsivalab_menu_classes($classes, $item, $args)
+{
+    if ($args->theme_location == 'main-menu') {
+        $classes[] = 'menu__item';
     }
     return $classes;
-  }
+}
 add_filter('nav_menu_css_class', 'corsivalab_menu_classes', 1, 3);
-
-function corsivalab_menu_link_class( $atts, $item, $args ) {
-    if($args->theme_location == 'main-menu') {
+function corsivalab_menu_link_class($atts, $item, $args)
+{
+    if ($args->theme_location == 'main-menu') {
         $atts['class'] = 'menu__link';
-      }
+    }
     return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'corsivalab_menu_link_class', 1, 3 );
+add_filter('nav_menu_link_attributes', 'corsivalab_menu_link_class', 1, 3);
