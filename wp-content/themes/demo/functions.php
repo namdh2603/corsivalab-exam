@@ -200,3 +200,20 @@ function wp_tsas_grid_column( $grid = '' ) {
 
 	return $grid_clmn;
 }
+
+
+function corsivalab_menu_classes($classes, $item, $args) {
+    if($args->theme_location == 'main-menu') {
+      $classes[] = 'menu__item';
+    }
+    return $classes;
+  }
+add_filter('nav_menu_css_class', 'corsivalab_menu_classes', 1, 3);
+
+function corsivalab_menu_link_class( $atts, $item, $args ) {
+    if($args->theme_location == 'main-menu') {
+        $atts['class'] = 'menu__link';
+      }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'corsivalab_menu_link_class', 1, 3 );
