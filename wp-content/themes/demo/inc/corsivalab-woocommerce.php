@@ -1,37 +1,34 @@
 <?php
-remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
-//add_action('sortby_checkbox', 'woocommerce_catalog_ordering', 20);
-remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
-remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10);
-// remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_show_product_loop_sale_flash', 10);
+//remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+//remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
+//remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10);
+//remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_show_product_loop_sale_flash', 10);
 //remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5);
-remove_action('woocommerce_before_shop_loop', 'woocommerce_output_all_notices', 10);
-add_action('corsivalab_all_notices', 'woocommerce_output_all_notices', 10);
+//remove_action('woocommerce_before_shop_loop', 'woocommerce_output_all_notices', 10);
 //remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
-remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
-
-
-remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
-
-
-
-remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
-add_action( 'corsivalab_woocommerce_catalog_ordering', 'woocommerce_catalog_ordering', 30 );
-add_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15);
+//remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+//remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+//remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
 //remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
-//add_action('woocommerce_single_product_summary', 'woocommerce_output_product_data_tabs', 90);
-// remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
-// add_action('corsivalab_title_product', 'woocommerce_template_single_title', 5);
-// remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20);
-// add_action('corsivalab_shortcontent_product', 'woocommerce_template_single_excerpt', 5);
-remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
-add_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 11);
-//add_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 25);
-// remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
-// add_action('woocommerce_shop_loop_addtocart', 'woocommerce_template_loop_add_to_cart', 15);
+//remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
+//remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
+//remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
 //remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5);
 //remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 5);
 //remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50);
+// remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20);
+
+
+//add_action('sortby_checkbox', 'woocommerce_catalog_ordering', 20);
+//add_action('corsivalab_all_notices', 'woocommerce_output_all_notices', 10);
+//add_action( 'corsivalab_woocommerce_catalog_ordering', 'woocommerce_catalog_ordering', 30 );
+//add_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15);
+//add_action('woocommerce_single_product_summary', 'woocommerce_output_product_data_tabs', 90);
+//add_action('corsivalab_title_product', 'woocommerce_template_single_title', 5);
+//add_action('corsivalab_shortcontent_product', 'woocommerce_template_single_excerpt', 5);
+//add_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 11);
+//add_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 25);
+//add_action('woocommerce_shop_loop_addtocart', 'woocommerce_template_loop_add_to_cart', 15);
 
 
 //add_filter( 'woocommerce_catalog_orderby', 'custom_woocommerce_catalog_orderby' );
@@ -273,14 +270,14 @@ add_action('woocommerce_before_quantity_input_field', 'corsivalab_display_quanti
 function corsivalab_display_quantity_minus()
 {
   if (is_product() || is_cart()) {
-    echo '<button type="button" class="minus">'.file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg').'</button>';
+    echo '<button type="button" class="minus">-</button>';
   }
 }
 add_action('woocommerce_after_quantity_input_field', 'corsivalab_display_quantity_plus');
 function corsivalab_display_quantity_plus()
 {
   if (is_product() || is_cart()) {
-    echo '<button type="button" class="plus">'.file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg').'</button>';
+    echo '<button type="button" class="plus">+</button>';
   }
 }
 add_action('wp_footer', 'corsivalab_add_cart_quantity_plus_minus');
@@ -341,13 +338,13 @@ function corsivalab_checkout_fields($fields)
   unset($fields['billing']['billing_state']);
   unset($fields['billing']['billing_company']);
   //unset($fields['billing']['billing_last_name']);
-  $fields['billing']['billing_first_name']['label'] = false;
-  $fields['billing']['billing_last_name']['label'] = false;
+  // $fields['billing']['billing_first_name']['label'] = false;
+  // $fields['billing']['billing_last_name']['label'] = false;
   // $fields['billing']['billing_company']['label'] = false;
-  $fields['billing']['billing_email']['label'] = false;
-  $fields['billing']['billing_country']['label'] = false;
-  $fields['billing']['billing_phone']['label'] = false;
-  $fields['billing']['billing_postcode']['label'] = false;
+  // $fields['billing']['billing_email']['label'] = false;
+  // $fields['billing']['billing_country']['label'] = false;
+  // $fields['billing']['billing_phone']['label'] = false;
+  // $fields['billing']['billing_postcode']['label'] = false;
   $fields['billing']['billing_first_name']['placeholder'] = 'First Name*';
   $fields['billing']['billing_last_name']['placeholder'] = 'Last Name*';
   $fields['billing']['billing_email']['placeholder'] = 'Email*';
@@ -357,20 +354,20 @@ function corsivalab_checkout_fields($fields)
   $fields['billing']['billing_phone']['priority'] = 89;
   //$fields['billing']['billing_company']['priority'] = 4;
   //$fields['billing']['billing_email']['priority'] = 5;
-  $fields['billing']['billing_email']['class'][0] = 'form-row-wide';
-  $fields['billing']['billing_country']['class'][0] = 'form-row-first';
-  $fields['billing']['billing_phone']['class'][0] = 'form-row-first';
+  // $fields['billing']['billing_email']['class'][0] = 'form-row-wide';
+  // $fields['billing']['billing_country']['class'][0] = 'form-row-first';
+  // $fields['billing']['billing_phone']['class'][0] = 'form-row-first';
 
 
   unset($fields['shipping']['shipping_state']);
   unset($fields['shipping']['shipping_company']);
   //unset($fields['shipping']['shipping_last_name']);
-  $fields['shipping']['shipping_first_name']['label'] = false;
-  $fields['shipping']['shipping_last_name']['label'] = false;
-  $fields['shipping']['shipping_email']['label'] = false;
-  $fields['shipping']['shipping_country']['label'] = false;
-  $fields['shipping']['shipping_phone']['label'] = false;
-  $fields['shipping']['shipping_postcode']['label'] = false;
+  // $fields['shipping']['shipping_first_name']['label'] = false;
+  // $fields['shipping']['shipping_last_name']['label'] = false;
+  // $fields['shipping']['shipping_email']['label'] = false;
+  // $fields['shipping']['shipping_country']['label'] = false;
+  // $fields['shipping']['shipping_phone']['label'] = false;
+  // $fields['shipping']['shipping_postcode']['label'] = false;
   $fields['shipping']['shipping_first_name']['placeholder'] = 'First Name*';
   $fields['shipping']['shipping_last_name']['placeholder'] = 'Last Name*';
   $fields['shipping']['shipping_email']['placeholder'] = 'Email*';
@@ -385,30 +382,30 @@ function corsivalab_checkout_fields($fields)
   $fields['shipping']['shipping_phone']['priority'] = 89;
   // $fields['shipping']['shipping_email']['priority'] = 5;
   //$fields['shipping']['shipping_company']['priority'] = 4;
-  $fields['shippin']['shippin_email']['class'][0] = 'form-row-wide';
+  // $fields['shippin']['shippin_email']['class'][0] = 'form-row-wide';
   //$fields['shipping']['shipping_first_name']['class'][0] = 'form-row-first';
   // $fields['shipping']['shipping_country']['class'][0] = 'form-row-first';
-  $fields['shipping']['shipping_country']['class'][0] = 'form-row-first';
-  $fields['shipping']['shipping_phone']['class'][0] = 'form-row-first';
-  $fields['order']['order_comments']['label'] = false;
+  // $fields['shipping']['shipping_country']['class'][0] = 'form-row-first';
+  // $fields['shipping']['shipping_phone']['class'][0] = 'form-row-first';
+  // $fields['order']['order_comments']['label'] = false;
   return $fields;
 }
 add_filter('woocommerce_default_address_fields', 'corsivalab_edit_default_address_fields', 100, 1);
 function corsivalab_edit_default_address_fields($fields)
 {
   $fields['city']['priority'] = 41;
-  $fields['city']['label'] = false;
+  // $fields['city']['label'] = false;
   $fields['city']['placeholder'] = 'Town/City';
   $fields['city']['class'][0] = 'form-row-last';
-  $fields['address_1']['label'] = false;
+  // $fields['address_1']['label'] = false;
   // $fields['address_1']['priority'] = 7;
   $fields['address_1']['placeholder'] = 'Address Line 1*';
-  $fields['address_2']['label'] = false;
+  // $fields['address_2']['label'] = false;
   // $fields['address_2']['priority'] = 8;
   $fields['address_2']['placeholder'] = 'Address Line 2';
-  $fields['postcode']['label'] = false;
+  // $fields['postcode']['label'] = false;
   $fields['postcode']['placeholder'] = 'Postcode/Zip*';
-  $fields['postcode']['class'][0] = 'form-row-last';
+  // $fields['postcode']['class'][0] = 'form-row-last';
   return $fields;
 }
 add_filter('woocommerce_product_tabs', 'corsivalab_rename_and_remove_tabs', 98);
@@ -538,7 +535,7 @@ function change_woocommerce_order_number($order_id, $order)
 }
 
 
-add_filter( 'woocommerce_pagination_args', 	'corsivalab_woo_pagination_arrrow' );
+//add_filter( 'woocommerce_pagination_args', 	'corsivalab_woo_pagination_arrrow' );
 function corsivalab_woo_pagination_arrrow( $args ) {
 
 	$args['prev_text'] = file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg');
