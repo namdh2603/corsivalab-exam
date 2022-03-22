@@ -113,7 +113,9 @@ function remove_version_wp($src)
 //add_filter('script_loader_src', 'remove_version_wp', 9999);
 add_filter('big_image_size_threshold', '__return_false');
 add_filter('use_block_editor_for_post', '__return_false', 10);
+add_filter('gutenberg_use_widgets_block_editor', '__return_false');
 add_filter('wpcf7_autop_or_not', '__return_false');
+add_filter( 'use_widgets_block_editor', '__return_true' );
 require('typerocket/init.php');
 //require('inc/corsivalab-shortcode.php');
 require('inc/menu-navwalker.php');
@@ -174,10 +176,6 @@ function disable_wp_responsive_images()
     return 1;
 }
 add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
-// Disables the block editor from managing widgets in the Gutenberg plugin.
-add_filter('gutenberg_use_widgets_block_editor', '__return_false');
-// Disables the block editor from managing widgets.
-add_filter('use_widgets_block_editor', '__return_false');
 function wp_tsas_grid_column($grid = '')
 {
     if ($grid == '2') {
