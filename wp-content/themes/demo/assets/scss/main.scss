@@ -2,12 +2,49 @@
 # Function
 --------------------------------------------------------------*/
 @import "bootstrap-513/functions";
-
-/*--------------------------------------------------------------
-# Variables and mixins
---------------------------------------------------------------*/
 @import "bootstrap-513/variables";
 @import "bootstrap-513/mixins";
+@import "bootstrap-513/utilities";
+
+
+
+@import "bootstrap-513/type";
+@import "bootstrap-513/images";
+@import "bootstrap-513/grid";
+@import "bootstrap-513/tables";
+@import "bootstrap-513/forms";
+//@import "bootstrap-513/buttons";
+@import "bootstrap-513/transitions";
+@import "bootstrap-513/dropdown";
+// @import "bootstrap-513/button-group";
+@import "bootstrap-513/nav";
+@import "bootstrap-513/navbar";
+@import "bootstrap-513/card";
+@import "bootstrap-513/accordion";
+@import "bootstrap-513/breadcrumb";
+@import "bootstrap-513/pagination";
+@import "bootstrap-513/badge";
+@import "bootstrap-513/alert";
+@import "bootstrap-513/progress";
+@import "bootstrap-513/list-group";
+@import "bootstrap-513/close";
+@import "bootstrap-513/toasts";
+@import "bootstrap-513/modal";
+@import "bootstrap-513/tooltip";
+@import "bootstrap-513/popover";
+@import "bootstrap-513/carousel";
+@import "bootstrap-513/spinners";
+@import "bootstrap-513/offcanvas";
+@import "bootstrap-513/placeholders";
+
+// Helpers
+@import "bootstrap-513/helpers";
+
+// Utilities
+@import "bootstrap-513/utilities/api";
+// scss-docs-end import-stack
+
+
 @import "functions";
 @import "mixins";
 @import "variables";
@@ -36,55 +73,11 @@
 // @import "material-design/scss/animated";
 
 
-
 /*--------------------------------------------------------------
 # Base
 --------------------------------------------------------------*/
 @import "base";
 
-/*--------------------------------------------------------------
-# Close Button
---------------------------------------------------------------*/
-@import "bootstrap-513/close";
- 
-/*--------------------------------------------------------------
-# Display
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Card
---------------------------------------------------------------*/
-@import "bootstrap-513/card";
-
-/*--------------------------------------------------------------
-# Accordion 
---------------------------------------------------------------*/
-@import "bootstrap-513/transitions";
-
-/*--------------------------------------------------------------
-# Modal
---------------------------------------------------------------*/
-@import "bootstrap-513/modal";
-
-/*--------------------------------------------------------------
-# Carousel
---------------------------------------------------------------*/
-@import "bootstrap-513/carousel";
-
-/*--------------------------------------------------------------
-# Tabs
---------------------------------------------------------------*/
-
-@import "bootstrap-513/nav";
-@import "bootstrap-513/navbar";
-
-@import "bootstrap-513/helpers";
-
-/*--------------------------------------------------------------
-# Utilities
---------------------------------------------------------------*/
-@import "bootstrap-513/utilities";
-@import "bootstrap-513/utilities/api";
 
 
 
