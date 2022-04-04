@@ -183,7 +183,7 @@ class PostType
         $new_account = array(
             'number'                => sanitize_text_field($_POST['number']),
             'title'                 => sanitize_text_field($_POST['title']),
-            'predefinedText'        => sanitize_text_field($_POST['predefinedText']),
+            'predefinedText'        => wp_kses_post($_POST['predefinedText']),
             'willBeBackText'        => sanitize_text_field($_POST['willBeBackText']),
             'dayOffsText'           => sanitize_text_field($_POST['dayOffsText']),
             'isAlwaysAvailable'     => 'ON'

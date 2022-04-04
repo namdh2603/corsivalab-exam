@@ -1,26 +1,28 @@
 <?php
 
-
 namespace DgoraWcas\Admin;
-
 
 use DgoraWcas\Admin\Promo\FeedbackNotice;
 use DgoraWcas\Helpers;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class RegenerateImages {
 
 	const ALREADY_REGENERATED_OPT_KEY = 'dgwt_wcas_images_regenerated';
-	const REGENERATE_ACTION = 'dgwt_wcas_regenerate_images';
-	const REGENERATE_ACTION_NONCE = 'dgwt_wcas_regenerate_images_nonce';
-	const DISMISS_AJAX_ACTION = 'dgwt_wcas_dismiss_notice_regenerate_images';
+	const REGENERATE_ACTION           = 'dgwt_wcas_regenerate_images';
+	const REGENERATE_ACTION_NONCE     = 'dgwt_wcas_regenerate_images_nonce';
+	const DISMISS_AJAX_ACTION         = 'dgwt_wcas_dismiss_notice_regenerate_images';
 
 	public function __construct() {
 	}
 
 	public function init() {
-
 		$displayImages = DGWT_WCAS()->settings->getOption( 'show_product_image' ) === 'on' || DGWT_WCAS()->settings->getOption( 'show_categories_images' );
-		$regenerated = get_option( self::ALREADY_REGENERATED_OPT_KEY );
+		$regenerated   = get_option( self::ALREADY_REGENERATED_OPT_KEY );
 
 		add_action( 'wp_ajax_' . self::DISMISS_AJAX_ACTION, array( $this, 'dismissNotice' ) );
 		add_action( 'wp_ajax_' . self::REGENERATE_ACTION, array( $this, 'regenerateImages' ) );
@@ -33,14 +35,9 @@ class RegenerateImages {
 			&& $displayImages
 			&& $this->isTimeToDisplay()
 		) {
-
-
 			add_action( 'admin_notices', array( $this, 'adminNotice' ) );
-
 			add_action( 'admin_footer', array( $this, 'printJS' ) );
-
 		}
-
 	}
 
 	/**
@@ -79,11 +76,9 @@ class RegenerateImages {
 	 * @return array
 	 */
 	public function getImageSizes( $sizes ) {
-
 		array_push( $sizes, 'dgwt-wcas-product-suggestion' );
 
 		return $sizes;
-
 	}
 
 	/**
@@ -117,6 +112,8 @@ class RegenerateImages {
 			wp_die( - 1, 403 );
 		}
 
+		check_ajax_referer( 'dgwt_wcas_dismiss_regenerate_images_notice' );
+
 		update_option( self::ALREADY_REGENERATED_OPT_KEY, true );
 
 		wp_send_json_success();
@@ -128,7 +125,6 @@ class RegenerateImages {
 	 * @return boolean
 	 */
 	public function isTimeToDisplay() {
-
 		$isTime = false;
 
 		$date   = get_option( FeedbackNotice::ACTIVATION_DATE_OPT );
@@ -137,7 +133,6 @@ class RegenerateImages {
 		if ( ! empty( $date ) && $offset >= $date ) {
 			$isTime = true;
 		}
-
 
 		return $isTime;
 	}
@@ -157,6 +152,7 @@ class RegenerateImages {
 					$.ajax({
 						url: ajaxurl,
 						data: {
+							_wpnonce: '<?php echo wp_create_nonce( 'dgwt_wcas_dismiss_regenerate_images_notice' ); ?>',
 							action: '<?php echo self::DISMISS_AJAX_ACTION; ?>',
 						}
 					});
@@ -189,6 +185,4 @@ class RegenerateImages {
 
 		<?php
 	}
-
-
 }

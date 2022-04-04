@@ -86,10 +86,16 @@ class Helpers
         }
         
         
-        if ( !empty($args['mobile_overlay']) && in_array( $args['mobile_overlay'], array( '1', 'on' ) ) ) {
+        if ( !empty($args['mobile_overlay']) ) {
             $classes[] = 'js-dgwt-wcas-mobile-overlay-enabled';
         } else {
             $classes[] = 'js-dgwt-wcas-mobile-overlay-disabled';
+        }
+        
+        
+        if ( !empty($args['darken_bg']) ) {
+            $classes[] = 'dgwt-wcas-search-darkoverl-mounted';
+            $classes[] = 'js-dgwt-wcas-search-darkoverl-mounted';
         }
         
         return implode( ' ', $classes );
@@ -138,7 +144,8 @@ class Helpers
                 ?>
 				<svg class="<?php 
                 echo  $class ;
-                ?>" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                ?>" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+					 width="24">
 					<path fill="<?php 
                 echo  $color ;
                 ?>"
@@ -154,7 +161,8 @@ class Helpers
                 ?>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
 					<path fill="<?php 
                 echo  $color ;
-                ?>" d="M14 6.125H3.351l4.891-4.891L7 0 0 7l7 7 1.234-1.234L3.35 7.875H14z" fill-rule="evenodd"/>
+                ?>"
+						  d="M14 6.125H3.351l4.891-4.891L7 0 0 7l7 7 1.234-1.234L3.35 7.875H14z" fill-rule="evenodd"/>
 				</svg>
 				<?php 
                 break;
@@ -163,7 +171,8 @@ class Helpers
                 ?>
 				<svg class="<?php 
                 echo  $class ;
-                ?>" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                ?>" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+					 width="24">
 					<path fill="<?php 
                 echo  $color ;
                 ?>"
@@ -177,7 +186,8 @@ class Helpers
 				<svg class="dgwt-wcas-loader-circular <?php 
                 echo  $class ;
                 ?>" viewBox="25 25 50 50">
-					<circle class="dgwt-wcas-loader-circular-path" cx="50" cy="50" r="20" fill="none" stroke="<?php 
+					<circle class="dgwt-wcas-loader-circular-path" cx="50" cy="50" r="20" fill="none"
+							stroke="<?php 
                 echo  $color ;
                 ?>" stroke-miterlimit="10"/>
 				</svg>
@@ -841,19 +851,22 @@ class Helpers
     }
     
     /**
-     * Create HTML question mark with tooltip
+     * Create tooltip
      *
      * @param string $id
      * @param string $content
      * @param string $template
+     * @param string $placement
+     * @param string $class
      *
      * @return string
      */
-    public static function createQuestionMark(
+    public static function createTooltip(
         $id,
         $content = '',
         $template = '',
-        $placement = 'top'
+        $placement = 'right',
+        $class = ''
     )
     {
         
@@ -870,9 +883,79 @@ class Helpers
         }
         
         $id = 'js-dgwt-wcas-tooltip-id' . sanitize_key( $id );
-        $html = '<div class="js-dgwt-wcas-tooltip dgwt-wcas-questio-mark dashicons dashicons-editor-help" data-tooltip-html-el="' . $id . '" data-tooltip-placement="' . $placement . '"></div>';
+        $html = '<div class="js-dgwt-wcas-tooltip ' . $class . '" data-tooltip-html-el="' . $id . '" data-tooltip-placement="' . $placement . '"></div>';
         $html .= '<div class="' . $id . '" style="display:none;"><div class="dgwt-wcas-tooltip-wrapper">' . $content . '</div></div>';
         return $html;
+    }
+    
+    /**
+     * Create HTML override option tooltip
+     *
+     * @param string $id
+     * @param string $content
+     * @param string $template
+     * @param string $placement
+     *
+     * @return string
+     */
+    public static function getOverrideOptionText( $theme )
+    {
+        $linkToShortcodesDoc = 'https://fibosearch.com/documentation/get-started/how-to-add-fibosearch-to-your-website/#add-fibosearch-with-a-shortcode';
+        $content = '<p>' . sprintf( __( 'This option is <b>overridden</b> by the seamless integration with the %s theme. If you want to change the value of this option, disable the integration in <br /><b>WooCommerce -> FiboSearch -> Starting (tab)</b>.', 'ajax-search-for-woocommerce' ), $theme ) . '</p>';
+        $content .= '<p>' . sprintf( __( 'Furthermore, you can override this option for a specific search bar via shortcode params. <a href="%s" target="_blank">Learn more about shortcodes parameters</a>.', 'ajax-search-for-woocommerce' ), $linkToShortcodesDoc ) . '</p>';
+        return $content;
+    }
+    
+    /**
+     * Create HTML question mark with tooltip
+     *
+     * @param string $id
+     * @param string $content
+     * @param string $template
+     * @param string $placement
+     *
+     * @return string
+     */
+    public static function createQuestionMark(
+        $id,
+        $content = '',
+        $template = '',
+        $placement = 'right'
+    )
+    {
+        return self::createTooltip(
+            $id,
+            $content,
+            $template,
+            $placement,
+            'dashicons dashicons-editor-help dgwt-wcas-questio-mark'
+        );
+    }
+    
+    /**
+     * Create HTML option override tooltip
+     *
+     * @param string $id
+     * @param string $content
+     * @param string $template
+     * @param string $placement
+     *
+     * @return string
+     */
+    public static function createOverrideTooltip(
+        $id,
+        $content = '',
+        $template = '',
+        $placement = 'right'
+    )
+    {
+        return self::createTooltip(
+            $id,
+            $content,
+            $template,
+            $placement,
+            'dashicons dashicons-lock dgwt-wcas-override-tooltip'
+        );
     }
     
     /**
@@ -1095,6 +1178,7 @@ class Helpers
             'mobile_overlay'         => ( DGWT_WCAS()->settings->getOption( 'enable_mobile_overlay' ) === 'on' ? true : false ),
             'mobile_overlay_wrapper' => apply_filters( 'dgwt/wcas/scripts/mobile_overlay_wrapper', 'body' ),
             'breakpoint'             => apply_filters( 'dgwt/wcas/scripts/mobile_breakpoint', $breakpoint ),
+            'darken_background'      => ( DGWT_WCAS()->settings->getOption( 'darken_background', 'off' ) === 'on' ? true : false ),
         );
         if ( in_array( $layout['layout'], array( 'icon', 'icon-flexible' ) ) ) {
             $layout['mobile_overlay'] = true;

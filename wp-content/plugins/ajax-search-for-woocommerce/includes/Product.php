@@ -2,6 +2,10 @@
 
 namespace DgoraWcas;
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
 class Product
 {
     protected  $productID = 0 ;

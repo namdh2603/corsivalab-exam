@@ -101,10 +101,10 @@ class EmbeddingViaMenu {
 			return;
 		}
 
-		$layout = isset( $_POST['menu-item-dgwt-wcas-layout'][ $menu_item_db_id ] ) ? $_POST['menu-item-dgwt-wcas-layout'][ $menu_item_db_id ] : '';
+		$layout = isset( $_POST['menu-item-dgwt-wcas-layout'][ $menu_item_db_id ] ) ? sanitize_key( $_POST['menu-item-dgwt-wcas-layout'][ $menu_item_db_id ] ) : '';
 		update_post_meta( $menu_item_db_id, '_menu_item_dgwt_wcas_layout', $layout );
 
-		$searchIconColor = isset( $_POST['menu-item-dgwt-wcas-search-icon-color'][ $menu_item_db_id ] ) ? $_POST['menu-item-dgwt-wcas-search-icon-color'][ $menu_item_db_id ] : '';
+		$searchIconColor = isset( $_POST['menu-item-dgwt-wcas-search-icon-color'][ $menu_item_db_id ] ) ? sanitize_hex_color( $_POST['menu-item-dgwt-wcas-search-icon-color'][ $menu_item_db_id ] ) : '';
 		update_post_meta( $menu_item_db_id, '_menu_item_dgwt_wcas_search_icon_color', $searchIconColor );
 	}
 
@@ -131,7 +131,7 @@ class EmbeddingViaMenu {
 			$searchIconColor = get_post_meta( $item->ID, '_menu_item_dgwt_wcas_search_icon_color', true );
 			if ( in_array( $layout, array( 'icon', 'icon-flexible' ) ) && ! empty( $searchIconColor ) ) {
 				$args  .= 'class="dgwt-wcas-menu-item-' . $item->ID . ' " ';
-				$style = sprintf( '<style>.dgwt-wcas-menu-item-%d .dgwt-wcas-ico-magnifier-handler path {fill: %s;}</style>', $item->ID, $searchIconColor );
+				$style = sprintf( '<style>.dgwt-wcas-menu-item-%d .dgwt-wcas-ico-magnifier-handler path {fill: %s;}</style>', $item->ID, esc_attr( $searchIconColor ) );
 			}
 			$itemOutput = do_shortcode( sprintf( '[wcas-search-form %s]', $args ) ) . $style;
 		}

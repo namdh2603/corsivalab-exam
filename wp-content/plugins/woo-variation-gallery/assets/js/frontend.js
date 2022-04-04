@@ -2,7 +2,7 @@
  * Variation Gallery for WooCommerce 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/25/2022, 12:16:16 PM
+ * Date: 3/15/2022, 2:40:39 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -538,20 +538,6 @@ var WooVariationGallery = function ($) {
               }
             }
           });
-          /*wp.ajax.send('wvg_get_default_gallery', {
-              data    : {
-                  product_id : this.product_id
-              },
-              success : (data) => {
-                  this._element.data('woo_variation_gallery_default', data);
-                  this._element.trigger('woo_variation_default_gallery_loaded', [this, data]);
-              },
-              error   : (e) => {
-                  this._element.data('woo_variation_gallery_default', []);
-                  this._element.trigger('woo_variation_default_gallery_loaded', [this, e]);
-                  console.error(`Variation Gallery not available on variation id ${this.product_id}.`);
-              }
-          });*/
         }
       }
     }, {
@@ -588,25 +574,6 @@ var WooVariationGallery = function ($) {
               }
             }
           });
-          /*
-                          wp.ajax.send('wvg_get_available_variation_images', {
-                              data    : {
-                                  product_id : this.product_id
-                              },
-                              success : (images) => {
-                                  // console.log(data)
-                                  if (images.length > 1) {
-                                      this.imagePreload(images);
-                                  }
-                                  this._element.data('woo_variation_gallery_variation_images', images);
-                                  this._element.trigger('woo_variation_gallery_variation_images', [this, images]);
-                              },
-                              error   : (e) => {
-                                  this._element.data('woo_variation_gallery_variation_images', []);
-                                  console.error(`Variation Gallery variations images not available on variation id ${this.product_id}.`);
-                              }
-                          });
-          */
         }
       }
     }, {
@@ -955,7 +922,7 @@ jQuery(function ($) {
 
 /***/ }),
 
-/***/ "./src/scss/slick.scss":
+/***/ "./src/scss/slider.scss":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -966,8 +933,8 @@ jQuery(function ($) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./src/js/frontend.js");
-__webpack_require__("./src/scss/slick.scss");
 __webpack_require__("./src/scss/frontend.scss");
+__webpack_require__("./src/scss/slider.scss");
 module.exports = __webpack_require__("./src/scss/backend.scss");
 
 

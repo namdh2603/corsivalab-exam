@@ -3,10 +3,9 @@
 defined( 'ABSPATH' ) or die( 'Keep Silent' );
 
 if ( ! class_exists( 'Woo_Variation_Gallery' ) ):
-
 	class Woo_Variation_Gallery {
 
-		protected $_version = '1.3.0';
+		protected $_version = '1.3.1';
 		protected static $_instance = null;
 
 		public static function instance() {
@@ -34,7 +33,7 @@ if ( ! class_exists( 'Woo_Variation_Gallery' ) ):
 		}
 
 		public function init() {
-			register_activation_hook( WOO_VARIATION_GALLERY_PLUGIN_FILE, array( $this, 'plugin_activated' ) );
+
 			// instance
 
 			$this->get_frontend();
@@ -145,6 +144,7 @@ if ( ! class_exists( 'Woo_Variation_Gallery' ) ):
 
 		public static function plugin_activated() {
 			update_option( 'woocommerce_show_marketplace_suggestions', 'no' );
+			update_option( 'woo_variation_gallery_do_activate_redirect', 'yes' );
 		}
 	}
 endif;

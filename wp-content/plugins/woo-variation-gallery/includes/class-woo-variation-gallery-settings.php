@@ -485,14 +485,29 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Settings', false ) ):
 				),
 
 				array(
-					'title'    => esc_html__( 'Thumbnail Display Position', 'woo-variation-gallery' ),
-					'id'       => 'thumbnail_position',
-					'default'  => 'bottom',
+					'title'   => esc_html__( 'Thumbnail Display Position', 'woo-variation-gallery' ),
+					'id'      => 'thumbnail_position',
+					'default' => 'bottom',
 					//'type'     => 'radio',
-					'type'     => 'select',
-					'class'    => 'wc-enhanced-select',
-					'desc_tip' => esc_html__( 'Product Gallery Thumbnail Display Position', 'woo-variation-gallery' ),
-					'options'  => array(
+					'type'    => 'select',
+					'class'   => 'wc-enhanced-select',
+					'desc'    => esc_html__( 'Product Gallery Thumbnail Display Position', 'woo-variation-gallery' ),
+					'options' => array(
+						'left'   => esc_html__( 'Left', 'woo-variation-gallery' ),
+						'right'  => esc_html__( 'Right', 'woo-variation-gallery' ),
+						'bottom' => esc_html__( 'Bottom', 'woo-variation-gallery' ),
+					),
+				),
+
+				array(
+					'title'   => esc_html__( 'Small Devices Thumbnail Position', 'woo-variation-gallery' ),
+					'id'      => 'thumbnail_position_small_device',
+					'default' => 'bottom',
+					//'type'     => 'radio',
+					'type'    => 'select',
+					'class'   => 'wc-enhanced-select',
+					'desc'    => esc_html__( 'Product Gallery Thumbnail Display Position for Small Devices. Below 768px', 'woo-variation-gallery' ),
+					'options' => array(
 						'left'   => esc_html__( 'Left', 'woo-variation-gallery' ),
 						'right'  => esc_html__( 'Right', 'woo-variation-gallery' ),
 						'bottom' => esc_html__( 'Bottom', 'woo-variation-gallery' ),

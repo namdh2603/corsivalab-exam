@@ -1,4 +1,10 @@
 <?php
+/**
+ * The Template for displaying single product on the list of products from a given category, etc. in the Details Panel
+ *
+ * This template can be overridden by copying it to yourtheme/fibosearch/details-panel/term-product.php.
+ */
+
 // Exit if accessed directly
 if ( ! defined( 'DGWT_WCAS_FILE' ) ) {
 	exit;

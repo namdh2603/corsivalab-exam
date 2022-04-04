@@ -4,7 +4,7 @@ Tags: woocommerce search, ajax search, search by sku, product search, woocommerc
 Requires at least: 5.0
 Tested up to: 5.9
 Requires PHP: 7.0
-Stable tag: 1.16.0
+Stable tag: 1.17.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,24 @@ You can read more and compare Pro and Free features here: [Full comparison - Pro
 5. Settings page
 
 == Changelog ==
+
+= 1.17.0, February 28, 2022 =
+* ADD: New beta feature - “Darkened background”
+* ADD: Integration with Kadence theme
+* ADD: Integration with TheGem (Elementor) and renamed TheGem (WPBakery)
+* ADD: Comments in template files for the Details Panel
+* ADD: Refreshing the content on the checkout page when a product is added to the cart from the search Details Panel
+* ADD: Tooltip with information about overriding when an option is overridden by theme integration
+* FIX: Conflict between Salient theme and Shipmondo plugin
+* FIX: Unexpected hiding from the search bar right after the “focus” event. Bug occurred only on mobiles
+* FIX: Hide the Storefront handheld footer bar when the search results are open. Otherwise, handheld footer bar covers the autocomplete dropdown
+* FIX: Prevent toggle mobile overlay if the search bar doesn't have this mode
+* FIX: Non-existing table during the database repair process
+* FIX: Minor security issues
+* FIX: Fatal errors in PHP 8 when the dashboard language is set to “ru_RU”
+* FIX: Add artificial overlay to cover the “Close Button” because SVG elements don't provide information about parents elements in "event.target"
+* CHANGE: General tooltip style on the plugin settings page - more padding, bigger font, right position of the tooltip, auto cursor, wider
+
 
 = 1.16.0, February 03, 2022 =
 * ADD: Integration with a XStore theme

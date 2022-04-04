@@ -90,6 +90,8 @@ if ( wc_string_to_bool( woo_variation_gallery()->get_option( 'slider_fade', 'no'
 
 $gallery_slider_js_options = apply_filters( 'woo_variation_gallery_slider_js_options', $slider_js_options );
 
+$gallery_thumbnail_position              = sanitize_textarea_field( woo_variation_gallery()->get_option( 'thumbnail_position', 'bottom', 'woo_variation_gallery_thumbnail_position' ) );
+$gallery_thumbnail_position_small_device = sanitize_textarea_field( woo_variation_gallery()->get_option( 'thumbnail_position_small_device', 'bottom' ) );
 
 ///
 ///
@@ -110,20 +112,12 @@ $thumbnail_js_options = array(
 		array(
 			'breakpoint' => 768,
 			'settings'   => array(
-				'vertical' => false
+				'vertical' => in_array( $gallery_thumbnail_position_small_device, array( 'left', 'right' ) )
 			),
 		),
-
-		array(
-			'breakpoint' => 480,
-			'settings'   => array(
-				'vertical' => false
-			),
-		)
 	)
 );
 
-$gallery_thumbnail_position = sanitize_textarea_field( woo_variation_gallery()->get_option( 'thumbnail_position', 'bottom', 'woo_variation_gallery_thumbnail_position' ) );
 
 if ( in_array( $gallery_thumbnail_position, array( 'left', 'right' ) ) ) {
 	$thumbnail_js_options['vertical'] = true;
@@ -150,7 +144,7 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 
 <?php do_action( 'woo_variation_product_gallery_start', $product ); ?>
 	<div data-product_id="<?php echo esc_attr( $product_id ) ?>" data-variation_id="<?php echo esc_attr( $default_variation_id ) ?>" style="<?php echo esc_attr( woo_variation_gallery()->get_inline_style( $inline_style ) ) ?>" class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', array_unique( $wrapper_classes ) ) ) ); ?>">
-		<div class="loading-gallery woo-variation-gallery-wrapper woo-variation-gallery-thumbnail-position-<?php echo esc_attr( $gallery_thumbnail_position ) ?> woo-variation-gallery-product-type-<?php echo esc_attr( $product_type ) ?>">
+		<div class="loading-gallery woo-variation-gallery-wrapper woo-variation-gallery-thumbnail-position-<?php echo esc_attr( $gallery_thumbnail_position ) ?>-<?php echo esc_attr( $gallery_thumbnail_position_small_device ) ?> woo-variation-gallery-product-type-<?php echo esc_attr( $product_type ) ?>">
 
 			<div class="woo-variation-gallery-container preload-style-<?php echo trim( woo_variation_gallery()->get_option( 'preload_style', 'blur', 'woo_variation_gallery_preload_style' ) ) ?>">
 
@@ -166,7 +160,7 @@ $attachment_ids    = (array) apply_filters( 'woo_variation_gallery_attachment_id
 						<?php
 						// Main  Image
 						if ( $has_post_thumbnail ) {
-							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html',  woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $post_thumbnail_id, array(
+							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', woo_variation_gallery()->get_frontend()->get_gallery_image_html( $product, $post_thumbnail_id, array(
 								'is_main_thumbnail'  => true,
 								'has_only_thumbnail' => $only_has_post_thumbnail
 							) ), $post_thumbnail_id );

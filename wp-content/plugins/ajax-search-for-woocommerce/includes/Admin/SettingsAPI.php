@@ -2,8 +2,8 @@
 
 namespace DgoraWcas\Admin;
 
-// Exit if accessed directly
 use  DgoraWcas\Helpers ;
+// Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -20,10 +20,6 @@ if ( !defined( 'ABSPATH' ) ) {
  * @link http://tareq.weDevs.com Tareq's Planet
  * @example src/settings-api.php How to use the class
  */
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
 class SettingsAPI
 {
     /**
@@ -176,6 +172,7 @@ class SettingsAPI
                     'type'              => $type,
                     'move_dest'         => ( isset( $option['move_dest'] ) ? $option['move_dest'] : '' ),
                     'input_data'        => ( isset( $option['input_data'] ) ? $option['input_data'] : '' ),
+                    'disabled'          => ( isset( $option['disabled'] ) ? $option['disabled'] : false ),
                 );
                 add_settings_field(
                     "{$this->name}[" . $option['name'] . ']',
@@ -234,14 +231,16 @@ class SettingsAPI
         );
         $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular' );
         $type = ( isset( $args['type'] ) ? $args['type'] : 'text' );
+        $disabled = ( !empty($args['disabled']) ? 'disabled' : '' );
         $html = '<fieldset class="dgwt-wcas-fieldset">';
         $html .= sprintf(
-            '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"/>',
+            '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s" %6$s/>',
             $type,
             $size,
             $this->name,
             $args['id'],
-            $value
+            $value,
+            $disabled
         );
         $html .= $this->get_field_description( $args );
         $html .= '</fieldset>';
@@ -281,6 +280,7 @@ class SettingsAPI
             $args['std'],
             $args
         );
+        $disabled = ( !empty($args['disabled']) ? 'disabled' : '' );
         $moveDest = ( empty($args['move_dest']) ? '' : sprintf(
             'data-move-dest="%1$s[%2$s]" class="%3$s"',
             $this->name,
@@ -296,11 +296,12 @@ class SettingsAPI
         );
         $html .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="off" />', $this->name, $args['id'] );
         $html .= sprintf(
-            '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s %4$s />',
+            '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s %4$s %5$s />',
             $this->name,
             $args['id'],
             checked( $value, 'on', false ),
-            $args['input_data']
+            $args['input_data'],
+            $disabled
         );
         $html .= sprintf( '<p class="%1$s-description-field">%2$s</p></label>', $this->name, $args['desc'] );
         $html .= '</fieldset>';
@@ -692,18 +693,19 @@ class SettingsAPI
     function get_option( $option, $default = '', $allow_empty = true )
     {
         $options = get_option( $this->name );
+        $value = $default;
         if ( isset( $options[$option] ) ) {
             
             if ( $allow_empty ) {
-                return $options[$option];
+                $value = $options[$option];
             } else {
                 if ( !empty($options[$option]) ) {
-                    return $options[$option];
+                    $value = $options[$option];
                 }
             }
         
         }
-        return $default;
+        return apply_filters( 'dgwt/wcas/settings/load_value/key=' . $option, $value );
     }
     
     /**

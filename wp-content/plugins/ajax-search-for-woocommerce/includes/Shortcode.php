@@ -28,6 +28,7 @@ class Shortcode {
 			'class'          => '',
 			'layout'         => $layout->layout,
 			'mobile_overlay' => $layout->mobile_overlay,
+			'darken_bg'      => $layout->darken_background,
 			'details_box'    => 'hide'
 		), $atts, $tag );
 

@@ -14,43 +14,43 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/class-woo-variation-gallery-backend.php:70
+#: ../includes/class-woo-variation-gallery-backend.php:72
 msgid "Variation Product Gallery"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:87
-msgid "Add Gallery Images"
+#: ../includes/class-woo-variation-gallery-backend.php:89
+msgid "Add Variation Gallery Image"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:89
+#: ../includes/class-woo-variation-gallery-backend.php:91
 msgid "Upgrade to pro to add more images and videos"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:144
+#: ../includes/class-woo-variation-gallery-backend.php:146
 msgid "Choose Image"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:145
+#: ../includes/class-woo-variation-gallery-backend.php:147
 msgid "Add Images"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:185
+#: ../includes/class-woo-variation-gallery-backend.php:187
 msgid "View documentation"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:186
+#: ../includes/class-woo-variation-gallery-backend.php:188
 msgid "Help &amp; Support"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:195
+#: ../includes/class-woo-variation-gallery-backend.php:197
 msgid "View Gallery Settings"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:195
+#: ../includes/class-woo-variation-gallery-backend.php:197
 msgid "Settings"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-backend.php:199
+#: ../includes/class-woo-variation-gallery-backend.php:201
 msgid "Go Pro"
 msgstr ""
 
@@ -470,67 +470,75 @@ msgstr ""
 msgid "Product Gallery Thumbnail Display Position"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:496
+#: ../includes/class-woo-variation-gallery-settings.php:496, ../includes/class-woo-variation-gallery-settings.php:511
 msgid "Left"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:497
+#: ../includes/class-woo-variation-gallery-settings.php:497, ../includes/class-woo-variation-gallery-settings.php:512
 msgid "Right"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:498
+#: ../includes/class-woo-variation-gallery-settings.php:498, ../includes/class-woo-variation-gallery-settings.php:513
 msgid "Bottom"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:515
+#: ../includes/class-woo-variation-gallery-settings.php:503
+msgid "Small Devices Thumbnail Position"
+msgstr ""
+
+#: ../includes/class-woo-variation-gallery-settings.php:509
+msgid "Product Gallery Thumbnail Display Position for Small Devices. Below 768px"
+msgstr ""
+
+#: ../includes/class-woo-variation-gallery-settings.php:530
 msgid "Advanced Options"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:524
+#: ../includes/class-woo-variation-gallery-settings.php:539
 msgid "Hide Featured Image"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:527
+#: ../includes/class-woo-variation-gallery-settings.php:542
 msgid "Remove featured image from gallery"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:533
+#: ../includes/class-woo-variation-gallery-settings.php:548
 msgid "Disable on Product Type"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:538
+#: ../includes/class-woo-variation-gallery-settings.php:553
 msgid "Disable Gallery on Specific Product type like: simple product / variable product / bundle product etc."
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:541
+#: ../includes/class-woo-variation-gallery-settings.php:556
 msgid "Choose specific product type(s)."
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:547
+#: ../includes/class-woo-variation-gallery-settings.php:562
 msgid "Gallery Thumbnails Image Width"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:552
+#: ../includes/class-woo-variation-gallery-settings.php:567
 msgid "Product Gallery Thumbnails Image Width In Pixel to fix blurry thumbnail image."
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:553
+#: ../includes/class-woo-variation-gallery-settings.php:568
 msgid "Product Gallery Thumbnails Image Width In Pixel to fix blurry thumbnail image. Default value is: %1$d. Limit: 80-300. %2$sRecommended: To Regenerate shop thumbnails after change this setting.%3$s"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:568
+#: ../includes/class-woo-variation-gallery-settings.php:583
 msgid "Reset Variation Gallery"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:571
+#: ../includes/class-woo-variation-gallery-settings.php:586
 msgid "Always Reset Gallery After Variation Select"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:577
+#: ../includes/class-woo-variation-gallery-settings.php:592
 msgid "Gallery Image Preload"
 msgstr ""
 
-#: ../includes/class-woo-variation-gallery-settings.php:580
+#: ../includes/class-woo-variation-gallery-settings.php:595
 msgid "Variation Gallery Image Preload"
 msgstr ""
 
@@ -554,7 +562,7 @@ msgstr ""
 msgid "PRO"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:152, ../includes/getwooplugins/class-getwooplugins-admin-menus.php:173
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:152, ../includes/getwooplugins/class-getwooplugins-admin-menus.php:177
 msgid "GetWooPlugins Settings"
 msgstr ""
 
@@ -562,7 +570,7 @@ msgstr ""
 msgid "GetWooPlugins"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:173
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:177
 msgid "Home"
 msgstr ""
 

@@ -6,14 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-.fbmcc-logo {
-    background: url(images/logo.png) no-repeat;
-    float: left;
-    height: 20px;
-    margin: 15px 10px 0 0;
-    width: 20px;
-}
-
 .fbmcc-card {
     background-color: #fff;
     width: 600px;

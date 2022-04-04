@@ -6,7 +6,7 @@ Stable tag: trunk
 Requires at least: 5.5
 Tested up to: 5.9
 WC requires at least: 5.3
-WC tested up to: 6.2
+WC tested up to: 6.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,6 +156,11 @@ Yes, it is.
 4. Adding Images on gallery
 
 == Changelog ==
+
+= 1.3.1 - 15-03-2022 =
+
+* Fixed: Product edit panel expand issue
+* Fixed: Flatsome theme
 
 = 1.3.0 - 25-02-2022 =
 

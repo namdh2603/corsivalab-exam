@@ -2,7 +2,7 @@
 Contributors: ninjateam
 Tags: whatsapp, whatsapp chat, woocommerce whatsapp, click to chat, whatsapp business, whats app, wame, wp social chat, join chat, wp whatsapp
 Requires at least: 3.0
-Tested up to: 5.8
+Tested up to: 5.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,11 +13,11 @@ Integrate WhatsApp experience directly into your WordPress website.
 
 WhatsApp Chat plugin for WordPress allows you to add WhatsApp floating button, stationary button, widget, web beacon to your website. 
 
+[DEMO](https://demo.ninjateam.org/whatsapp-chat-wordpress/) | [GO PRO](https://1.envato.market/WP-WhatsApp) 💎
+
 It's easy to set up and works seamlessly with all cache plugins.
 
 You're free to add **multiple** customer service agents, sales rep, technical support, and more.
-
-[DEMO](https://demo.ninjateam.org/whatsapp-chat-wordpress/) | [GO PRO (LIFETIME DEAL) 💪](https://1.envato.market/WP-WhatsApp)
 
 [youtube https://www.youtube.com/watch?v=7YNIHLtiNo4]
 
@@ -128,6 +128,18 @@ Definitely yes! The pro version comes with cutting edge features and performance
 3. WhatsApp Gutenberg Block Demo
 
 == Changelog ==
+
+= Mar 27, 2022 – Version 3.1.8 =
+- Updating...
+
+= Mar 16, 2022 – Version 3.1.7 =
+-  Fixed: Google Speed Test (Avoid serving legacy JavaScript to modern browsers)
+
+= Mar 10, 2022 – Version 3.1.6 =
+- Added: Break line for chat description, GDPR content notice, responsive time text
+
+= Mar 8, 2022 – Version 3.1.5 =
+- Added: Break line for Predefined text
 
 = Dec 22, 2021 – Version 3.1.4 =
 - Fixed: Link in frontend

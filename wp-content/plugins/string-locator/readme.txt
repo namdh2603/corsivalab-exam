@@ -5,8 +5,8 @@ Plugin URI: http://wordpress.org/plugins/string-locator/
 Donate link: https://www.paypal.me/clorith
 Tags: text, search, find, syntax, highlight
 Requires at least: 4.9
-Tested up to: 5.6
-Stable tag: 2.4.2
+Tested up to: 5.9
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,10 +45,14 @@ When writing your search string, make sure to wrap your search in forward slashe
 
 == Changelog ==
 
-= 2.4.2 =
-* Fixed the option to restore previous search.
-* Fixed respecting text capitalization in previews when doing a non-regex search.
-* Changed capability checks, now works on hosts that maintain updates for their users.
+= 2.5.0 (2022-02-27) =
+* Fixed a bug where content would have slashes stripped unexpectedly.
+* Improved table spacing on search results.
+* Improved loopback checks to also check admin access.
+* Hardened the search iterator so users can't accidentally perform unexpected directory traversal.
+* Introduced actions and filters in various places to enable extenders, and future enhancements.
+* Moved all ajax requests to dedicated REST endpoints.
+* Refactored file structure.
 
 = Older entries =
 See changelog.txt for the version history

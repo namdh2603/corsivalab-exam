@@ -2,14 +2,47 @@
  * Variation Gallery for WooCommerce 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/25/2022, 12:16:16 PM
+ * Date: 3/15/2022, 2:40:39 PM
  * Released under the GPLv3 license.
  */
-.woo-variation-gallery-wrapper .handlediv {
-  width: 36px !important;
+.rtl .woo-variation-gallery-images li {
+  float: right !important;
 }
-.woo-variation-gallery-wrapper .handlediv:before {
-  display: none !important;
+.rtl .woo-variation-gallery-images li .delete {
+  left: -5px;
+  right: auto !important;
+}
+
+.woo-variation-gallery-wrapper .woo-variation-gallery-inside {
+  border-top: 1px solid #c3c4c7;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox {
+  position: relative;
+  min-width: 255px;
+  border: 1px solid #c3c4c7;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  background: #fff;
+  padding: 0;
+  line-height: 1;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox .postbox-header {
+  border: none;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox.closed .woo-variation-gallery-inside {
+  display: none;
+}
+.woo-variation-gallery-wrapper .woo-variation-gallery-postbox.closed .toggle-indicator::before {
+  content: "\F140";
+}
+.woo-variation-gallery-wrapper .handle-div {
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-image-container {
   padding: 5px 10px;
@@ -17,7 +50,9 @@
 .woo-variation-gallery-wrapper .woo-variation-gallery-images {
   *zoom: 1;
   margin: 0;
-  padding: 0;
+  /*display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;*/
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-images::before, .woo-variation-gallery-wrapper .woo-variation-gallery-images::after {
   content: " ";
@@ -27,20 +62,21 @@
   clear: both;
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-images li {
+  float: left;
   list-style: none;
   position: relative;
   cursor: move;
-  float: left;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  margin: 3px !important;
-  background: #F7F7F7;
+  margin: 3px;
+  background: none;
   border-radius: 2px;
+  border: 3px solid transparent;
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-images li.woo-variation-gallery-sortable-placeholder {
   position: relative;
-  border: 3px dashed #DDDDDD !important;
-  margin: 0;
+  border: 3px dashed #DDDDDD;
+  /*margin: 0;*/
   background: #F7F7F7;
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-images li.woo-variation-gallery-sortable-placeholder::after {
@@ -71,6 +107,7 @@
   border: 1px solid #D5D5D5;
 }
 .woo-variation-gallery-wrapper .woo-variation-gallery-images li .delete {
+  display: none;
   color: #999;
   background: #fff;
   position: absolute;
@@ -80,16 +117,12 @@
   text-decoration: none;
   border-radius: 100%;
 }
-.woo-variation-gallery-wrapper .add-woo-variation-gallery-image {
-  clear: both;
-  padding: 10px;
-  margin: 0 10px;
+.woo-variation-gallery-wrapper .woo-variation-gallery-images li:hover .delete {
+  display: block;
 }
 .woo-variation-gallery-wrapper .add-woo-variation-gallery-image-wrapper {
   display: block;
-  clear: both;
-  padding: 0 0 15px 0;
-  /*margin: 10px 0 !important;*/
+  padding: 0 13px 10px 13px;
 }
 
 #gwp-variation-gallery-tutorials-wrapper {

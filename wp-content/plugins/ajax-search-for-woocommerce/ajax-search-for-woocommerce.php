@@ -4,13 +4,13 @@
  * Plugin Name: FiboSearch - AJAX Search for WooCommerce
  * Plugin URI: https://fibosearch.com?utm_source=wp-admin&utm_medium=referral&utm_campaign=author_uri&utm_gen=utmdc
  * Description: The most popular WooCommerce product search. Gives your users a well-designed advanced AJAX search bar with live search suggestions.
- * Version: 1.16.0
+ * Version: 1.17.0
  * Author: FiboSearch Team
  * Author URI: https://fibosearch.com?utm_source=wp-admin&utm_medium=referral&utm_campaign=author_uri&utm_gen=utmdc
  * Text Domain: ajax-search-for-woocommerce
  * Domain Path: /languages
  * WC requires at least: 3.3
- * WC tested up to: 6.1
+ * WC tested up to: 6.3
  *
  */
 // Exit if accessed directly
@@ -274,9 +274,10 @@ if ( !class_exists( 'DGWT_WC_Ajax_Search' ) && !function_exists( 'dgoraAsfwFs' )
                 $localize = array(
                     'labels' => \DgoraWcas\Helpers::getLabels(),
                     'nonces' => array(
-                    'build_index'           => wp_create_nonce( 'dgwt_wcas_build_index' ),
-                    'stop_build_index'      => wp_create_nonce( 'dgwt_wcas_stop_build_index' ),
-                    'build_index_heartbeat' => wp_create_nonce( 'dgwt_wcas_build_index_heartbeat' ),
+                    'build_index'             => wp_create_nonce( 'dgwt_wcas_build_index' ),
+                    'stop_build_index'        => wp_create_nonce( 'dgwt_wcas_stop_build_index' ),
+                    'build_index_heartbeat'   => wp_create_nonce( 'dgwt_wcas_build_index_heartbeat' ),
+                    'advanced_options_switch' => wp_create_nonce( 'dgwt_wcas_advanced_options_switch' ),
                 ),
                 );
                 $localize = apply_filters( 'dgwt/wcas/scripts/admin/localize', $localize );

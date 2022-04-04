@@ -3,7 +3,7 @@
  * Plugin Name: String Locator
  * Plugin URI: http://www.clorith.net/wordpress-string-locator/
  * Description: Scan through theme and plugin files looking for text strings
- * Version: 2.4.2
+ * Version: 2.5.0
  * Author: Clorith
  * Author URI: http://www.clorith.net
  * Text Domain: string-locator
@@ -25,6 +25,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+namespace JITS\StringLocator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -32,9 +34,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'STRING_LOCATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'STRING_LOCATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-require_once( __DIR__ . '/includes/class-string-locator.php' );
+/**
+ * Plugin test runners
+ */
+require_once __DIR__ . '/includes/Tests/class-loopback.php';
+require_once __DIR__ . '/includes/Tests/class-smart-scan.php';
+
+/**
+ * Plugin action classes.
+ */
+require_once __DIR__ . '/includes/class-save.php';
+require_once __DIR__ . '/includes/class-search.php';
+require_once __DIR__ . '/includes/class-directory-iterator.php';
+
+/**
+ * Prepare REST endpoints.
+ */
+require_once __DIR__ . '/includes/REST/class-base.php';
+require_once __DIR__ . '/includes/REST/class-save.php';
+require_once __DIR__ . '/includes/REST/class-clean.php';
+require_once __DIR__ . '/includes/REST/class-search.php';
+require_once __DIR__ . '/includes/REST/class-directory-structure.php';
 
 /**
  * Instantiate the plugin
  */
-$string_locator = new String_Locator();
+require_once __DIR__ . '/includes/class-string-locator.php';
+new String_Locator();

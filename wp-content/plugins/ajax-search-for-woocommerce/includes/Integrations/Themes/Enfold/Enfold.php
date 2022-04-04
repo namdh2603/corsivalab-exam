@@ -104,10 +104,28 @@ class Enfold {
 				return 'on';
 			} );
 
+			// Mark that the value of the option "mobile overlay" is forced
+			add_filter( 'dgwt/wcas/settings/section=form', function ( $settings ) {
+				$settings[680]['disabled'] = true;
+				$settings[680]['label']    = Helpers::createOverrideTooltip( 'ovtt-storefront-mobile-overlay', Helpers::getOverrideOptionText( $this->themeName ) ) . $settings[680]['label'];
+
+				return $settings;
+			} );
+
+
 			// Change mobile breakpoint to 768
-			add_filter( 'dgwt/wcas/scripts/mobile_breakpoint', function () {
+			add_filter( 'dgwt/wcas/settings/load_value/key=mobile_breakpoint', function () {
 				return 768;
 			} );
+
+			// Mark that the value of the option "mobile breakpoint" is forced
+			add_filter( 'dgwt/wcas/settings/section=form', function ( $settings ) {
+				$settings[690]['disabled'] = true;
+				$settings[690]['label']    = Helpers::createOverrideTooltip( 'ovtt-storefront-breakpoint', Helpers::getOverrideOptionText( $this->themeName ) ) . $settings[690]['label'];
+
+				return $settings;
+			} );
+
 
 			require_once DGWT_WCAS_DIR . 'partials/themes/enfold.php';
 		}

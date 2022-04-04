@@ -153,14 +153,18 @@ if ( ! class_exists( 'GetWooPlugins_Admin_Menus', false ) ) :
 
 		}
 
-		public function get_settings_link( $id ) {
+		public function get_settings_link( $id, $section = false ) {
 
-			$url = add_query_arg( array(
+			$params = array(
 				'page' => 'getwooplugins-settings',
 				'tab'  => esc_html( $id )
-			), admin_url( 'admin.php' ) );
+			);
 
-			return esc_url( $url );
+			if ( $section && is_string( $section ) ) {
+				$params['section'] = $section;
+			}
+
+			return add_query_arg( $params, admin_url( 'admin.php' ) );
 		}
 
 		/**
@@ -242,7 +246,7 @@ if ( ! class_exists( 'GetWooPlugins_Admin_Menus', false ) ) :
 			if ( ! isset( $submenu['getwooplugins'] ) ) {
 				return;
 			}
-			
+
 			if ( isset( $submenu['getwooplugins'] ) ) {
 				// Remove 'getwooplugins' sub menu item.
 				unset( $submenu['getwooplugins'][0] );

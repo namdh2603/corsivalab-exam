@@ -44,9 +44,17 @@ class TheGem {
 			add_filter( 'get_search_form', array( $this, 'removeSearchBarFromVerticalHeader' ), 100 );
 			add_action( 'thegem_before_header', array( $this, 'addSearchBarToVerticalHeader' ), 20 );
 
-			// Force enable overlay for mobile search
+			// Force enabling the option "mobile overlay"
 			add_filter( 'dgwt/wcas/settings/load_value/key=enable_mobile_overlay', function () {
 				return 'on';
+			} );
+
+			// Mark that the value of the option "mobile overlay" is forced
+			add_filter( 'dgwt/wcas/settings/section=form', function ( $settings ) {
+				$settings[680]['disabled'] = true;
+				$settings[680]['label']    = Helpers::createOverrideTooltip( 'ovtt-storefront-mobile-overlay', Helpers::getOverrideOptionText( $this->themeName ) ) . $settings[680]['label'];
+
+				return $settings;
 			} );
 
 			add_action( 'wp_head', array( $this, 'customCSS' ) );

@@ -57,19 +57,19 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Compatibility' ) ) :
 		// Start
 
 		public function dokan_variable_attributes( $loop, $variation_data, $variation ) {
-			if ( current_user_can( 'dokan_edit_product' ) ) {
+			if ( class_exists( 'WeDevs_Dokan' ) && current_user_can( 'dokan_edit_product' ) ) {
 				woo_variation_gallery()->get_backend()->gallery_admin_html( $loop, $variation_data, $variation );
 			}
 		}
 
 		public function dokan_enqueue_scripts() {
-			if ( current_user_can( 'dokan_edit_product' ) ) {
+			if ( class_exists( 'WeDevs_Dokan' ) && current_user_can( 'dokan_edit_product' ) ) {
 				woo_variation_gallery()->get_backend()->admin_enqueue_scripts();
 			}
 		}
 
 		public function dokan_footer() {
-			if ( current_user_can( 'dokan_edit_product' ) ) {
+			if ( class_exists( 'WeDevs_Dokan' ) && current_user_can( 'dokan_edit_product' ) ) {
 				woo_variation_gallery()->get_backend()->admin_template_js();
 			}
 		}

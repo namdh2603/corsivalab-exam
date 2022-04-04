@@ -32,7 +32,7 @@ class Impreza {
 		$key = 'dgwt_wcas_basic';
 
 		$articleLink = 'https://fibosearch.com/documentation/themes-integrations/impreza-theme/';
-		$articleText = sprintf(__( 'Here is <a href="%s" target="_blank">article</a> about how to do it using Impreza child-theme.', 'ajax-search-for-woocommerce' ), $articleLink);
+		$articleText = sprintf( __( 'Here is <a href="%s" target="_blank">article</a> about how to do it using Impreza child-theme.', 'ajax-search-for-woocommerce' ), $articleLink );
 
 		$settings[ $key ][10] = array(
 			'name'  => $this->themeSlug . '_main_head',
@@ -73,24 +73,41 @@ class Impreza {
 	 */
 	private function replaceForm() {
 
-			$this->applyCSS();
-			$this->applyJS();
+		$this->applyCSS();
+		$this->applyJS();
 
-			add_filter( 'body_class', function ( $classes ) {
-				$classes[] = 'dgwt-wcas-theme-' . $this->themeSlug;
+		add_filter( 'body_class', function ( $classes ) {
+			$classes[] = 'dgwt-wcas-theme-' . $this->themeSlug;
 
-				return $classes;
-			} );
+			return $classes;
+		} );
 
-			// Force enable overlay for mobile search
-			add_filter( 'dgwt/wcas/settings/load_value/key=enable_mobile_overlay', function () {
-				return 'on';
-			} );
+		// Force enable overlay for mobile search
+		add_filter( 'dgwt/wcas/settings/load_value/key=enable_mobile_overlay', function () {
+			return 'on';
+		} );
 
-			// Change mobile breakpoint from 992 to 850
-			add_filter( 'dgwt/wcas/scripts/mobile_breakpoint', function () {
-				return 899;
-			} );
+		// Mark that the value of the option "mobile overlay" is forced
+		add_filter( 'dgwt/wcas/settings/section=form', function ( $settings ) {
+			$settings[680]['disabled'] = true;
+			$settings[680]['label']    = Helpers::createOverrideTooltip( 'ovtt-storefront-mobile-overlay', Helpers::getOverrideOptionText( $this->themeName ) ) . $settings[680]['label'];
+
+			return $settings;
+		} );
+
+
+		// Change mobile breakpoint to 768
+		add_filter( 'dgwt/wcas/settings/load_value/key=mobile_breakpoint', function () {
+			return 899;
+		} );
+
+		// Mark that the value of the option "mobile breakpoint" is forced
+		add_filter( 'dgwt/wcas/settings/section=form', function ( $settings ) {
+			$settings[690]['disabled'] = true;
+			$settings[690]['label']    = Helpers::createOverrideTooltip( 'ovtt-storefront-breakpoint', Helpers::getOverrideOptionText( $this->themeName ) ) . $settings[690]['label'];
+
+			return $settings;
+		} );
 
 	}
 
@@ -108,17 +125,21 @@ class Impreza {
 				.w-search.layout_modern .w-search-close {
 
 				}
+
 				.w-search.layout_modern .w-search-close {
-					color: rgba(0,0,0,0.5)!important;
+					color: rgba(0, 0, 0, 0.5) !important;
 				}
+
 				.w-search.layout_modern .dgwt-wcas-close {
 					display: none;
 				}
+
 				.w-search.layout_modern .dgwt-wcas-preloader {
 					right: 20px;
 				}
+
 				.w-search.layout_fullscreen .w-form-row-field {
-					top:48px;
+					top: 48px;
 				}
 			</style>
 			<?php
@@ -157,11 +178,11 @@ class Impreza {
 
 					$(document).ready(function () {
 
-						$('.w-search.layout_modern .w-search-close').on('click', function(){
+						$('.w-search.layout_modern .w-search-close').on('click', function () {
 
 							var instance = dgwtWcasImprezaGetActiveInstance();
 
-							if(typeof instance == 'object'){
+							if (typeof instance == 'object') {
 								instance.suggestions = [];
 								instance.hide();
 								instance.el.val('');
@@ -169,27 +190,25 @@ class Impreza {
 
 						});
 
-						$('.w-search-open').on('click', function(e){
+						$('.w-search-open').on('click', function (e) {
 
-							if($(window).width() < 900){
+							if ($(window).width() < 900) {
 								e.preventDefault();
 
 								var $mobileHandler = $(e.target).closest('.w-search').find('.js-dgwt-wcas-enable-mobile-form');
 
-								if($mobileHandler.length){
+								if ($mobileHandler.length) {
 									$mobileHandler[0].click();
 								}
 
-								setTimeout(function(){
+								setTimeout(function () {
 									$('.w-search').removeClass('active');
-								},500);
+								}, 500);
 							}
 
 						});
 
 					});
-
-
 
 
 				})(jQuery);

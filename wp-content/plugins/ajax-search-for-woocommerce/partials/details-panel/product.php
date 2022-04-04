@@ -1,4 +1,9 @@
 <?php
+/**
+ * The Template for displaying product info in Details Panel
+ *
+ * This template can be overridden by copying it to yourtheme/fibosearch/details-panel/product.php.
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'DGWT_WCAS_FILE' ) ) {
@@ -88,4 +93,3 @@ if ( ! defined( 'DGWT_WCAS_FILE' ) ) {
 	<?php do_action( 'dgwt/wcas/details_panel/product/container_after', $vars ); ?>
 
 </div>
-

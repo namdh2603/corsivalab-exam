@@ -30,6 +30,9 @@ add_action( 'wp_footer', function () {
 			$(window).on('load', function () {
 				var themeSearch = $('#search .inner-wrap > div');
 				var wcasSearch = $('#wcas-search-instance > div');
+				if (wcasSearch.length === 0) {
+					return;
+				}
 				if (themeSearch.eq(0)) {
 					themeSearch.html(wcasSearch);
 				}

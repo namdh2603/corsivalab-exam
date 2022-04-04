@@ -50,6 +50,8 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Backend', false ) ):
 			add_action( 'woocommerce_product_after_variable_attributes', array( $this, 'gallery_admin_html' ), 10, 3 );
 
 			add_action( 'after_switch_theme', array( $this, 'remove_option' ), 20 );
+
+			add_action( 'admin_init', array( $this, 'activate_redirect' ) );
 		}
 
 		public function init() {
@@ -65,15 +67,15 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Backend', false ) ):
 			$gallery_images = get_post_meta( $variation_id, 'woo_variation_gallery_images', true );
 			?>
 			<div data-product_variation_id="<?php echo esc_attr( $variation_id ) ?>" class="form-row form-row-full woo-variation-gallery-wrapper">
-				<div class="postbox">
+				<div class="woo-variation-gallery-postbox">
 					<div class="postbox-header">
 						<h2><?php esc_html_e( 'Variation Product Gallery', 'woo-variation-gallery' ) ?></h2>
-						<button type="button" class="handlediv" aria-expanded="true">
+						<button type="button" class="handle-div" aria-expanded="true">
 							<span class="toggle-indicator" aria-hidden="true"></span>
 						</button>
 					</div>
 
-					<div class="inside">
+					<div class="woo-variation-gallery-inside">
 						<div class="woo-variation-gallery-image-container">
 							<ul class="woo-variation-gallery-images">
 								<?php
@@ -83,12 +85,12 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Backend', false ) ):
 								?>
 							</ul>
 						</div>
-						<p class="add-woo-variation-gallery-image-wrapper hide-if-no-js">
-							<a href="#" data-product_variation_loop="<?php echo absint( $loop ) ?>" data-product_variation_id="<?php echo esc_attr( $variation_id ) ?>" class="add-woo-variation-gallery-image"><?php esc_html_e( 'Add Gallery Images', 'woo-variation-gallery' ) ?></a>
+						<div class="add-woo-variation-gallery-image-wrapper hide-if-no-js">
+							<a href="#" data-product_variation_loop="<?php echo absint( $loop ) ?>" data-product_variation_id="<?php echo esc_attr( $variation_id ) ?>" class="button-primary add-woo-variation-gallery-image"><?php esc_html_e( 'Add Variation Gallery Image', 'woo-variation-gallery' ) ?></a>
 							<?php if ( ! woo_variation_gallery()->is_pro() ): ?>
 								<a target="_blank" href="<?php echo esc_url( woo_variation_gallery()->get_backend()->get_pro_link() ) ?>" style="display: none" class="button woo-variation-gallery-pro-button"><?php esc_html_e( 'Upgrade to pro to add more images and videos', 'woo-variation-gallery' ) ?></a>
 							<?php endif; ?>
-						</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -213,6 +215,16 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Backend', false ) ):
 			if ( ! empty( $saved_options ) && is_array( $saved_options ) ) {
 				unset( $saved_options['width'], $saved_options['thumbnail_width'] );
 				woo_variation_gallery()->update_options( $saved_options );
+			}
+		}
+
+		public function activate_redirect() {
+
+			if ( wc_string_to_bool( get_option( 'woo_variation_gallery_do_activate_redirect', 'no' ) ) && ! woo_variation_gallery()->is_pro() ) {
+				delete_option( 'woo_variation_gallery_do_activate_redirect' );
+
+				wp_redirect( $this->get_admin_menu()->get_settings_link( 'woo_variation_gallery', 'tutorial' ) );
+				exit;
 			}
 		}
 	}

@@ -247,6 +247,15 @@ class Settings
             'size'    => 'small',
             'default' => 992,
         ),
+            695  => array(
+            'name'    => 'darken_background',
+            'label'   => __( 'Darkened background', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'darken-_background', __( 'Darkening the page background while autocomplete is active gives it stronger emphasis, minimizing elements (e.g., ads, carousels, and other page content) that could distract users from considering autocomplete suggestions.', 'ajax-search-for-woocommerce' ) ),
+            'desc'    => __( '(beta feature)', 'ajax-search-for-woocommerce' ),
+            'type'    => 'checkbox',
+            'class'   => 'js-dgwt-wcas-adv-settings',
+            'size'    => 'small',
+            'default' => 'off',
+        ),
             700  => array(
             'name'  => 'search_form',
             'label' => __( 'Colors', 'ajax-search-for-woocommerce' ),
@@ -850,6 +859,7 @@ class Settings
         if ( !current_user_can( 'administrator' ) ) {
             wp_die( -1, 403 );
         }
+        check_ajax_referer( 'dgwt_wcas_advanced_options_switch' );
         $show = ( !empty($_GET['adv_settings_value']) && $_GET['adv_settings_value'] === 'show' ? 'on' : 'off' );
         update_option( 'dgwt_wcas_settings_show_advanced', $show );
         wp_send_json_success();

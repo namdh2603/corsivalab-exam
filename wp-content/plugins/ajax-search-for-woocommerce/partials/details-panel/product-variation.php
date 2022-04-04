@@ -1,4 +1,9 @@
 <?php
+/**
+ * The Template for displaying product variation info in Details Panel
+ *
+ * This template can be overridden by copying it to yourtheme/fibosearch/details-panel/product-variation.php.
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'DGWT_WCAS_FILE' ) ) {

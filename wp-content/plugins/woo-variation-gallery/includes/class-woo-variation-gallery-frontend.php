@@ -44,7 +44,7 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 			add_action( 'wp_footer', array( $this, 'slider_template_js' ) );
 
 			add_filter( 'wc_get_template', array( $this, 'gallery_template' ), 30, 2 );
-			add_filter( 'wc_get_template_part', array( $this, 'gallery_template' ), 30, 2 );
+			add_filter( 'wc_get_template_part', array( $this, 'gallery_template_part' ), 30, 2 );
 		}
 
 		protected function init() {
@@ -219,6 +219,9 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 			}
 
 			$single_image_width     = absint( wc_get_theme_support( 'single_image_width', get_option( 'woocommerce_single_image_width', 600 ) ) );
+
+			$gallery_thumbnails_columns = absint( woo_variation_gallery()->get_option( 'thumbnails_columns', 4 ) );
+
 			$gallery_thumbnails_gap = absint( woo_variation_gallery()->get_option( 'thumbnails_gap', apply_filters( 'woo_variation_gallery_default_thumbnails_gap', 0 ), 'woo_variation_gallery_thumbnails_gap' ) );
 			$gallery_width          = absint( woo_variation_gallery()->get_option( 'width', apply_filters( 'woo_variation_gallery_default_width', 30 ), 'woo_variation_gallery_width' ) );
 			$gallery_margin         = absint( woo_variation_gallery()->get_option( 'margin', apply_filters( 'woo_variation_gallery_default_margin', 30 ), 'woo_variation_gallery_margin' ) );
@@ -674,7 +677,6 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 				return $old_template;
 			}
 
-
 			if ( $template_name == 'single-product/product-image.php' ) {
 				$template = woo_variation_gallery()->template_path( '/product-images.php' );
 			}
@@ -685,5 +687,27 @@ if ( ! class_exists( 'Woo_Variation_Gallery_Frontend' ) ):
 
 			return apply_filters( 'woo_variation_gallery_gallery_template_override_location', $template, $template_name, $old_template );
 		}
+
+		public function gallery_template_part( $template, $slug ) {
+
+			$old_template = $template;
+
+			// Disable gallery on specific product
+
+			if ( apply_filters( 'disable_woo_variation_gallery', false ) ) {
+				return $old_template;
+			}
+
+			if ( $slug == 'single-product/product-image' ) {
+				$template = woo_variation_gallery()->template_path( '/product-images.php' );
+			}
+
+			if ( $slug == 'single-product/product-thumbnails' ) {
+				$template = woo_variation_gallery()->template_path( '/product-thumbnails.php' );
+			}
+
+			return apply_filters( 'woo_variation_gallery_gallery_template_part_override_location', $template, $slug, $old_template );
+		}
+
 	}
 endif;

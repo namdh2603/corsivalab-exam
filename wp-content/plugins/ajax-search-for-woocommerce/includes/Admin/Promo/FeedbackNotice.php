@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 class FeedbackNotice {
 
 	const ACTIVATION_DATE_OPT = 'dgwt_wcas_activation_date';
@@ -25,7 +24,6 @@ class FeedbackNotice {
 	private $offset;
 
 	function __construct() {
-
 		$this->offset = strtotime( '-7 days' );
 
 		add_action( 'admin_init', array( $this, 'checkInstallationDate' ) );
@@ -35,11 +33,11 @@ class FeedbackNotice {
 		add_action( 'admin_head', array( $this, 'loadStyle' ) );
 
 		add_action( 'admin_footer', array( $this, 'printDismissJS' ) );
-
 	}
 
 	/**
 	 * Check if is possible to display admin notice on the current screen
+	 *
 	 * @return bool
 	 */
 	private function allowDisplay() {
@@ -55,12 +53,12 @@ class FeedbackNotice {
 		}
 
 		return false;
-
 	}
 
 	/**
 	 * Display feedback notice
-	 * @return null | echo HTML
+	 *
+	 * @return void
 	 */
 	public function displayNotice() {
 		global $current_user;
@@ -96,7 +94,8 @@ class FeedbackNotice {
 
 	/**
 	 * Check instalation date
-	 * @return null
+	 *
+	 * @return void
 	 */
 	public function checkInstallationDate() {
 
@@ -114,7 +113,6 @@ class FeedbackNotice {
 				add_action( 'admin_notices', array( $this, 'displayNotice' ) );
 			}
 		}
-
 	}
 
 
@@ -128,6 +126,8 @@ class FeedbackNotice {
 			wp_die( - 1, 403 );
 		}
 
+		check_ajax_referer( 'dgwt_wcas_dismiss_feedback_notice' );
+
 		update_option( self::HIDE_NOTICE_OPT, true );
 
 		wp_send_json_success();
@@ -135,11 +135,12 @@ class FeedbackNotice {
 
 	/**
 	 * Print JS for close admin notice
+	 *
+	 * @return void
 	 */
 	public function printDismissJS() {
-
 		if ( ! $this->allowDisplay() ) {
-			return false;
+			return;
 		}
 		?>
 		<script>
@@ -154,6 +155,7 @@ class FeedbackNotice {
 					$.ajax({
 						url: ajaxurl,
 						data: {
+							_wpnonce: '<?php echo wp_create_nonce( 'dgwt_wcas_dismiss_feedback_notice' ); ?>',
 							action: '<?php echo self::DISMISS_AJAX_ACTION; ?>',
 						}
 					}).done(function (data) {
@@ -177,13 +179,12 @@ class FeedbackNotice {
 
 	/**
 	 * Load the necessary CSS
+	 *
 	 * @return void
 	 */
 	public function loadStyle() {
 		if ( $this->allowDisplay() ) {
 			wp_enqueue_style( 'dgwt-wcas-admin-style' );
 		}
-
 	}
-
 }

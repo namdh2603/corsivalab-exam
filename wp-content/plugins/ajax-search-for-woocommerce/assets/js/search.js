@@ -41,54 +41,54 @@
                     div.setAttribute('unselectable', 'on');
                     return div;
                 },
-				highlight: function (suggestionValue, phrase) {
+                highlight: function (suggestionValue, phrase) {
 
-					if (dgwt_wcas.is_premium) {
-						var i,
-							tokens = phrase.split(/ /),
-							highlighted = false,
-							last = '';
+                    if (dgwt_wcas.is_premium) {
+                        var i,
+                            tokens = phrase.split(/ /),
+                            highlighted = false,
+                            last = '';
 
-						if (tokens) {
-							last = tokens[tokens.length - 1];
-							tokens = tokens.sort(function (a, b) {
-								return b.length - a.length;
-							});
+                        if (tokens) {
+                            last = tokens[tokens.length - 1];
+                            tokens = tokens.sort(function (a, b) {
+                                return b.length - a.length;
+                            });
 
-							for (i = 0; i < tokens.length; i++) {
-								if (tokens[i] && tokens[i].length >= 1) {
+                            for (i = 0; i < tokens.length; i++) {
+                                if (tokens[i] && tokens[i].length >= 1) {
 
-									var token = tokens[i].replace(/[\^\@]/g, '');
+                                    var token = tokens[i].replace(/[\^\@]/g, '');
 
-									if (token.length > 0) {
-										if (token.trim().length === 1 && tokens[i] !== last) {
-											var pattern = '((\\s|^)' + utils.escapeRegExChars(token.trim()) + '\\s)';
-										} else if (token.trim().length === 1 && tokens[i] === last) {
-											var pattern = '((\\s|^)' + utils.escapeRegExChars(token.trim()) + ')';
-										} else {
-											var pattern = '(' + utils.escapeRegExChars(token.trim()) + ')';
-										}
+                                    if (token.length > 0) {
+                                        if (token.trim().length === 1 && tokens[i] !== last) {
+                                            var pattern = '((\\s|^)' + utils.escapeRegExChars(token.trim()) + '\\s)';
+                                        } else if (token.trim().length === 1 && tokens[i] === last) {
+                                            var pattern = '((\\s|^)' + utils.escapeRegExChars(token.trim()) + ')';
+                                        } else {
+                                            var pattern = '(' + utils.escapeRegExChars(token.trim()) + ')';
+                                        }
 
-										suggestionValue = suggestionValue.replace(new RegExp(pattern, 'gi'), '\^\^$1\@\@');
-										highlighted = true;
-									}
-								}
-							}
-						}
+                                        suggestionValue = suggestionValue.replace(new RegExp(pattern, 'gi'), '\^\^$1\@\@');
+                                        highlighted = true;
+                                    }
+                                }
+                            }
+                        }
 
-						if (highlighted) {
-							suggestionValue = suggestionValue.replace(/\^\^/g, '<strong>');
-							suggestionValue = suggestionValue.replace(/@@/g, '<\/strong>');
-						}
+                        if (highlighted) {
+                            suggestionValue = suggestionValue.replace(/\^\^/g, '<strong>');
+                            suggestionValue = suggestionValue.replace(/@@/g, '<\/strong>');
+                        }
 
 
-					} else {
-						var pattern = '(' + utils.escapeRegExChars(phrase) + ')';
-						suggestionValue = suggestionValue.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
-					}
+                    } else {
+                        var pattern = '(' + utils.escapeRegExChars(phrase) + ')';
+                        suggestionValue = suggestionValue.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+                    }
 
-					return suggestionValue;
-				},
+                    return suggestionValue;
+                },
                 debounce: function (func, wait) {
                     var timeout,
                         debounceID = new Date().getUTCMilliseconds();
@@ -145,13 +145,13 @@
 
                     return instance;
                 },
-				hashCode: function (s) {
-					var h = 0, i = s.length;
-					while (i > 0) {
-						h = (h << 5) - h + s.charCodeAt(--i) | 0;
-					}
-					return h < 0 ? h * -1 : h;
-				}
+                hashCode: function (s) {
+                    var h = 0, i = s.length;
+                    while (i > 0) {
+                        h = (h << 5) - h + s.charCodeAt(--i) | 0;
+                    }
+                    return h < 0 ? h * -1 : h;
+                }
             };
         }()),
         ajaxDebounceState = {
@@ -199,13 +199,16 @@
         that.classes = {
             selected: 'dgwt-wcas-suggestion-selected',
             suggestion: 'dgwt-wcas-suggestion',
-            suggestionsContainerOrientTop: 'dgwt-wcas-suggestions-wrapp--top'
+            suggestionsContainerOrientTop: 'dgwt-wcas-suggestions-wrapp--top',
+            inputFilled: 'dgwt-wcas-search-filled',
+            darkenOverlayMounted: 'js-dgwt-wcas-search-darkoverl-mounted'
         };
         that.hint = null;
         that.hintValue = '';
         that.selection = null;
         that.overlayMobileState = 'off';
-		that.isMouseDownOnSearchElements = false;
+        that.overlayDarkenedState = 'off';
+        that.isMouseDownOnSearchElements = false;
 
         // Initialize and set options:
         that.initialize();
@@ -224,7 +227,6 @@
         serviceUrl: null,
         lookup: null,
         onSelect: null,
-        width: 'auto',
         containerDetailsWidth: 'auto',
         showDetailsPanel: false,
         showImage: false,
@@ -238,6 +240,7 @@
         featuredBadgeText: 'featured',
         minChars: 3,
         maxHeight: 600,
+        dpusbBreakpoint: 550, // (details panel under search bar - breakpoint) If search bar width is lower than this option, suggestions wrapper and details panel will show under search bar with the same width
         deferRequestBy: 0,
         params: {},
         formatResult: _formatResult,
@@ -253,6 +256,7 @@
         searchFormClass: 'dgwt-wcas-search-wrapp',
         containerClass: 'dgwt-wcas-suggestions-wrapp',
         containerDetailsClass: 'dgwt-wcas-details-wrapp',
+        darkenedOverlayClass: 'dgwt-wcas-darkened-overlay',
         searchInputClass: 'dgwt-wcas-search-input',
         preloaderClass: 'dgwt-wcas-preloader',
         closeTrigger: 'dgwt-wcas-close',
@@ -273,10 +277,10 @@
         positionFixed: false,
         debounceWaitMs: 400,
         sendGAEvents: true,
-		enableGASiteSearchModule: false,
-		showProductVendor: false,
-		disableHits: false,
-		disableSubmit: false,
+        enableGASiteSearchModule: false,
+        showProductVendor: false,
+        disableHits: false,
+        disableSubmit: false,
     }
 
     function _lookupFilter(suggestion, originalQuery, queryLowerCase) {
@@ -297,9 +301,9 @@
             suggestionValue = utils.highlight(suggestionValue, currentValue);
         }
 
-        if(!options.convertHtml){
-        	return suggestionValue;
-		}
+        if (!options.convertHtml) {
+            return suggestionValue;
+        }
 
         return suggestionValue.replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
@@ -326,7 +330,7 @@
             that.registerEventsSearchBar();
             that.registerEventsSuggestions();
             that.registerEventsDetailsPanel();
-			that.registerIconHandler();
+            that.registerIconHandler();
             that.registerEventsFixedMenu();
 
             that.fixPositionCapture = function () {
@@ -334,20 +338,27 @@
                 if (that.visible) {
                     that.fixPosition();
                 }
+                that.positionOverlayDarkened();
             };
 
-            $(window).on('resize.autocomplete', function(){
-				var that = utils.getActiveInstance();
-				if(typeof that != 'undefined') {
-					that.fixPositionCapture();
-				}
-			});
-
-            $(window).on('resize.autocomplete', function(){
-                that.toggleMobileMode();
+            $(window).on('resize.autocomplete', function () {
+                var that = utils.getActiveInstance();
+                if (typeof that != 'undefined') {
+                    that.fixPositionCapture();
+                }
             });
 
-            if(that.isMobileMode()) {
+            // Trigger only when x axis is changed
+            var windowWidth = $(window).width();
+            $(window).on('resize.autocomplete', function () {
+                var newWidth = $(window).width();
+                if (newWidth != windowWidth) {
+                    that.toggleMobileMode();
+                    windowWidth = newWidth;
+                }
+            });
+
+            if (that.isMobileMode()) {
                 that.initMobileMode();
             }
 
@@ -400,11 +411,6 @@
                     that.suggestionsContainer.addClass('dgwt-wcas-has-headings');
                 }
 
-                // Only set width if it was provided:
-                if (options.width !== 'auto') {
-                    that.suggestionsContainer.width(options.width);
-                }
-
             } else {
 
                 that.suggestionsContainer = $('.' + that.options.containerClass);
@@ -426,63 +432,61 @@
                 }
 
             }
-
         },
         registerEventsSearchBar: function () {
             var that = this;
 
             // Click close icon
-			$(document).on('click.autocomplete', '.' + that.options.closeTrigger, function () {
-				var that = utils.getActiveInstance();
-				that.close(true);
-			});
+            $(document).on('click.autocomplete', '.' + that.options.closeTrigger, function () {
+                var that = utils.getActiveInstance();
+                that.close(true);
+            });
 
-			// Extra tasks on submit
-			that.el.closest('.' + that.options.formClass).on('submit.autocomplete', function (e) {
+            // Extra tasks on submit
+            that.el.closest('.' + that.options.formClass).on('submit.autocomplete', function (e) {
 
-				if (that.options.disableSubmit) {
-					e.preventDefault();
-					return false;
-				}
+                if (that.options.disableSubmit) {
+                    e.preventDefault();
+                    return false;
+                }
 
-				// Prevent submit empty form
-				var $input = $(this).find('.' + that.options.searchInputClass);
-				if ($input.length && $input.val().length === 0) {
-					e.preventDefault();
-					return false;
-				}
+                // Prevent submit empty form
+                var $input = $(this).find('.' + that.options.searchInputClass);
+                if ($input.length && $input.val().length === 0) {
+                    e.preventDefault();
+                    return false;
+                }
 
-				// If variation suggestion exist, click it instead submit search results page
-				if (that.suggestions.length > 0) {
+                // If variation suggestion exist, click it instead submit search results page
+                if (that.suggestions.length > 0) {
 
-					$.each(that.suggestions, function (i, suggestion) {
+                    $.each(that.suggestions, function (i, suggestion) {
 
-						if (
-							typeof suggestion.type != 'undefined'
-							&& suggestion.type == 'product_variation'
-						) {
-							that.select(i);
-							e.preventDefault();
-							return false;
-						}
-					});
+                        if (
+                            typeof suggestion.type != 'undefined'
+                            && suggestion.type == 'product_variation'
+                        ) {
+                            that.select(i);
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
 
-				}
+                }
 
-				// Clean before submit
-				that.disableOverlayMobile();
+                // Clean before submit
+                that.disableOverlayMobile();
 
-			});
+            });
 
-			// Position preloader
-			if (document.readyState === 'complete') {
-				that.positionPreloader();
-			} else {
-				$(window).on('load', function () {
-					that.positionPreloader();
-				});
-			}
-
+            // Position preloader
+            if (document.readyState === 'complete') {
+                that.positionPreloader();
+            } else {
+                $(window).on('load', function () {
+                    that.positionPreloader();
+                });
+            }
 
             that.el.on('keydown.autocomplete', function (e) {
                 that.onKeyPress(e);
@@ -493,8 +497,8 @@
             that.el.on('blur.autocomplete', function () {
                 that.onBlur();
             });
-            that.el.on('focus.autocomplete', function () {
-                that.onFocus();
+            that.el.on('focus.autocomplete', function (e) {
+                that.onFocus(e);
             });
             that.el.on('change.autocomplete', function (e) {
                 that.onKeyUp(e);
@@ -518,9 +522,9 @@
             $(document).on('mouseenter.autocomplete', suggestionSelector, function () {
                 var that = utils.getActiveInstance();
 
-                if(typeof that == 'undefined'){
-                	return;
-				}
+                if (typeof that == 'undefined') {
+                    return;
+                }
 
                 var currentIndex = $(this).data('index');
                 var selector = '.dgwt-wcas-suggestion[data-index="' + currentIndex + '"]';
@@ -530,7 +534,7 @@
                 if (that.selectedIndex != currentIndex) {
                     utils.mouseHoverDebounce(function () {
                         if (that.selectedIndex !== currentIndex) {
-							that.latestActivateSource = 'mouse';
+                            that.latestActivateSource = 'mouse';
                             that.getDetails(that.suggestions[currentIndex]);
                             that.activate(currentIndex);
                         }
@@ -541,43 +545,43 @@
 
             var alreadyClicked = false;
             // Redirect to the new URL after click a suggestions
-			$(document).on('click.autocomplete', suggestionSelector, function (e) {
-				if (!alreadyClicked) {
-					var that = utils.getActiveInstance();
-					that.actionTriggerSource = 'click';
+            $(document).on('click.autocomplete', suggestionSelector, function (e) {
+                if (!alreadyClicked) {
+                    var that = utils.getActiveInstance();
+                    that.actionTriggerSource = 'click';
 
-					alreadyClicked = true;
-					setTimeout(function () {
-						alreadyClicked = false;
-					}, 500);
+                    alreadyClicked = true;
+                    setTimeout(function () {
+                        alreadyClicked = false;
+                    }, 500);
 
-					if (typeof e.ctrlKey === 'undefined' || e.ctrlKey === false) {
-						that.select($(this).data('index'));
-						e.preventDefault();
-					}
-				} else {
-					e.preventDefault();
-				}
-			});
+                    if (typeof e.ctrlKey === 'undefined' || e.ctrlKey === false) {
+                        that.select($(this).data('index'));
+                        e.preventDefault();
+                    }
+                } else {
+                    e.preventDefault();
+                }
+            });
 
-			// FIX issue with touchpads for some laptops (marginal cases)
-			$(document).on('mousedown.autocomplete', suggestionSelector, function (e) {
-				var _this = this;
-				if (e.button === 0) {
-					setTimeout(function () {
-						if (!alreadyClicked) {
-							var that = utils.getActiveInstance();
-							that.select($(_this).data('index'));
-						}
-					}, 250);
-				}
-			});
+            // FIX issue with touchpads for some laptops (marginal cases)
+            $(document).on('mousedown.autocomplete', suggestionSelector, function (e) {
+                var _this = this;
+                if (e.button === 0) {
+                    setTimeout(function () {
+                        if (!alreadyClicked) {
+                            var that = utils.getActiveInstance();
+                            that.select($(_this).data('index'));
+                        }
+                    }, 250);
+                }
+            });
 
-			// Mark cursor position for onBlur event
-			$('.' + that.options.containerClass).on('mousedown.autocomplete', function (e) {
-				var that = utils.getActiveInstance();
-				that.isMouseDownOnSearchElements = true;
-			});
+            // Mark cursor position for onBlur event
+            $('.' + that.options.containerClass).on('mousedown.autocomplete', function (e) {
+                var that = utils.getActiveInstance();
+                that.isMouseDownOnSearchElements = true;
+            });
 
         },
         registerEventsDetailsPanel: function () {
@@ -594,80 +598,86 @@
                 $input.attr('data-quantity', $(this).val());
             });
 
-			// Mark cursor position for onBlur event
-			$('.' + that.options.containerDetailsClass).on('mousedown.autocomplete', function (e) {
-				var that = utils.getActiveInstance();
-				that.isMouseDownOnSearchElements = true;
-			});
+            // Mark cursor position for onBlur event
+            $('.' + that.options.containerDetailsClass).on('mousedown.autocomplete', function (e) {
+                var that = utils.getActiveInstance();
+                that.isMouseDownOnSearchElements = true;
+            });
 
         },
-		registerIconHandler: function () {
-			var that = this,
-				$formWrapper = that.getFormWrapper();
-			var $form = $formWrapper.find('.' + that.options.formClass);
+        registerIconHandler: function () {
+            var that = this,
+                $formWrapper = that.getFormWrapper();
+            var $form = $formWrapper.find('.' + that.options.formClass);
 
-			$formWrapper.on('click.autocomplete', '.js-dgwt-wcas-search-icon-handler', function (e) {
+            $formWrapper.on('click.autocomplete', '.js-dgwt-wcas-search-icon-handler', function (e) {
 
-				var $input = $formWrapper.find('.' + that.options.searchInputClass);
+                var $input = $formWrapper.find('.' + that.options.searchInputClass);
 
-				if ($formWrapper.hasClass('dgwt-wcas-layout-icon-open')) {
+                if ($formWrapper.hasClass('dgwt-wcas-layout-icon-open')) {
 
-					that.hide();
-					$form.hide(true);
+                    that.hide();
+                    $form.hide(true);
 
-					$formWrapper.removeClass('dgwt-wcas-layout-icon-open');
-
-
-				} else {
-					var $arrow = $formWrapper.find('.dgwt-wcas-search-icon-arrow');
-					$form.hide();
-					$arrow.hide();
-					$formWrapper.addClass('dgwt-wcas-layout-icon-open');
-					that.positionIconSearchMode($formWrapper);
-
-					$form.fadeIn(200, function () {
-						$arrow.show();
-						that.positionPreloader($formWrapper);
-						$input.focus();
-					});
-
-				}
+                    $formWrapper.removeClass('dgwt-wcas-layout-icon-open');
 
 
-			});
+                } else {
+                    var $arrow = $formWrapper.find('.dgwt-wcas-search-icon-arrow');
+                    $form.hide();
+                    $arrow.hide();
+                    $formWrapper.addClass('dgwt-wcas-layout-icon-open');
+                    that.positionIconSearchMode($formWrapper);
 
-			if ($('.js-dgwt-wcas-initialized').length == 0 && $('.js-dgwt-wcas-search-icon-handler').length > 0) {
+                    $form.fadeIn(200, function () {
+                        $arrow.show();
+                        that.positionPreloader($formWrapper);
+                        $input.focus();
+                    });
 
-				$(document).on('click.autocomplete', function (event) {
+                }
 
-					if ($('.dgwt-wcas-layout-icon-open').length) {
 
-						var $target = $(event.target);
+            });
 
-						if (!($target.closest('.' + that.options.searchFormClass).length > 0
-							|| $target.closest('.' + that.options.containerClass).length > 0
-							|| $target.closest('.' + that.options.containerDetailsClass).length > 0
-						)) {
-							that.hideIconModeSearch();
-						}
+            if ($('.js-dgwt-wcas-initialized').length == 0 && $('.js-dgwt-wcas-search-icon-handler').length > 0) {
 
-					}
-				});
-			}
+                $(document).on('click.autocomplete', function (event) {
 
-			$(window).on('resize.autocomplete', function () {
-				that.applyFlexibleMode();
-			});
+                    if ($('.dgwt-wcas-layout-icon-open').length) {
 
-			if (document.readyState == 'complete') {
-				that.applyFlexibleMode();
-			} else {
-				$(window).on('load.autocomplete', function () {
-					that.applyFlexibleMode();
-				});
-			}
+                        var $target = $(event.target);
 
-		},
+                        if (!($target.closest('.' + that.options.searchFormClass).length > 0
+                            || $target.closest('.' + that.options.containerClass).length > 0
+                            || $target.closest('.' + that.options.containerDetailsClass).length > 0
+                        )) {
+                            that.hideIconModeSearch();
+                        }
+
+                    }
+                });
+            }
+
+            // Trigger only when x axis is changed
+            var windowWidth = $(window).width();
+            $(window).on('resize.autocomplete', function () {
+                var newWidth = $(window).width();
+                if (newWidth != windowWidth) {
+                    that.applyFlexibleMode();
+                    windowWidth = newWidth;
+                }
+            });
+
+            if (document.readyState == 'complete') {
+                that.applyFlexibleMode();
+            } else {
+                $(window).on('load.autocomplete', function () {
+                    that.applyFlexibleMode();
+                });
+            }
+
+        },
         registerEventsFixedMenu: function () {
             var that = this;
 
@@ -696,7 +706,7 @@
                 $formWrapper = that.getFormWrapper();
 
             if (
-				$formWrapper.hasClass('js-dgwt-wcas-mobile-overlay-enabled')
+                $formWrapper.hasClass('js-dgwt-wcas-mobile-overlay-enabled')
                 && !$formWrapper.find('.js-dgwt-wcas-enable-mobile-form').length
             ) {
 
@@ -741,7 +751,12 @@
                 $formWrapper = that.getFormWrapper(),
                 currentMode = 'desktop';
 
-            // Determine the current mode
+            // Break early if this search bar shouldn't open in overlay mobile mode
+            if (!$formWrapper.hasClass('js-dgwt-wcas-mobile-overlay-enabled')) {
+                return;
+            }
+
+            // Determine the search should open in mobile overlay
             if ($formWrapper.find('.js-dgwt-wcas-enable-mobile-form').length) {
                 currentMode = 'mobile';
             }
@@ -773,32 +788,38 @@
                 that.destroyMobileMode();
             }
         },
-		applyFlexibleMode: function () {
-			var that = this;
-			var $flexibleSearch = $('.js-dgwt-wcas-layout-icon-flexible');
-
-			if ($flexibleSearch.length) {
-
-				if (that.isMobileMode()) {
-					$flexibleSearch.addClass('js-dgwt-wcas-layout-icon');
-					$flexibleSearch.addClass('dgwt-wcas-layout-icon');
-				} else {
-					$flexibleSearch.removeClass('js-dgwt-wcas-layout-icon');
-					$flexibleSearch.removeClass('dgwt-wcas-layout-icon');
-				}
-
-				$flexibleSearch.addClass('dgwt-wcas-layout-icon-flexible-loaded');
-			}
-		},
-        onFocus: function () {
+        applyFlexibleMode: function () {
             var that = this;
+            var $flexibleSearch = $('.js-dgwt-wcas-layout-icon-flexible');
+
+            if ($flexibleSearch.length) {
+
+                if (that.isMobileMode()) {
+                    $flexibleSearch.addClass('js-dgwt-wcas-layout-icon');
+                    $flexibleSearch.addClass('dgwt-wcas-layout-icon');
+                } else {
+                    $flexibleSearch.removeClass('js-dgwt-wcas-layout-icon');
+                    $flexibleSearch.removeClass('dgwt-wcas-layout-icon');
+                }
+
+                $flexibleSearch.addClass('dgwt-wcas-layout-icon-flexible-loaded');
+            }
+        },
+        onFocus: function (e) {
+            var that = this,
+                $formWrapper = that.getFormWrapper(),
+                options = that.options;
             // Mark as active
-            $('.' + this.options.searchFormClass).removeClass('dgwt-wcas-active');
-            that.getFormWrapper().addClass('dgwt-wcas-active');
+            $('.' + options.searchFormClass).removeClass('dgwt-wcas-active');
+            $formWrapper.addClass('dgwt-wcas-active');
 
             // Mark as focus
             $('body').addClass('dgwt-wcas-focused');
-            that.getFormWrapper().addClass('dgwt-wcas-search-focused');
+            $formWrapper.addClass('dgwt-wcas-search-focused');
+
+            if ($(e.target).closest('.dgwt-wcas-search-wrapp-mobile').length == 0) {
+                that.enableOverlayDarkened();
+            }
 
             that.fixPositionCapture();
             if (that.el.val().length >= that.options.minChars) {
@@ -814,19 +835,20 @@
 
             // Remove focused classes
             $('body').removeClass('dgwt-wcas-focused');
-            $('.' + this.options.searchFormClass).removeClass('dgwt-wcas-search-focused');
+            $('.' + options.searchFormClass).removeClass('dgwt-wcas-search-focused');
 
-            if(that.isMobileMode()){
-            	return;
-			}
 
-			if (!that.isMouseDownOnSearchElements) {
-				that.hide();
+            if (that.isMobileMode()) {
+                return;
+            }
 
-				if (that.selection && that.currentValue !== query) {
-					(options.onInvalidateSelection || $.noop).call(that.element);
-				}
-			}
+            if (!that.isMouseDownOnSearchElements) {
+                that.hide();
+
+                if (that.selection && that.currentValue !== query) {
+                    (options.onInvalidateSelection || $.noop).call(that.element);
+                }
+            }
         },
         abortAjax: function () {
             var that = this;
@@ -849,11 +871,8 @@
 
             options.orientation = that.validateOrientation(options.orientation, 'bottom');
 
-            // Adjust height, width and z-index:
-            //@TODO nie działa obliczanie prawej krawędzi ekranu
             $suggestionsContainer.css({
                 'max-height': !that.canShowDetailsBox() ? options.maxHeight + 'px' : 'none',
-                'width': options.width + 'px',
                 'z-index': options.zIndex
             });
 
@@ -889,13 +908,20 @@
             this.suggestions = [];
         },
         close: function (focus) {
-            var that = this;
+            var that = this,
+                $el = that.el.closest('.' + that.options.searchFormClass).find('.' + that.options.searchInputClass),
+                $wrapp = that.getFormWrapper();
 
             that.hide();
             that.clear(false);
             that.hideCloseButton();
-            var $el = that.el.closest('.' + that.options.searchFormClass).find('.' + that.options.searchInputClass);
             $el.val('');
+            $wrapp.removeClass(that.classes.inputFilled);
+
+            if ($wrapp.hasClass('js-dgwt-wcas-layout-icon')) {
+                that.disableOverlayDarkened();
+            }
+
             if (focus) {
                 $el.focus();
             }
@@ -922,87 +948,59 @@
 
         },
         fixPositionDetailsBox: function () {
-
             var that = this,
-                $form = that.getFormWrapper(),
+                $searchBar = that.getFormWrapper(),
                 $containerSuggestions = that.getSuggestionsContainer(),
                 $containerDetails = that.getDetailsContainer(),
-                offset = that.getFormOffset(),
-                nativeOffsetLeft = offset.left,
-                maxWidth = 550;
-
+                searchBarOffset = that.getFormOffset();
 
             if ($containerDetails.length == 0) {
                 return false;
             }
 
-            var borderCorrection = that.options.isRtl === true ? 1 : 2;
-            var leftOffset = Math.round(offset.left);
-            offset.left = leftOffset + Math.round($containerSuggestions.width() + borderCorrection);
+            // Set details panel to the right side of the suggestion wrapper
+            var leftAbsolute = searchBarOffset.left + $containerSuggestions.outerWidth(false);
+            $containerDetails.css({top: searchBarOffset.top, 'left': leftAbsolute});
 
-            $containerDetails.css(offset);
+            $('body').removeClass('dgwt-wcas-full-width dgwt-wcas-details-outside dgwt-wcas-details-right dgwt-wcas-details-left dgwt-wcas-details-notfit');
 
-
-            // Not set position on the bigger search form
-            if ($form.width() >= maxWidth) {
-
-                $('body').removeClass('dgwt-wcas-details-outside');
-                $('body').removeClass('dgwt-wcas-details-right');
-                $('body').removeClass('dgwt-wcas-details-left');
+            // Details Panel Mode 1: Both suggestions wrapper and details panel wrapper have the same width as the search bar
+            if ($searchBar.outerWidth() >= that.options.dpusbBreakpoint) {
+                $('body').addClass('dgwt-wcas-full-width');
 
                 if (that.options.isRtl === true) {
-                    $containerSuggestions.css('left', leftOffset + Math.round($containerDetails.width() + borderCorrection) + 'px');
-                    $containerDetails.css('left', (nativeOffsetLeft) + 'px');
+                    leftAbsolute = searchBarOffset.left + $containerDetails.outerWidth(false);
+                    $containerSuggestions.css('left', leftAbsolute);
+                    $containerDetails.css('left', searchBarOffset.left);
                 }
 
                 return;
             }
 
+            // Details Panel Mode 2: The suggestions wrapper has the same width as the search bar.
+            // Details panel clings to the left or right side of the suggestion wrapper.
             var windowWidth = $(window).width(),
-                cDWidth = $containerDetails.width(),
+                cDWidth = $containerDetails.outerWidth(),
                 cOffset = $containerDetails.offset();
 
-            $('body').addClass('dgwt-wcas-details-outside');
+            $('body').addClass('dgwt-wcas-details-outside dgwt-wcas-details-right');
 
-
-            if (that.options.isRtl === true) {
-                offset.left = offset.left + 1;
-            }
-
-            var rightBorderCrossed = false;
-            var leftBorderCrossed = false;
-
-            // Right border crossed
+            // Is the details panel fits the space of the right side?
+            // Not? Try to move to the left side
             if (windowWidth < (cOffset.left + cDWidth)) {
-                rightBorderCrossed = true;
-
                 $('body').removeClass('dgwt-wcas-details-right');
                 $('body').addClass('dgwt-wcas-details-left');
-
-                $containerDetails.css('left', (Math.round(parseFloat($containerSuggestions.css('left').replace('px', ''))) - $containerDetails.outerWidth()) + 'px');
-
+                leftAbsolute = $containerSuggestions.offset().left - $containerDetails.outerWidth();
+                $containerDetails.css('left', leftAbsolute);
+                cOffset = $containerDetails.offset();
             }
 
-            cOffset = $containerDetails.offset();
-
-            // Left border crossed
+            // Is the details panel fits the space of the left side?
+            // Not? Try to hide it by adding class "dgwt-wcas-details-notfit"
             if (cOffset.left < 1) {
-                leftBorderCrossed = true;
-
-                $('body').removeClass('dgwt-wcas-details-left');
-                $('body').addClass('dgwt-wcas-details-right');
-
-            }
-
-            if (leftBorderCrossed && rightBorderCrossed) {
-                $('body').removeClass('dgwt-wcas-details-left');
-                $('body').removeClass('dgwt-wcas-details-right');
+                $('body').removeClass('dgwt-wcas-details-left dgwt-wcas-details-right');
                 $('body').addClass('dgwt-wcas-details-notfit');
-            } else {
-                $('body').removeClass('dgwt-wcas-details-notfit');
             }
-
-
         },
         fixHeight: function () {
 
@@ -1088,30 +1086,57 @@
             }, 10);
 
         },
-        getFormOffset: function () {
+        getFormElementInfo: function () {
             var that = this,
                 $form = that.getFormWrapper(),
-                $suggestionsContainer = that.getSuggestionsContainer();
+                data = {},
+                offset;
+
+            // Different position for search icon layout
+            if ($form.hasClass('js-dgwt-wcas-layout-icon')) {
+                $form = $form.find('.' + that.options.formClass);
+            }
+
+
+            offset = $form.offset();
+
+            data.left = offset.left;
+            data.top = offset.top;
+            data.width = $form.outerWidth(false);
+            data.height = $form.outerHeight(false);
+            data.right = data.left + data.width;
+            data.bottom = data.top + data.height;
+
+            return data;
+
+        },
+        getFormOffset: function () {
+            var that = this,
+                $wrapp = that.getFormWrapper(),
+                $suggestionsContainer = that.getSuggestionsContainer(),
+                $baseElementXAxis = $wrapp.find('.' + that.options.formClass),
+                $baseElementYAxis = that.el,
+                offsetTop = $baseElementYAxis.offset().top,
+                offsetLeft = $baseElementXAxis.offset().left;
+
 
             // Choose orientation
             var orientation = that.options.orientation,
-                containerHeight = $form.outerHeight(false),
-                height = that.el.outerHeight(false),
-                offset = that.el.offset(),
-                styles = {'top': offset.top, 'left': offset.left};
+                containerHeight = $wrapp.outerHeight(false),
+                height = $baseElementYAxis.outerHeight(false),
+                styles = {'top': offsetTop, 'left': offsetLeft};
 
             if (orientation === 'auto') {
                 var viewPortHeight = $(window).height(),
                     scrollTop = $(window).scrollTop(),
-                    topOverflow = -scrollTop + offset.top - containerHeight,
-                    bottomOverflow = scrollTop + viewPortHeight - (offset.top + height + containerHeight);
+                    topOverflow = -scrollTop + offsetTop - containerHeight,
+                    bottomOverflow = scrollTop + viewPortHeight - (offsetTop + height + containerHeight);
 
                 orientation = (Math.max(topOverflow, bottomOverflow) === topOverflow) ? 'top' : 'bottom';
             }
 
             if (orientation === 'top') {
-                var sh = $suggestionsContainer[0].getBoundingClientRect().top,
-                    ft = $form[0].getBoundingClientRect().top;
+                var ft = $baseElementYAxis[0].getBoundingClientRect().top;
 
                 $suggestionsContainer.css('height', 'auto');
                 if (ft < $suggestionsContainer.height()) {
@@ -1163,7 +1188,7 @@
             var that = this;
 
             // If suggestions are hidden and user presses arrow down, display suggestions:
-            if (!that.disabled && !that.visible && e.which === keys.DOWN && that.currentValue) {
+            if (!that.disabled && !that.visible && e.keyCode === keys.DOWN && that.currentValue) {
                 that.suggest();
                 return;
             }
@@ -1172,7 +1197,7 @@
                 return;
             }
 
-            switch (e.which) {
+            switch (e.keyCode) {
                 case keys.ESC:
                     that.el.val(that.currentValue);
                     that.hide();
@@ -1197,19 +1222,19 @@
                         return;
                     }
                     break;
-				case keys.RETURN:
+                case keys.RETURN:
 
-					if (that.selectedIndex === -1) {
-						if (that.options.disableSubmit) {
-							return false;
-						}
-						that.hide();
-						return;
-					}
-					that.actionTriggerSource = 'enter';
-					that.select(that.selectedIndex);
-					break;
-				case keys.UP:
+                    if (that.selectedIndex === -1) {
+                        if (that.options.disableSubmit) {
+                            return false;
+                        }
+                        that.hide();
+                        return;
+                    }
+                    that.actionTriggerSource = 'enter';
+                    that.select(that.selectedIndex);
+                    break;
+                case keys.UP:
                     that.moveUp();
                     break;
                 case keys.DOWN:
@@ -1230,7 +1255,7 @@
                 return;
             }
 
-            switch (e.which) {
+            switch (e.keyCode) {
                 case keys.UP:
                 case keys.DOWN:
                     return;
@@ -1259,7 +1284,8 @@
             var that = this,
                 options = that.options,
                 value = that.el.val(),
-                query = that.getQuery(value);
+                query = that.getQuery(value),
+                $wrapp = that.getFormWrapper();
 
             if (that.selection && that.currentValue !== query) {
                 that.selection = null;
@@ -1274,6 +1300,15 @@
             if (options.triggerSelectOnValidInput && that.isExactMatch(query)) {
                 that.select(0);
                 return;
+            }
+
+            // Mark as filled
+            if (query.length > 0) {
+                if (!$wrapp.hasClass(that.classes.inputFilled)) {
+                    $wrapp.addClass(that.classes.inputFilled);
+                }
+            } else {
+                $wrapp.removeClass(that.classes.inputFilled);
             }
 
             if (query.length < options.minChars) {
@@ -1343,7 +1378,7 @@
                 options.params['l'] = dgwt_wcas.current_lang;
             }
 
-			options.params = that.applyCustomParams(options.params);
+            options.params = that.applyCustomParams(options.params);
 
             that.preloader('show', 'form', 'dgwt-wcas-inner-preloader');
             searchForm.addClass('dgwt-wcas-processing');
@@ -1425,14 +1460,14 @@
 
                         that.options.onSearchComplete.call(that.element, q, result.suggestions);
 
-						that.updatePrices();
+                        that.updatePrices();
 
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         that.options.onSearchError.call(that.element, q, jqXHR, textStatus, errorThrown);
                     });
 
 
-				}, options.debounceWaitMs);
+                }, options.debounceWaitMs);
 
 
             } else {
@@ -1470,7 +1505,7 @@
             if (result != null) {
 
                 // Load response from cache
-				that.detailsPanelSetScene(currentObjectID);
+                that.detailsPanelSetScene(currentObjectID);
                 that.fixHeight();
                 that.fixPositionCapture();
 
@@ -1517,13 +1552,13 @@
 
                         if (typeof result.items != 'undefined') {
                             for (var i = 0; i < result.items.length; i++) {
-								var cacheKey = result.items[i]['objectID'];
-								that.cachedDetails[cacheKey] = {html: result.items[i]['html']}
-								that.detailsPanelAddToScene(cacheKey);
+                                var cacheKey = result.items[i]['objectID'];
+                                that.cachedDetails[cacheKey] = {html: result.items[i]['html']}
+                                that.detailsPanelAddToScene(cacheKey);
 
-								if (typeof result.items[i]['price'] != 'undefined' && result.items[i]['price'].length > 0) {
-									that.cachedPrices[cacheKey] = result.items[i]['price'];
-								}
+                                if (typeof result.items[i]['price'] != 'undefined' && result.items[i]['price'].length > 0) {
+                                    that.cachedPrices[cacheKey] = result.items[i]['price'];
+                                }
                             }
                         }
 
@@ -1532,10 +1567,10 @@
                         var currentObjectID = that.prepareSuggestionObjectID(that.suggestions[that.selectedIndex]);
 
                         if (that.cachedDetails[currentObjectID] != null) {
-							that.detailsPanelSetScene(currentObjectID);
+                            that.detailsPanelSetScene(currentObjectID);
                         } else {
                             // @TODO Maybe display some error or placeholder
-							that.detailsPanelClearScene();
+                            that.detailsPanelClearScene();
                         }
                         that.fixPositionCapture();
                         that.fixHeight();
@@ -1546,7 +1581,7 @@
 
                         that.preloader('hide', 'details', '');
 
-						that.detailsPanelClearScene();
+                        that.detailsPanelClearScene();
                         that.fixPositionCapture();
                         that.fixHeight();
                     },
@@ -1555,137 +1590,137 @@
 
             $(document).trigger('dgwtWcasDetailsPanelLoaded', that);
         },
-		updatePrices: function (noAjax) {
-			var that = this,
-				i, j,
-				productsToLoad = [];
+        updatePrices: function (noAjax) {
+            var that = this,
+                i, j,
+                productsToLoad = [];
 
-			if (!(that.options.showPrice && that.options.dynamicPrices)) {
-				return;
-			}
+            if (!(that.options.showPrice && that.options.dynamicPrices)) {
+                return;
+            }
 
-			if (that.suggestions.length == 0) {
-				return;
-			}
+            if (that.suggestions.length == 0) {
+                return;
+            }
 
-			for (i = 0; i < that.suggestions.length; i++) {
+            for (i = 0; i < that.suggestions.length; i++) {
 
-				if (
-					typeof that.suggestions[i].type != 'undefined'
-					&& (that.suggestions[i].type == 'product' || that.suggestions[i].type == 'product_variation')
-				) {
-					var key = 'product__' + that.suggestions[i].post_id;
+                if (
+                    typeof that.suggestions[i].type != 'undefined'
+                    && (that.suggestions[i].type == 'product' || that.suggestions[i].type == 'product_variation')
+                ) {
+                    var key = 'product__' + that.suggestions[i].post_id;
 
-					if (typeof that.cachedPrices[key] != 'undefined') {
+                    if (typeof that.cachedPrices[key] != 'undefined') {
 
-						that.updatePrice(i, that.cachedPrices[key]);
+                        that.updatePrice(i, that.cachedPrices[key]);
 
-					} else {
+                    } else {
 
-						that.applyPreloaderForPrice(i);
+                        that.applyPreloaderForPrice(i);
 
-						productsToLoad.push(that.suggestions[i].post_id);
-					}
-				}
+                        productsToLoad.push(that.suggestions[i].post_id);
+                    }
+                }
 
-			}
+            }
 
 
-			if (!noAjax && productsToLoad.length > 0) {
+            if (!noAjax && productsToLoad.length > 0) {
 
-				var data = {
-					action: typeof dgwt_wcas.action_get_prices == 'undefined' ? 'dgwt_wcas_get_prices' : dgwt_wcas.action_get_prices,
-					items: productsToLoad
-				};
+                var data = {
+                    action: typeof dgwt_wcas.action_get_prices == 'undefined' ? 'dgwt_wcas_get_prices' : dgwt_wcas.action_get_prices,
+                    items: productsToLoad
+                };
 
-				$.ajax({
-					data: data,
-					type: 'post',
-					url: dgwt_wcas.ajax_prices_endpoint,
-					success: function (response) {
+                $.ajax({
+                    data: data,
+                    type: 'post',
+                    url: dgwt_wcas.ajax_prices_endpoint,
+                    success: function (response) {
 
-						if (typeof response.success != 'undefined' && response.success && response.data.length > 0) {
-							for (i = 0; i < response.data.length; i++) {
+                        if (typeof response.success != 'undefined' && response.success && response.data.length > 0) {
+                            for (i = 0; i < response.data.length; i++) {
 
-								var postID = response.data[i].id,
-									price = response.data[i].price;
+                                var postID = response.data[i].id,
+                                    price = response.data[i].price;
 
-								if (that.suggestions.length > 0) {
-									for (j = 0; j < that.suggestions.length; j++) {
-										if (
-											typeof that.suggestions[j].type != 'undefined'
-											&& (that.suggestions[j].type == 'product' || that.suggestions[j].type == 'product_variation')
-											&& that.suggestions[j].post_id == postID
-										) {
+                                if (that.suggestions.length > 0) {
+                                    for (j = 0; j < that.suggestions.length; j++) {
+                                        if (
+                                            typeof that.suggestions[j].type != 'undefined'
+                                            && (that.suggestions[j].type == 'product' || that.suggestions[j].type == 'product_variation')
+                                            && that.suggestions[j].post_id == postID
+                                        ) {
 
-											var key = 'product__' + postID;
+                                            var key = 'product__' + postID;
 
-											that.cachedPrices[key] = price;
+                                            that.cachedPrices[key] = price;
 
-											that.updatePrice(j, price);
+                                            that.updatePrice(j, price);
 
-										}
-									}
-								}
-							}
-						}
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-					},
-					error: function (jqXHR, exception) {
+                    },
+                    error: function (jqXHR, exception) {
 
-					},
-				});
+                    },
+                });
 
-			}
+            }
 
-		},
-		updatePrice: function (index, price) {
-			var that = this;
+        },
+        updatePrice: function (index, price) {
+            var that = this;
 
-			if(typeof that.suggestions[index] != 'undefined'){
+            if (typeof that.suggestions[index] != 'undefined') {
 
-				that.suggestions[index].price = price;
+                that.suggestions[index].price = price;
 
-				var $price = $('.dgwt-wcas-suggestions-wrapp').find('[data-index="' + index + '"] .dgwt-wcas-sp');
+                var $price = $('.dgwt-wcas-suggestions-wrapp').find('[data-index="' + index + '"] .dgwt-wcas-sp');
 
-				if($price.length){
-					$price.html(price);
-				}
-			}
+                if ($price.length) {
+                    $price.html(price);
+                }
+            }
 
-		},
-		applyCustomParams: function(params){
-			var that = this;
+        },
+        applyCustomParams: function (params) {
+            var that = this;
 
-			// Custom params (global)
-			if (typeof dgwt_wcas.custom_params == 'object') {
-				var cp = dgwt_wcas.custom_params;
-				for (var property in cp) {
-					params[property] = cp[property];
-				}
-			}
+            // Custom params (global)
+            if (typeof dgwt_wcas.custom_params == 'object') {
+                var cp = dgwt_wcas.custom_params;
+                for (var property in cp) {
+                    params[property] = cp[property];
+                }
+            }
 
-			// Custom params (local)
-			var inputCustomParams = that.el.data('custom-params');
+            // Custom params (local)
+            var inputCustomParams = that.el.data('custom-params');
 
-			if(typeof inputCustomParams === 'object'){
-				for (var property in inputCustomParams) {
-					params[property] = inputCustomParams[property];
-				}
-			}
+            if (typeof inputCustomParams === 'object') {
+                for (var property in inputCustomParams) {
+                    params[property] = inputCustomParams[property];
+                }
+            }
 
-        	return params;
-		},
-		applyPreloaderForPrice: function(index){
-			var that = this;
+            return params;
+        },
+        applyPreloaderForPrice: function (index) {
+            var that = this;
 
-			if(typeof that.suggestions[index] != 'undefined'){
-				var $price = $('.dgwt-wcas-suggestions-wrapp').find('[data-index="' + index + '"] .dgwt-wcas-sp');
-				if($price.length){
-					$price.html('<div class="dgwt-wcas-preloader-price"><div class="dgwt-wcas-preloader-price-inner"> <div></div><div></div><div></div></div></div>');
-				}
-			}
-		},
+            if (typeof that.suggestions[index] != 'undefined') {
+                var $price = $('.dgwt-wcas-suggestions-wrapp').find('[data-index="' + index + '"] .dgwt-wcas-sp');
+                if ($price.length) {
+                    $price.html('<div class="dgwt-wcas-preloader-price"><div class="dgwt-wcas-preloader-price-inner"> <div></div><div></div><div></div></div></div>');
+                }
+            }
+        },
         prepareSuggestionObjectID: function (suggestion) {
             var objectID = '';
 
@@ -1714,42 +1749,42 @@
 
             return objectID;
         },
-		detailsPanelSetScene: function (objectID) {
-			var that = this,
-				$containerDetails = that.getDetailsContainer(),
-				objectHash = utils.hashCode(objectID),
-				$el = $containerDetails.find('.dgwt-wcas-details-inner[data-object="' + objectHash + '"]');
+        detailsPanelSetScene: function (objectID) {
+            var that = this,
+                $containerDetails = that.getDetailsContainer(),
+                objectHash = utils.hashCode(objectID),
+                $el = $containerDetails.find('.dgwt-wcas-details-inner[data-object="' + objectHash + '"]');
 
-			if ($el.length) {
-				that.preloader('hide', 'details', '');
-				that.detailsPanelClearScene();
-				$el.addClass('dgwt-wcas-details-inner-active');
-			}
-		},
-		detailsPanelAddToScene: function (objectID) {
-			var that = this,
-				$containerDetails = that.getDetailsContainer(),
-				object = that.cachedDetails[objectID],
-				objectHash = utils.hashCode(objectID),
-				html = '';
+            if ($el.length) {
+                that.preloader('hide', 'details', '');
+                that.detailsPanelClearScene();
+                $el.addClass('dgwt-wcas-details-inner-active');
+            }
+        },
+        detailsPanelAddToScene: function (objectID) {
+            var that = this,
+                $containerDetails = that.getDetailsContainer(),
+                object = that.cachedDetails[objectID],
+                objectHash = utils.hashCode(objectID),
+                html = '';
 
-			if (typeof object != 'undefined' && typeof object.html == 'string') {
-				html = object.html.replace('<div ', '<div data-object="' + objectHash + '" ');
-			}
+            if (typeof object != 'undefined' && typeof object.html == 'string') {
+                html = object.html.replace('<div ', '<div data-object="' + objectHash + '" ');
+            }
 
-			if ($containerDetails.find('.dgwt-wcas-details-inner[data-object="' + objectHash + '"]').length == 0) {
-				$containerDetails.append(html);
-			}
-		},
-		detailsPanelClearScene: function () {
-			var that = this,
-				$containerDetails = that.getDetailsContainer(),
-				$views = $containerDetails.find('.dgwt-wcas-details-inner');
+            if ($containerDetails.find('.dgwt-wcas-details-inner[data-object="' + objectHash + '"]').length == 0) {
+                $containerDetails.append(html);
+            }
+        },
+        detailsPanelClearScene: function () {
+            var that = this,
+                $containerDetails = that.getDetailsContainer(),
+                $views = $containerDetails.find('.dgwt-wcas-details-inner');
 
-			if ($views.length) {
-				$views.removeClass('dgwt-wcas-details-inner-active');
-			}
-		},
+            if ($views.length) {
+                $views.removeClass('dgwt-wcas-details-inner-active');
+            }
+        },
         selectFirstSuggestion: function (suggestions) {
             var that = this,
                 index = 0,
@@ -1783,7 +1818,7 @@
                 return;
             }
 
-			that.latestActivateSource = 'system';
+            that.latestActivateSource = 'system';
             that.getDetails(suggestions[index]);
             that.activate(index);
         },
@@ -1805,7 +1840,7 @@
         },
         hide: function (clear) {
             var that = this,
-				$formWrapper = that.getFormWrapper(),
+                $formWrapper = that.getFormWrapper(),
                 $container = that.getSuggestionsContainer(),
                 $containerDetails = that.getDetailsContainer();
 
@@ -1834,52 +1869,54 @@
                 that.autoAligmentprocess = null;
             }
 
-			if (typeof clear == 'boolean' && clear) {
+            that.isMouseDownOnSearchElements = false;
 
-				that.hideCloseButton();
+            if (typeof clear == 'boolean' && clear) {
 
-				that.currentValue = '';
-				that.suggestions = [];
+                that.hideCloseButton();
 
-			}
+                that.currentValue = '';
+                that.suggestions = [];
 
-			that.signalHint(null);
-		},
-		positionIconSearchMode: function ($formWrapper) {
-			var that = this,
-				side = 'right',
-				formLeftValue = -20;
+            }
 
-			var $form = $formWrapper.find('.' + that.options.formClass);
-			var formWidth = $form.width(),
-				windowWidth = $(window).width();
+            that.signalHint(null);
+        },
+        positionIconSearchMode: function ($formWrapper) {
+            var that = this,
+                side = 'right',
+                formLeftValue = -20;
 
-			var iconLeftOffset = $formWrapper[0].getBoundingClientRect().left;
-			var formLeftOffset = $form[0].getBoundingClientRect().left;
+            var $form = $formWrapper.find('.' + that.options.formClass);
+            var formWidth = $form.width(),
+                windowWidth = $(window).width();
 
-			// Is the icon on left or right side of screen?
-			if (iconLeftOffset + 10 < windowWidth / 2) {
-				side = 'left';
-			}
+            var iconLeftOffset = $formWrapper[0].getBoundingClientRect().left;
+            var formLeftOffset = $form[0].getBoundingClientRect().left;
 
-			var iconLeftRatio = (iconLeftOffset + 10) / windowWidth;
+            // Is the icon on left or right side of screen?
+            if (iconLeftOffset + 10 < windowWidth / 2) {
+                side = 'left';
+            }
 
-			formLeftValue = Math.floor(-1 * (formWidth * iconLeftRatio));
+            var iconLeftRatio = (iconLeftOffset + 10) / windowWidth;
 
-			// Prevent shifting to the left more than the icon position (also positioned from the left)
-			formLeftValue = Math.max(formLeftValue, -1 * iconLeftOffset);
+            formLeftValue = Math.floor(-1 * (formWidth * iconLeftRatio));
 
-			$form.css({'left': formLeftValue + 'px'});
+            // Prevent shifting to the left more than the icon position (also positioned from the left)
+            formLeftValue = Math.max(formLeftValue, -1 * iconLeftOffset);
 
-		},
-		hideIconModeSearch: function () {
+            $form.css({'left': formLeftValue + 'px'});
 
-			var $openedElements = $('.dgwt-wcas-layout-icon-open');
+        },
+        hideIconModeSearch: function () {
 
-			if ($openedElements.length > 0) {
-				$openedElements.removeClass('dgwt-wcas-layout-icon-open');
-			}
-		},
+            var $openedElements = $('.dgwt-wcas-layout-icon-open');
+
+            if ($openedElements.length > 0) {
+                $openedElements.removeClass('dgwt-wcas-layout-icon-open');
+            }
+        },
         hideAfterClickOutsideListener: function () {
             var that = this;
             if (!that.isMobileMode()) {
@@ -1959,7 +1996,7 @@
                 var parent = '',
                     dataAttrs = '',
                     is_img = false,
-					url = typeof suggestion.url == 'string' && suggestion.url.length ? suggestion.url : '#';
+                    url = typeof suggestion.url == 'string' && suggestion.url.length ? suggestion.url : '#';
 
                 if (groupBy) {
                     html += formatGroup(suggestion, value, i);
@@ -2002,11 +2039,11 @@
                             prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels['tax_' + suggestion.taxonomy] + '</span>';
                         }
                     } else if (options.isPremium && suggestion.type === 'vendor') {
-						classes += ' dgwt-wcas-suggestion-vendor dgwt-wcas-suggestion-vendor';
-						if (!options.showHeadings) {
-							prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.vendor + '</span>';
-						}
-					} else if (options.isPremium && suggestion.type === 'post') {
+                        classes += ' dgwt-wcas-suggestion-vendor dgwt-wcas-suggestion-vendor';
+                        if (!options.showHeadings) {
+                            prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.vendor + '</span>';
+                        }
+                    } else if (options.isPremium && suggestion.type === 'post') {
                         classes += ' dgwt-wcas-suggestion-pt dgwt-wcas-suggestion-tp-post';
                         if (!options.showHeadings) {
                             prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.post + '</span>';
@@ -2032,47 +2069,47 @@
                         suggestion.value = dgwt_wcas.labels.no_results;
                         highlight = false;
                         if (options.showDetailsPanel === true) {
-							that.detailsPanelClearScene();
+                            that.detailsPanelClearScene();
                         }
                         $('body').addClass('dgwt-wcas-nores');
                     }
 
-					// Image
-					if (typeof suggestion.image_src != 'undefined' && suggestion.image_src) {
-						isImg = true;
-					}
+                    // Image
+                    if (typeof suggestion.image_src != 'undefined' && suggestion.image_src) {
+                        isImg = true;
+                    }
 
                     title = title.length > 0 ? ' title="' + title + '"' : '';
 
-					html += '<a href="' + url + '" class="' + classes + '" data-index="' + i + '">';
+                    html += '<a href="' + url + '" class="' + classes + '" data-index="' + i + '">';
 
-                    if(isImg) {
-						html += '<span class="dgwt-wcas-si"><img src="' + suggestion.image_src + '" /></span>';
-						html += '<div class="dgwt-wcas-content-wrapp">';
-					}
+                    if (isImg) {
+                        html += '<span class="dgwt-wcas-si"><img src="' + suggestion.image_src + '" /></span>';
+                        html += '<div class="dgwt-wcas-content-wrapp">';
+                    }
 
-					html += '<span' + title + ' class="' + innerClass + '">';
+                    html += '<span' + title + ' class="' + innerClass + '">';
 
-					if (suggestion.type === 'vendor') {
-						html += '<span class="dgwt-wcas-st-title">' + prepend + formatResult(suggestion.value, value, highlight, options) + append + '</span>';
+                    if (suggestion.type === 'vendor') {
+                        html += '<span class="dgwt-wcas-st-title">' + prepend + formatResult(suggestion.value, value, highlight, options) + append + '</span>';
 
-						// Vendor city
-						if (suggestion.shop_city) {
-							html += '<span class="dgwt-wcas-vendor-city"><span> - </span>' + formatResult(suggestion.shop_city, value, true, options) + '</span>';
-						}
+                        // Vendor city
+                        if (suggestion.shop_city) {
+                            html += '<span class="dgwt-wcas-vendor-city"><span> - </span>' + formatResult(suggestion.shop_city, value, true, options) + '</span>';
+                        }
 
-						// Description
-						if (typeof suggestion.desc != 'undefined' && suggestion.desc) {
-							html += '<span class="dgwt-wcas-sd">' + formatResult(suggestion.desc, value, true, options) + '</span>';
-						}
+                        // Description
+                        if (typeof suggestion.desc != 'undefined' && suggestion.desc) {
+                            html += '<span class="dgwt-wcas-sd">' + formatResult(suggestion.desc, value, true, options) + '</span>';
+                        }
 
-					}else{
-						html += prepend + formatResult(suggestion.value, value, highlight, options) + append;
-					}
+                    } else {
+                        html += prepend + formatResult(suggestion.value, value, highlight, options) + append;
+                    }
 
-					html += '</span>';
+                    html += '</span>';
 
-					html += isImg ? '</div>' : '';
+                    html += isImg ? '</div>' : '';
                     html += '</a>';
                 } else {
 
@@ -2123,18 +2160,18 @@
                         html += '<span class="dgwt-wcas-sd">' + formatResult(suggestion.desc, value, true, options) + '</span>';
                     }
 
-					// Vendor
-					if (options.showProductVendor === true && typeof suggestion.vendor != 'undefined' && suggestion.vendor) {
-						var vendorBody = '<span class="dgwt-wcas-product-vendor"><span class="dgwt-wcas-product-vendor-label">' + dgwt_wcas.labels.vendor_sold_by + ' </span>' + suggestion.vendor + '</span>'
+                    // Vendor
+                    if (options.showProductVendor === true && typeof suggestion.vendor != 'undefined' && suggestion.vendor) {
+                        var vendorBody = '<span class="dgwt-wcas-product-vendor"><span class="dgwt-wcas-product-vendor-label">' + dgwt_wcas.labels.vendor_sold_by + ' </span>' + suggestion.vendor + '</span>'
 
-						if (typeof suggestion.vendor_url != 'undefined' && suggestion.vendor_url) {
-							// Since version v1.12.0 suggestions tag was changed from <div> to <a> and vendor links are no longer supported.
-							html += '<span class="dgwt-wcas-product-vendor-link" data-url="' + suggestion.vendor_url + '">' + vendorBody + '</span>';
-						} else {
-							html += vendorBody;
-						}
+                        if (typeof suggestion.vendor_url != 'undefined' && suggestion.vendor_url) {
+                            // Since version v1.12.0 suggestions tag was changed from <div> to <a> and vendor links are no longer supported.
+                            html += '<span class="dgwt-wcas-product-vendor-link" data-url="' + suggestion.vendor_url + '">' + vendorBody + '</span>';
+                        } else {
+                            html += vendorBody;
+                        }
 
-					}
+                    }
 
                     // Custom content after description (3rd party)
                     if (typeof suggestion.content_after != 'undefined' && suggestion.content_after) {
@@ -2193,7 +2230,7 @@
             $('body').addClass('dgwt-wcas-open');
 
             // Reset the latest mousedown position
-			that.isMouseDownOnSearchElements = false;
+            that.isMouseDownOnSearchElements = false;
 
             that.automaticAlignment();
 
@@ -2225,81 +2262,52 @@
         },
         adjustContainerWidth: function () {
             var that = this,
-                options = that.options,
-                width,
-                container = $('body'),
-                searchForm = that.getFormWrapper(),
-                containerSugg = that.getSuggestionsContainer(),
-                containerDetails = that.getDetailsContainer(),
-                maxWidth = 550,
-                offset = that.getFormOffset();
+                $searchBar = that.getFormWrapper(),
+                $suggestions = that.getSuggestionsContainer(),
+                $detailsPanel = that.getDetailsContainer(),
+                $baseElement = $searchBar.find('.' + that.options.formClass),
+                baseWidth = $baseElement.outerWidth();
 
-            if(!searchForm.length){
+            if (!$searchBar.length) {
                 return;
             }
 
-            var realWidth = getComputedStyle(searchForm[0]).width;
+            // Mode 1 - suggestions wrapper width is the same as search bar width
+            $suggestions.css('width', baseWidth + 'px');
 
-            realWidth = Math.round(parseFloat(realWidth.replace('px', '')));
+            // Mode 2 - keep the suggestions wrapper and the details panel together under the search bar
+            if (that.canShowDetailsBox() && baseWidth >= that.options.dpusbBreakpoint) {
+                var measurementError = 0;
 
-            // If width is auto, adjust width before displaying suggestions,
-            if (options.width === 'auto') {
-                width = that.el.outerWidth();
-                containerSugg.css('width', width + 'px');
-            }
+                // Width 50:50
+                $suggestions.css('width', baseWidth / 2);
+                $detailsPanel.css('width', baseWidth / 2);
 
-            if (that.canShowDetailsBox()) {
-
-                // Set specific style on the bigger search form
-                if (searchForm.width() >= maxWidth) {
-
-                    container.addClass('dgwt-wcas-full-width');
-
-
-                    if (realWidth % 2 == 0) {
-                        containerSugg.css('width', Math.round(realWidth / 2));
-                        containerDetails.css('width', Math.round(realWidth / 2));
-                    } else {
-                        containerSugg.css('width', Math.floor(realWidth / 2));
-                        containerDetails.css('width', Math.ceil(realWidth / 2));
-                    }
-
-
-                    container.removeClass('dgwt-wcas-details-left');
-                    container.removeClass('dgwt-wcas-details-right');
-
-                    if (options.isRtl === true) {
-                        containerDetails.css('left', '0');
-                    } else {
-                        containerSugg.css('left', (realWidth / 2 + offset.left) + 'px');
-                    }
-
-                    return;
+                // Fix browsers subtleties such as calculating sizes as float numbers.
+                measurementError = baseWidth - ($suggestions.outerWidth() + $detailsPanel.outerWidth());
+                if (measurementError != 0) {
+                    $detailsPanel.css('width', $detailsPanel.outerWidth() + measurementError);
                 }
+            }
+        },
+        positionPreloader: function ($formWrapper) {
 
-                container.addClass('dgwt-wcas-details-right');
+            var $submit = typeof $formWrapper == 'object' ? $formWrapper.find('.dgwt-wcas-search-submit') : $('.dgwt-wcas-search-submit');
 
+            if ($submit.length > 0) {
+                $submit.each(function () {
+
+                    var $preloader = $(this).closest('.dgwt-wcas-search-wrapp').find('.dgwt-wcas-preloader');
+
+                    if (dgwt_wcas.is_rtl == 1) {
+                        $preloader.css('left', (6 + $(this).outerWidth()) + 'px');
+                    } else {
+                        $preloader.css('right', $(this).outerWidth() + 'px');
+                    }
+                });
             }
 
         },
-		positionPreloader: function ($formWrapper) {
-
-        	var $submit = typeof $formWrapper == 'object' ? $formWrapper.find('.dgwt-wcas-search-submit') : $('.dgwt-wcas-search-submit');
-
-			if ($submit.length > 0) {
-				$submit.each(function () {
-
-					var $preloader = $(this).closest('.dgwt-wcas-search-wrapp').find('.dgwt-wcas-preloader');
-
-					if (dgwt_wcas.is_rtl == 1) {
-						$preloader.css('left', (6 + $(this).outerWidth()) + 'px');
-					} else {
-						$preloader.css('right', $(this).outerWidth() + 'px');
-					}
-				});
-			}
-
-		},
         findBestHint: function () {
             var that = this,
                 value = that.el.val().toLowerCase(),
@@ -2347,10 +2355,10 @@
 
             if (place === 'form') {
 
-				// Return early if the preloader is disable via the settings for a search bar
-				if (dgwt_wcas.show_preloader != 1) {
-					return;
-				}
+                // Return early if the preloader is disable via the settings for a search bar
+                if (dgwt_wcas.show_preloader != 1) {
+                    return;
+                }
 
                 $container = that.getFormWrapper().find('.dgwt-wcas-preloader');
             } else if (place === 'details') {
@@ -2365,35 +2373,35 @@
             if (place === 'form') {
                 if (action === 'hide') {
                     $container.removeClass(cssClass);
-					$container.html('');
+                    $container.html('');
                 } else {
                     $container.addClass(cssClass);
-                    if(typeof dgwt_wcas.preloader_icon == 'string'){
-						$container.html(dgwt_wcas.preloader_icon);
-					}
+                    if (typeof dgwt_wcas.preloader_icon == 'string') {
+                        $container.html(dgwt_wcas.preloader_icon);
+                    }
                 }
                 return;
             }
 
-			// Handle preloader for a details panel
-			var $preloader = $container.find('.' + defaultClass);
+            // Handle preloader for a details panel
+            var $preloader = $container.find('.' + defaultClass);
 
-			// Action hide
-			if (action === 'hide') {
-				if ($preloader.length) {
-					$preloader.remove();
-				}
-				return
-			}
+            // Action hide
+            if (action === 'hide') {
+                if ($preloader.length) {
+                    $preloader.remove();
+                }
+                return
+            }
 
             // Action show
             if (action === 'show') {
                 var rtlSuffix = that.options.isRtl ? '-rtl' : '';
                 html = '<div class="' + cssClasses + '"><img class="dgwt-wcas-placeholder-preloader" src="' + dgwt_wcas.img_url + 'placeholder' + rtlSuffix + '.png" /></div>';
                 that.detailsPanelClearScene();
-				if ($preloader.length) {
-					$preloader.remove();
-				}
+                if ($preloader.length) {
+                    $preloader.remove();
+                }
                 $container.prepend(html);
             }
         },
@@ -2471,11 +2479,11 @@
         select: function (i) {
             var that = this;
 
-            if(that.options.disableHits){
-            	return;
-			}
+            if (that.options.disableHits) {
+                return;
+            }
 
-			that.disableOverlayMobile();
+            that.disableOverlayMobile();
             that.hide();
             that.onSelect(i);
         },
@@ -2486,7 +2494,7 @@
                 return;
             }
 
-			that.latestActivateSource = 'key';
+            that.latestActivateSource = 'key';
 
             if (that.selectedIndex === 0) {
                 that.getSuggestionsContainer().children('.' + that.classes.suggestion).first().removeClass(that.classes.selected);
@@ -2506,7 +2514,7 @@
                 return;
             }
 
-			that.latestActivateSource = 'key';
+            that.latestActivateSource = 'key';
 
             that.adjustScroll(that.selectedIndex + 1, 'down');
         },
@@ -2514,22 +2522,22 @@
             var that = this;
 
 
-            if(that.suggestions[index].type === 'headline'){
-            	index = direction === 'down' ? index + 1 : index - 1;
-			}
+            if (that.suggestions[index].type === 'headline') {
+                index = direction === 'down' ? index + 1 : index - 1;
+            }
 
-			if(typeof that.suggestions[index] == 'undefined'){
-				return;
-			}
+            if (typeof that.suggestions[index] == 'undefined') {
+                return;
+            }
 
             var activeItem = that.activate(index);
 
             that.getDetails(that.suggestions[index]);
 
-            if(that.suggestions[index].type === 'more_products'){
+            if (that.suggestions[index].type === 'more_products') {
 
-            	return;
-			}
+                return;
+            }
 
             if (!activeItem || that.canShowDetailsBox()) {
                 return;
@@ -2566,20 +2574,20 @@
                 onSelectCallback = that.options.onSelect,
                 suggestion = that.suggestions[index];
 
-			if (typeof suggestion.type != 'undefined') {
-				if (
-					suggestion.type === 'more_products'
-					|| (that.actionTriggerSource === 'enter' && that.latestActivateSource != 'key' && suggestion.type != 'product_variation')
-				) {
-					that.el.closest('form').trigger('submit');
-					return;
-				}
-			}
+            if (typeof suggestion.type != 'undefined') {
+                if (
+                    suggestion.type === 'more_products'
+                    || (that.actionTriggerSource === 'enter' && that.latestActivateSource != 'key' && suggestion.type != 'product_variation')
+                ) {
+                    that.el.closest('form').trigger('submit');
+                    return;
+                }
+            }
 
             that.currentValue = that.getValue(suggestion.value);
 
             if (that.currentValue !== that.el.val() && !that.options.preserveInput) {
-				that.el.val(that.currentValue.replace(/(<([^>]+)>)/gi, ' ').replace(/\s\s+/g, ' '));
+                that.el.val(that.currentValue.replace(/(<([^>]+)>)/gi, ' ').replace(/\s\s+/g, ' '));
             }
 
             if (suggestion.url.length > 0) {
@@ -2614,36 +2622,157 @@
         },
         dispose: function () {
             var that = this,
-				$el = that.el,
-				$formWrapper = that.getFormWrapper(),
-				$suggestionsWrapper = that.getSuggestionsContainer(),
-				$detailsWrapper = that.getDetailsContainer(),
-				$form = $el.closest('.' + that.options.formClass),
-				$mobileHandler = $formWrapper.find('.js-dgwt-wcas-enable-mobile-form');
+                $el = that.el,
+                $formWrapper = that.getFormWrapper(),
+                $suggestionsWrapper = that.getSuggestionsContainer(),
+                $detailsWrapper = that.getDetailsContainer(),
+                $form = $el.closest('.' + that.options.formClass),
+                $mobileHandler = $formWrapper.find('.js-dgwt-wcas-enable-mobile-form');
 
             // Remove all events
-            if($formWrapper.length){
-            	var $items = $formWrapper.find('*');
-				$items.each(function(){
-					$(this).off('.autocomplete');
-				});
-			}
+            if ($formWrapper.length) {
+                var $items = $formWrapper.find('*');
+                $items.each(function () {
+                    $(this).off('.autocomplete');
+                });
+            }
 
-			$el.removeData('autocomplete');
-			$(window).off('resize.autocomplete', that.fixPositionCapture);
+            $el.removeData('autocomplete');
+            $(window).off('resize.autocomplete', that.fixPositionCapture);
 
-			$formWrapper.removeClass('dgwt-wcas-active');
+            $formWrapper.removeClass('dgwt-wcas-active');
 
-			that.close(false);
+            that.close(false);
 
-			// Remove mobile handler
-			if ($mobileHandler.length) {
-				$mobileHandler.remove();
-			}
+            // Remove mobile handler
+            if ($mobileHandler.length) {
+                $mobileHandler.remove();
+            }
 
-			if($suggestionsWrapper.length){
-				$suggestionsWrapper.html('');
-			}
+            if ($suggestionsWrapper.length) {
+                $suggestionsWrapper.html('');
+            }
+        },
+        isMountedOverlayDarkened: function () {
+            var that = this,
+                $wrapp = that.getFormWrapper(),
+                mounted = false;
+
+            if ($wrapp.hasClass(that.classes.darkenOverlayMounted)) {
+                mounted = true;
+            }
+            return mounted;
+        },
+        enableOverlayDarkened: function () {
+            var that = this,
+                options = that.options,
+                $formWrapper;
+
+            if (!that.isMountedOverlayDarkened()) {
+                return;
+            }
+
+            $formWrapper = that.getFormWrapper();
+
+            $formWrapper.addClass('dgwt-wcas-search-darkoverl-on');
+            $('body').addClass('dgwt-wcas-darkoverl-on');
+
+            // Create node
+            if ($('.' + options.darkenedOverlayClass).length == 0) {
+                var html = '<div class="' + options.darkenedOverlayClass + '"><div></div><div></div><div></div><div></div></div>';
+                $('body').append(html);
+                var $darkenedOverlay = $('.' + that.options.darkenedOverlayClass);
+
+                that.positionOverlayDarkened();
+
+                $darkenedOverlay.on('click.autocomplete', function (e) {
+                    that.disableOverlayDarkened();
+                });
+
+            }
+
+            that.overlayDarkenedState = 'on';
+
+        },
+        disableOverlayDarkened: function () {
+            var that = this,
+                options = that.options,
+                $wrapps;
+
+            if (!that.isMountedOverlayDarkened()) {
+                return;
+            }
+
+            $wrapps = $('.dgwt-wcas-search-darkoverl-on');
+
+            if ($wrapps.length) {
+                $wrapps.removeClass('dgwt-wcas-search-darkoverl-on');
+            }
+            $('body').removeClass('dgwt-wcas-darkoverl-on');
+
+
+            var $el = $('.' + options.darkenedOverlayClass);
+            if ($el.length > 0) {
+                $el.remove();
+                that.overlayDarkenedState = 'off';
+            }
+        },
+        positionOverlayDarkened: function () {
+            var that = this,
+                $darkenedOverlay = $('.' + that.options.darkenedOverlayClass);
+
+            if ($darkenedOverlay.length > 0) {
+                $darkenedOverlay.children('div').each(function (i) {
+                    that.positionOverlayDarkenedDiv($(this), i + 1);
+                });
+            }
+        },
+        positionOverlayDarkenedDiv: function ($el, orient) {
+            var that = this,
+                elData = that.getFormElementInfo(),
+                css,
+                secureOffset = 200; // Secure buffor
+
+            // Note! It concerns cases 1,3 and 4. 1px is subtracted to achieve an exact match of document height. I don't know why it's needed.
+
+            switch (orient) {
+                case 1:
+                    css = {
+                        left: (-secureOffset) + 'px',
+                        top: (-secureOffset) + 'px',
+                        width: (elData.left + secureOffset) + 'px',
+                        height: ($(document).outerHeight(false) + secureOffset - 1) + 'px'
+                    };
+                    break;
+                case 2:
+                    css = {
+                        left: (-secureOffset) + 'px',
+                        top: (-secureOffset) + 'px',
+                        width: ($(window).outerWidth(false) + secureOffset) + 'px',
+                        height: (elData.top + secureOffset) + 'px',
+                    };
+                    break;
+                case 3:
+                    css = {
+                        left: (elData.left + elData.width) + 'px',
+                        top: (-secureOffset) + 'px',
+                        width: ($(window).outerWidth(false) - elData.right) + 'px',
+                        height: ($(document).outerHeight(false) + secureOffset - 1) + 'px'
+                    };
+                    break;
+                case 4:
+                    css = {
+                        left: (-secureOffset) + 'px',
+                        top: (elData.top + elData.height) + 'px',
+                        width: ($(window).outerWidth(false) + secureOffset) + 'px',
+                        height: ($(document).outerHeight(false) - elData.bottom - 1) + 'px'
+                    };
+                    break;
+            }
+
+            if (css) {
+                $el.css(css);
+            }
         },
         enableOverlayMobile: function () {
             var that = this;
@@ -2664,9 +2793,9 @@
             html += '<div class="js-dgwt-wcas-overlay-mobile dgwt-wcas-overlay-mobile">';
             html += '<div class="dgwt-wcas-om-bar js-dgwt-wcas-om-bar">';
             html += '<button class="dgwt-wcas-om-return js-dgwt-wcas-om-return">'
-			if (typeof dgwt_wcas.back_icon == 'string') {
-				html += dgwt_wcas.back_icon;
-			}
+            if (typeof dgwt_wcas.back_icon == 'string') {
+                html += dgwt_wcas.back_icon;
+            }
             html += '</button>';
             html += '</div>';
             html += '</div>';
@@ -2695,10 +2824,10 @@
         disableOverlayMobile: function ($overlayWrap) {
             var that = this;
 
-			if (!$('html').hasClass('dgwt-wcas-overlay-mobile-on')) {
+            if (!$('html').hasClass('dgwt-wcas-overlay-mobile-on')) {
                 that.overlayMobileState = 'off';
-				return;
-			}
+                return;
+            }
 
             var $suggestionsWrapp = that.getSuggestionsContainer();
 
@@ -2722,34 +2851,34 @@
                 var $closeBtn = $clonedForm.find('.dgwt-wcas-close');
                 if ($clonedForm.length > 0) {
                     $closeBtn.removeClass('dgwt-wcas-close');
-					$closeBtn.html('');
+                    $closeBtn.html('');
                 }
 
-				that.hide();
+                that.hide();
 
             }, 150);
 
 
             that.overlayMobileState = 'off';
         },
-		showCloseButton: function(){
-			var that = this,
-				iconBody = typeof dgwt_wcas.close_icon != 'undefined' ? dgwt_wcas.close_icon : '',
-				$actionsEl = that.getFormWrapper().find('.' + that.options.preloaderClass);
+        showCloseButton: function () {
+            var that = this,
+                iconBody = typeof dgwt_wcas.close_icon != 'undefined' ? dgwt_wcas.close_icon : '',
+                $actionsEl = that.getFormWrapper().find('.' + that.options.preloaderClass);
 
-			$actionsEl.addClass(that.options.closeTrigger);
-			$actionsEl.html(iconBody);
+            $actionsEl.addClass(that.options.closeTrigger);
+            $actionsEl.html(iconBody);
 
-		},
-		hideCloseButton: function () {
-			var that = this,
-				$btn = that.getFormWrapper().find('.' + that.options.closeTrigger);
+        },
+        hideCloseButton: function () {
+            var that = this,
+                $btn = that.getFormWrapper().find('.' + that.options.closeTrigger);
 
-			if ($btn.length) {
-				$btn.removeClass(that.options.closeTrigger);
-				$btn.html('');
-			}
-		},
+            if ($btn.length) {
+                $btn.removeClass(that.options.closeTrigger);
+                $btn.html('');
+            }
+        },
         elementOrParentIsFixed: function ($element) {
 
             var $checkElements = $element.add($element.parents());
@@ -2765,9 +2894,9 @@
             return isFixed;
         },
         gaEvent: function (label, category) {
-			var that = this;
-			var gaObj = window.hasOwnProperty('GoogleAnalyticsObject') && window.hasOwnProperty(window['GoogleAnalyticsObject']) ? window[window['GoogleAnalyticsObject']] : false;
-			if (that.options.sendGAEvents) {
+            var that = this;
+            var gaObj = window.hasOwnProperty('GoogleAnalyticsObject') && window.hasOwnProperty(window['GoogleAnalyticsObject']) ? window[window['GoogleAnalyticsObject']] : false;
+            if (that.options.sendGAEvents) {
                 try {
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'autocomplete_search', {
@@ -2775,33 +2904,33 @@
                             'event_category': category
                         });
                     } else if (gaObj !== false) {
-                    	var tracker = gaObj.getAll()[0];
-						if (tracker) tracker.send({
-							hitType: 'event',
-							eventCategory: category,
-							eventAction: 'autocomplete_search',
-							eventLabel: label
-						});
-					}
+                        var tracker = gaObj.getAll()[0];
+                        if (tracker) tracker.send({
+                            hitType: 'event',
+                            eventCategory: category,
+                            eventAction: 'autocomplete_search',
+                            eventLabel: label
+                        });
+                    }
                 } catch (error) {
                 }
             }
-			if (that.options.enableGASiteSearchModule) {
-				try {
-					if (typeof gtag !== 'undefined') {
-						gtag('event', 'page_view', {
-							'page_path': '/?s=' + encodeURI(label) + '&post_type=product&dgwt_wcas=1',
-						});
-					} else if (gaObj !== false) {
-						var tracker2 = gaObj.getAll()[0];
-						if (tracker2) {
-							tracker2.set('page', '/?s=' + encodeURI(label) + '&post_type=product&dgwt_wcas=1');
-							tracker2.send('pageview');
-						}
-					}
-				} catch (error) {
-				}
-			}
+            if (that.options.enableGASiteSearchModule) {
+                try {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'page_view', {
+                            'page_path': '/?s=' + encodeURI(label) + '&post_type=product&dgwt_wcas=1',
+                        });
+                    } else if (gaObj !== false) {
+                        var tracker2 = gaObj.getAll()[0];
+                        if (tracker2) {
+                            tracker2.set('page', '/?s=' + encodeURI(label) + '&post_type=product&dgwt_wcas=1');
+                            tracker2.send('pageview');
+                        }
+                    }
+                } catch (error) {
+                }
+            }
 
             $(document).trigger('dgwtWcasGAEvent', {'term': label, 'category': category});
         }
@@ -2844,41 +2973,195 @@
 
     (function () {
 
-		function isIOS() {
-			return [
-					'iPad Simulator',
-					'iPhone Simulator',
-					'iPod Simulator',
-					'iPad',
-					'iPhone',
-					'iPod'
-				].includes(navigator.platform)
-				// iPad on iOS 13 detection
-				|| (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-		}
+        function isIOS() {
+            return [
+                    'iPad Simulator',
+                    'iPhone Simulator',
+                    'iPod Simulator',
+                    'iPad',
+                    'iPhone',
+                    'iPod'
+                ].includes(navigator.platform)
+                // iPad on iOS 13 detection
+                || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+        }
 
-		function isIE11() {
-			return !!navigator.userAgent.match(/Trident\/7\./);
-		}
+        function isIE11() {
+            return !!navigator.userAgent.match(/Trident\/7\./);
+        }
 
-		/*-----------------------------------------------------------------
-		/* IE11 polyfills
-		/*-----------------------------------------------------------------*/
-		if (isIE11()) {
-			// https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.includes%2CString.prototype.includes
-			(function(self, undefined) {function Call(t,l){var n=arguments.length>2?arguments[2]:[];if(!1===IsCallable(t))throw new TypeError(Object.prototype.toString.call(t)+"is not a function.");return t.apply(l,n)}function CreateMethodProperty(e,r,t){var a={value:t,writable:!0,enumerable:!1,configurable:!0};Object.defineProperty(e,r,a)}function Get(n,t){return n[t]}function IsCallable(n){return"function"==typeof n}function RequireObjectCoercible(e){if(null===e||e===undefined)throw TypeError(Object.prototype.toString.call(e)+" is not coercible to Object.");return e}function SameValueNonNumber(e,n){return e===n}function ToBoolean(o){return Boolean(o)}function ToObject(e){if(null===e||e===undefined)throw TypeError();return Object(e)}function GetV(t,e){return ToObject(t)[e]}function GetMethod(e,n){var r=GetV(e,n);if(null===r||r===undefined)return undefined;if(!1===IsCallable(r))throw new TypeError("Method not callable: "+n);return r}function Type(e){switch(typeof e){case"undefined":return"undefined";case"boolean":return"boolean";case"number":return"number";case"string":return"string";case"symbol":return"symbol";default:return null===e?"null":"Symbol"in self&&(e instanceof self.Symbol||e.constructor===self.Symbol)?"symbol":"object"}}function IsRegExp(e){if("object"!==Type(e))return!1;var n="Symbol"in self&&"match"in self.Symbol?Get(e,self.Symbol.match):undefined;if(n!==undefined)return ToBoolean(n);try{var t=e.lastIndex;return e.lastIndex=0,RegExp.prototype.exec.call(e),!0}catch(l){}finally{e.lastIndex=t}return!1}function OrdinaryToPrimitive(r,t){if("string"===t)var e=["toString","valueOf"];else e=["valueOf","toString"];for(var i=0;i<e.length;++i){var n=e[i],a=Get(r,n);if(IsCallable(a)){var o=Call(a,r);if("object"!==Type(o))return o}}throw new TypeError("Cannot convert to primitive.")}function SameValueZero(n,e){return Type(n)===Type(e)&&("number"===Type(n)?!(!isNaN(n)||!isNaN(e))||(1/n===Infinity&&1/e==-Infinity||(1/n==-Infinity&&1/e===Infinity||n===e)):SameValueNonNumber(n,e))}function ToInteger(n){if("symbol"===Type(n))throw new TypeError("Cannot convert a Symbol value to a number");var t=Number(n);return isNaN(t)?0:1/t===Infinity||1/t==-Infinity||t===Infinity||t===-Infinity?t:(t<0?-1:1)*Math.floor(Math.abs(t))}function ToLength(n){var t=ToInteger(n);return t<=0?0:Math.min(t,Math.pow(2,53)-1)}function ToPrimitive(e){var t=arguments.length>1?arguments[1]:undefined;if("object"===Type(e)){if(arguments.length<2)var i="default";else t===String?i="string":t===Number&&(i="number");var r="function"==typeof self.Symbol&&"symbol"==typeof self.Symbol.toPrimitive?GetMethod(e,self.Symbol.toPrimitive):undefined;if(r!==undefined){var n=Call(r,e,[i]);if("object"!==Type(n))return n;throw new TypeError("Cannot convert exotic object to primitive.")}return"default"===i&&(i="number"),OrdinaryToPrimitive(e,i)}return e}function ToString(t){switch(Type(t)){case"symbol":throw new TypeError("Cannot convert a Symbol value to a string");case"object":return ToString(ToPrimitive(t,String));default:return String(t)}}CreateMethodProperty(Array.prototype,"includes",function e(r){"use strict";var t=ToObject(this),o=ToLength(Get(t,"length"));if(0===o)return!1;var n=ToInteger(arguments[1]);if(n>=0)var a=n;else(a=o+n)<0&&(a=0);for(;a<o;){var i=Get(t,ToString(a));if(SameValueZero(r,i))return!0;a+=1}return!1});CreateMethodProperty(String.prototype,"includes",function e(t){"use strict";var r=arguments.length>1?arguments[1]:undefined,n=RequireObjectCoercible(this),i=ToString(n);if(IsRegExp(t))throw new TypeError("First argument to String.prototype.includes must not be a regular expression");var o=ToString(t),g=ToInteger(r),a=i.length,p=Math.min(Math.max(g,0),a);return-1!==String.prototype.indexOf.call(i,o,p)});})('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-		}
+        /*-----------------------------------------------------------------
+        /* IE11 polyfills
+        /*-----------------------------------------------------------------*/
+        if (isIE11()) {
+            // https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.includes%2CString.prototype.includes
+            (function (self, undefined) {
+                function Call(t, l) {
+                    var n = arguments.length > 2 ? arguments[2] : [];
+                    if (!1 === IsCallable(t)) throw new TypeError(Object.prototype.toString.call(t) + "is not a function.");
+                    return t.apply(l, n)
+                }
+
+                function CreateMethodProperty(e, r, t) {
+                    var a = {value: t, writable: !0, enumerable: !1, configurable: !0};
+                    Object.defineProperty(e, r, a)
+                }
+
+                function Get(n, t) {
+                    return n[t]
+                }
+
+                function IsCallable(n) {
+                    return "function" == typeof n
+                }
+
+                function RequireObjectCoercible(e) {
+                    if (null === e || e === undefined) throw TypeError(Object.prototype.toString.call(e) + " is not coercible to Object.");
+                    return e
+                }
+
+                function SameValueNonNumber(e, n) {
+                    return e === n
+                }
+
+                function ToBoolean(o) {
+                    return Boolean(o)
+                }
+
+                function ToObject(e) {
+                    if (null === e || e === undefined) throw TypeError();
+                    return Object(e)
+                }
+
+                function GetV(t, e) {
+                    return ToObject(t)[e]
+                }
+
+                function GetMethod(e, n) {
+                    var r = GetV(e, n);
+                    if (null === r || r === undefined) return undefined;
+                    if (!1 === IsCallable(r)) throw new TypeError("Method not callable: " + n);
+                    return r
+                }
+
+                function Type(e) {
+                    switch (typeof e) {
+                        case"undefined":
+                            return "undefined";
+                        case"boolean":
+                            return "boolean";
+                        case"number":
+                            return "number";
+                        case"string":
+                            return "string";
+                        case"symbol":
+                            return "symbol";
+                        default:
+                            return null === e ? "null" : "Symbol" in self && (e instanceof self.Symbol || e.constructor === self.Symbol) ? "symbol" : "object"
+                    }
+                }
+
+                function IsRegExp(e) {
+                    if ("object" !== Type(e)) return !1;
+                    var n = "Symbol" in self && "match" in self.Symbol ? Get(e, self.Symbol.match) : undefined;
+                    if (n !== undefined) return ToBoolean(n);
+                    try {
+                        var t = e.lastIndex;
+                        return e.lastIndex = 0, RegExp.prototype.exec.call(e), !0
+                    } catch (l) {
+                    } finally {
+                        e.lastIndex = t
+                    }
+                    return !1
+                }
+
+                function OrdinaryToPrimitive(r, t) {
+                    if ("string" === t) var e = ["toString", "valueOf"]; else e = ["valueOf", "toString"];
+                    for (var i = 0; i < e.length; ++i) {
+                        var n = e[i], a = Get(r, n);
+                        if (IsCallable(a)) {
+                            var o = Call(a, r);
+                            if ("object" !== Type(o)) return o
+                        }
+                    }
+                    throw new TypeError("Cannot convert to primitive.")
+                }
+
+                function SameValueZero(n, e) {
+                    return Type(n) === Type(e) && ("number" === Type(n) ? !(!isNaN(n) || !isNaN(e)) || (1 / n === Infinity && 1 / e == -Infinity || (1 / n == -Infinity && 1 / e === Infinity || n === e)) : SameValueNonNumber(n, e))
+                }
+
+                function ToInteger(n) {
+                    if ("symbol" === Type(n)) throw new TypeError("Cannot convert a Symbol value to a number");
+                    var t = Number(n);
+                    return isNaN(t) ? 0 : 1 / t === Infinity || 1 / t == -Infinity || t === Infinity || t === -Infinity ? t : (t < 0 ? -1 : 1) * Math.floor(Math.abs(t))
+                }
+
+                function ToLength(n) {
+                    var t = ToInteger(n);
+                    return t <= 0 ? 0 : Math.min(t, Math.pow(2, 53) - 1)
+                }
+
+                function ToPrimitive(e) {
+                    var t = arguments.length > 1 ? arguments[1] : undefined;
+                    if ("object" === Type(e)) {
+                        if (arguments.length < 2) var i = "default"; else t === String ? i = "string" : t === Number && (i = "number");
+                        var r = "function" == typeof self.Symbol && "symbol" == typeof self.Symbol.toPrimitive ? GetMethod(e, self.Symbol.toPrimitive) : undefined;
+                        if (r !== undefined) {
+                            var n = Call(r, e, [i]);
+                            if ("object" !== Type(n)) return n;
+                            throw new TypeError("Cannot convert exotic object to primitive.")
+                        }
+                        return "default" === i && (i = "number"), OrdinaryToPrimitive(e, i)
+                    }
+                    return e
+                }
+
+                function ToString(t) {
+                    switch (Type(t)) {
+                        case"symbol":
+                            throw new TypeError("Cannot convert a Symbol value to a string");
+                        case"object":
+                            return ToString(ToPrimitive(t, String));
+                        default:
+                            return String(t)
+                    }
+                }
+
+                CreateMethodProperty(Array.prototype, "includes", function e(r) {
+                    "use strict";
+                    var t = ToObject(this), o = ToLength(Get(t, "length"));
+                    if (0 === o) return !1;
+                    var n = ToInteger(arguments[1]);
+                    if (n >= 0) var a = n; else (a = o + n) < 0 && (a = 0);
+                    for (; a < o;) {
+                        var i = Get(t, ToString(a));
+                        if (SameValueZero(r, i)) return !0;
+                        a += 1
+                    }
+                    return !1
+                });
+                CreateMethodProperty(String.prototype, "includes", function e(t) {
+                    "use strict";
+                    var r = arguments.length > 1 ? arguments[1] : undefined, n = RequireObjectCoercible(this),
+                        i = ToString(n);
+                    if (IsRegExp(t)) throw new TypeError("First argument to String.prototype.includes must not be a regular expression");
+                    var o = ToString(t), g = ToInteger(r), a = i.length, p = Math.min(Math.max(g, 0), a);
+                    return -1 !== String.prototype.indexOf.call(i, o, p)
+                });
+            })('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+        }
 
         // RUN
         $(document).ready(function () {
             "use strict";
 
-			/*-----------------------------------------------------------------
-			/* Mobile detection
-			/*-----------------------------------------------------------------*/
-			if(isIOS()){
-				$('html').addClass('dgwt-wcas-is-ios');
-			}
+            /*-----------------------------------------------------------------
+            /* Mobile detection
+            /*-----------------------------------------------------------------*/
+            if (isIOS()) {
+                $('html').addClass('dgwt-wcas-is-ios');
+            }
 
             /*-----------------------------------------------------------------
             /* Fire autocomplete
@@ -2918,52 +3201,52 @@
                 debounceWaitMs: dgwt_wcas.debounce_wait_ms,
                 sendGAEvents: dgwt_wcas.send_ga_events,
                 convertHtml: dgwt_wcas.convert_html,
-				enableGASiteSearchModule: dgwt_wcas.enable_ga_site_search_module,
-				appendTo: typeof dgwt_wcas.suggestions_wrapper  != 'undefined' ? dgwt_wcas.suggestions_wrapper : 'body',
-				showProductVendor: typeof dgwt_wcas.show_product_vendor != 'undefined' && dgwt_wcas.show_product_vendor ? true : false,
-				disableHits: typeof dgwt_wcas.disable_hits != 'undefined' && dgwt_wcas.disable_hits ? true : false,
-				disableSubmit: typeof dgwt_wcas.disable_submit != 'undefined' && dgwt_wcas.disable_submit ? true : false
+                enableGASiteSearchModule: dgwt_wcas.enable_ga_site_search_module,
+                appendTo: typeof dgwt_wcas.suggestions_wrapper != 'undefined' ? dgwt_wcas.suggestions_wrapper : 'body',
+                showProductVendor: typeof dgwt_wcas.show_product_vendor != 'undefined' && dgwt_wcas.show_product_vendor ? true : false,
+                disableHits: typeof dgwt_wcas.disable_hits != 'undefined' && dgwt_wcas.disable_hits ? true : false,
+                disableSubmit: typeof dgwt_wcas.disable_submit != 'undefined' && dgwt_wcas.disable_submit ? true : false,
             };
 
             $('.dgwt-wcas-search-input').dgwtWcasAutocomplete(window.dgwt_wcas.config);
 
         });
 
-		/*-----------------------------------------------------------------
+        /*-----------------------------------------------------------------
         /* Fix broken search bars after click browser's back arrow.
         /* Not worked for some browsers especially Safari and FF
         /* Add dgwt-wcas-active class if wasn't added for some reason
-		/*
+        /*
         /*------------ -----------------------------------------------------*/
-		$(window).on('load', function () {
-			var i = 0;
-			var interval = setInterval(function () {
+        $(window).on('load', function () {
+            var i = 0;
+            var interval = setInterval(function () {
 
-				var activeEl = document.activeElement;
+                var activeEl = document.activeElement;
 
-				if (
-					typeof activeEl == 'object'
-					&& $(activeEl).length
-					&& $(activeEl).hasClass('dgwt-wcas-search-input')
-				) {
+                if (
+                    typeof activeEl == 'object'
+                    && $(activeEl).length
+                    && $(activeEl).hasClass('dgwt-wcas-search-input')
+                ) {
 
-					var $search = $(activeEl).closest('.dgwt-wcas-search-wrapp');
+                    var $search = $(activeEl).closest('.dgwt-wcas-search-wrapp');
 
-					if ($search.length && !$search.hasClass('dgwt-wcas-active')) {
-						$search.addClass('dgwt-wcas-active');
-						clearInterval(interval);
-					}
-				}
+                    if ($search.length && !$search.hasClass('dgwt-wcas-active')) {
+                        $search.addClass('dgwt-wcas-active');
+                        clearInterval(interval);
+                    }
+                }
 
-				// Stop after 5 seconds
-				if (i > 10) {
-					clearInterval(interval);
-				}
+                // Stop after 5 seconds
+                if (i > 10) {
+                    clearInterval(interval);
+                }
 
-				i++;
+                i++;
 
-			}, 500);
-		});
+            }, 500);
+        });
 
         /*-----------------------------------------------------------------
         /* Fix broken search bars by 3rd party plugins
@@ -2971,24 +3254,24 @@
         /* for eg. mobile usage. We try to fix all broken search bars.
         /*------------ -----------------------------------------------------*/
         $(document).ready(function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 makeIDUnique();
                 maybeReinit();
             }, 500);
         });
 
         $(window).on('load', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 makeIDUnique();
                 maybeReinit();
             }, 500);
 
             // Support for Elementor popups
-            if(
+            if (
                 typeof window.elementorFrontend != 'undefined'
                 && typeof window.elementorFrontend.documentsManager != 'undefined'
                 && typeof window.elementorFrontend.documentsManager.documents != 'undefined'
-            ){
+            ) {
 
                 $.each(elementorFrontend.documentsManager.documents, function (id, document) {
                     if (typeof document.getModal != 'undefined' && document.getModal) {
@@ -3035,6 +3318,7 @@
             }
 
         }
+
         /**
          * Init not initialized search bar
          */
@@ -3054,6 +3338,17 @@
 
         }
 
+        /**
+         * Refreshing the content on the checkout page when a product is added to the cart from the search Details Panel
+         */
+        $(document.body).on('added_to_cart', function () {
+            if (
+                $(document.body).hasClass('woocommerce-checkout') &&
+                $('.dgwt-wcas-search-input').length > 0
+            ) {
+                $(document.body).trigger('update_checkout');
+            }
+        });
     }());
 
 }));

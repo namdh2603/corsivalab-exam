@@ -1,8 +1,11 @@
 <?php
 
-
 namespace DgoraWcas;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Term {
 	protected $termID = 0;

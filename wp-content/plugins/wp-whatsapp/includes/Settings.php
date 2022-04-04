@@ -325,7 +325,7 @@ class Settings
         $new_input['textColor'] = sanitize_hex_color($_POST['textColor']);
         $new_input['backgroundColor'] = sanitize_hex_color($_POST['backgroundColor']);
         $new_input['description'] = wp_kses_post(wp_unslash($_POST['description']));
-        $new_input['responseText'] = sanitize_text_field(wp_unslash($_POST['responseText']));
+        $new_input['responseText'] = wp_kses_post(wp_unslash($_POST['responseText']));
         $new_input['scrollHeight'] = sanitize_text_field($_POST['scrollHeight']);
         $new_input['isShowScroll'] = isset($_POST['isShowScroll']) ? 'ON' : 'OFF';
         $new_input['isShowResponseText'] = isset($_POST['isShowResponseText']) ? 'ON' : 'OFF';

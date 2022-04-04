@@ -11,16 +11,14 @@ if ( ! function_exists( 'storefront_product_search' ) ) {
 	function storefront_product_search() {
 		if ( storefront_is_woocommerce_activated() ) { ?>
 			<div class="site-search">
-				<?php echo do_shortcode( '[wcas-search-form]' ); ?>
+				<?php echo do_shortcode( '[fibosearch]' ); ?>
 			</div>
 			<?php
 		}
 	}
 }
 
-add_action( 'wp_footer', 'dgwt_wcas_storefront_inverse_orientation', 100 );
-
-function dgwt_wcas_storefront_inverse_orientation() {
+add_action( 'wp_footer', function () {
 	if ( Helpers::isAMPEndpoint() ) {
 		?>
 		<style>
@@ -33,6 +31,12 @@ function dgwt_wcas_storefront_inverse_orientation() {
 		return;
 	}
 	?>
+	<style>
+		.dgwt-wcas-open .storefront-handheld-footer-bar,
+		.dgwt-wcas-focused .storefront-handheld-footer-bar {
+			display: none;
+		}
+	</style>
 	<script>
 		(function ($) {
 			$(window).on('load', function () {
@@ -49,7 +53,7 @@ function dgwt_wcas_storefront_inverse_orientation() {
 		}(jQuery));
 	</script>
 	<?php
-}
+}, 100 );
 
 /**
  * Toole mobile search when AMP is active

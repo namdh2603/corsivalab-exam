@@ -33,7 +33,7 @@ class Woodmart {
 	 */
 	public function shop_page_link( $link, $keep_query, $taxonomy ) {
 		if ( $keep_query && isset( $_GET['dgwt_wcas'] ) ) {
-			$link = add_query_arg( 'dgwt_wcas', wc_clean( $_GET['dgwt_wcas'] ), $link );
+			$link = add_query_arg( 'dgwt_wcas', '1', $link );
 		}
 
 		return $link;

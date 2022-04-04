@@ -2,9 +2,9 @@
 
 namespace DgoraWcas\Admin;
 
-// Exit if accessed directly
 use  DgoraWcas\Engines\TNTSearchMySQL\Indexer\Builder ;
 use  DgoraWcas\Settings ;
+// Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) {
     exit;
 }

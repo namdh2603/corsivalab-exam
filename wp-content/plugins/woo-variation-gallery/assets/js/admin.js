@@ -2,7 +2,7 @@
  * Variation Gallery for WooCommerce 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 2/25/2022, 12:16:16 PM
+ * Date: 3/15/2022, 2:40:39 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -88,7 +88,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -122,9 +122,10 @@ var WooVariationGalleryAdmin = function ($) {
     }, {
       key: "HandleDiv",
       value: function HandleDiv() {
-        $(document.body).on('click', '.woo-variation-gallery-wrapper .handlediv', function () {
-          $(this).closest('.postbox').toggleClass('closed');
-          var ariaExpandedValue = !$(this).closest('.postbox').hasClass('closed');
+        // Meta-Boxes - Open/close
+        $(document.body).on('click', '.woo-variation-gallery-wrapper .handle-div', function () {
+          $(this).closest('.woo-variation-gallery-postbox').toggleClass('closed');
+          var ariaExpandedValue = !$(this).closest('.woo-variation-gallery-postbox').hasClass('closed');
           $(this).attr('aria-expanded', ariaExpandedValue);
         });
       }
@@ -305,8 +306,9 @@ jQuery(function ($) {
     var WooVariationGalleryAdmin = _ref.WooVariationGalleryAdmin;
     // WooVariationGalleryAdmin.ImageUploader();
     // WooVariationGalleryAdmin.Sortable();
-    WooVariationGalleryAdmin.GWPAdmin();
+    // WooVariationGalleryAdmin.GWPAdmin();
     WooVariationGalleryAdmin.HandleDiv();
+    WooVariationGalleryAdmin.ImageUploader();
     $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
       WooVariationGalleryAdmin.ImageUploader();
       WooVariationGalleryAdmin.Sortable();
@@ -326,7 +328,7 @@ jQuery(function ($) {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("./src/js/backend.js");

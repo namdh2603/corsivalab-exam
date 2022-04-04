@@ -2,12 +2,10 @@
 
 use DgoraWcas\Helpers;
 
-
 // Exit if accessed directly
 if ( ! defined( 'DGWT_WCAS_FILE' ) ) {
 	exit;
 }
-
 
 $submitText = Helpers::getLabel( 'submit' );
 $hasSubmit  = DGWT_WCAS()->settings->getOption( 'show_submit_button' );

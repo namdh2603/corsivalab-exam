@@ -595,6 +595,7 @@
             $.ajax({
                 url: ajaxurl,
                 data: {
+                    _wpnonce: dgwt_wcas.nonces.advanced_options_switch,
                     action: 'dgwt_wcas_adv_settings',
                     adv_settings_value: choice
                 }

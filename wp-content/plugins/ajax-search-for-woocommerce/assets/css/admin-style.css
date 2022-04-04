@@ -1470,15 +1470,16 @@ td.dgwt-wcas-indexing-details-row a {
 }
 
 .dgwt-wcas-tooltip-inner {
-    max-width: 190px;
-    line-height: 16px;
-    font-size: 13px;
-    padding: 5px 9px;
+	max-width: 280px;
+    line-height: 158%;
+    font-size: 14px;
+    padding: 10px 15px;
     color: #222;
     text-align: left;
     background-color: #fff;
     border-radius: 0.25rem;
     box-shadow: 0 -8px 25px 13px #ddd;
+	cursor: auto;
 }
 
 .dgwt-wcas-tooltip__head {
@@ -1729,4 +1730,14 @@ h3.dgwt-wcas-troubleshooting-issue-title {
 	column-gap: 40px;
 	column-rule: 1px solid #eee;
 	font-family: monospace;
+}
+
+.dashicons.dgwt-wcas-override-tooltip {
+	line-height: 16px;
+	font-size: 16px;
+	margin-right: 4px;
+	display: inline-block;
+}
+.dgwt-wcas-override-tooltip {
+	cursor: auto;
 }

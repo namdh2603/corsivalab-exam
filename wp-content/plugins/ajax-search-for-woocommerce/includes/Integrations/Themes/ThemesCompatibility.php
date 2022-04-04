@@ -190,7 +190,7 @@ class ThemesCompatibility {
 				'className' => 'Estore',
 				'name'      => 'eStore',
 			),
-			'estore-pro'        => array(
+			'estore-pro'    => array(
 				'slug'      => 'estore-pro',
 				'className' => 'EstorePro',
 				'name'      => 'eStore Pro',
@@ -204,14 +204,28 @@ class ThemesCompatibility {
 				'className' => 'OpenShopPro',
 				'name'      => 'Open Shop Pro',
 			),
-			'uncode' => array(
-				'slug'      => 'uncode',
-				'name'      => 'Uncode',
+			'uncode'        => array(
+				'slug' => 'uncode',
+				'name' => 'Uncode',
 			),
-			'xstore' => array(
+			'xstore'        => array(
 				'slug'      => 'xstore',
 				'className' => 'Xstore',
 				'name'      => 'XStore',
+			),
+			'kadence'       => array(
+				'slug' => 'kadence',
+				'name' => 'Kadence',
+			),
+			'thegem-elementor' => array(
+				'slug'      => 'thegem-elementor',
+				'className' => 'TheGemElementor',
+				'name'      => 'TheGem (Elementor)',
+			),
+			'thegem-wpbakery' => array(
+				'slug'      => 'thegem-wpbakery',
+				'className' => 'TheGemWPBakery',
+				'name'      => 'TheGem (WPBakery)',
 			),
 		);
 	}
