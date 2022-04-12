@@ -8,7 +8,7 @@ require('typerocket/init.php');
 //require('inc/corsivalab-shortcode.php');
 require('inc/menu-navwalker.php');
 //require('inc/corsivalab-field-product.php');
-require('inc/corsivalab-field-product-cat.php');
+//require('inc/corsivalab-field-product-cat.php');
 //require('inc/corsivalab-field-page.php');
 // require('inc/custom-field-post.php');
 //require('inc/corsivalab-register-post.php');
