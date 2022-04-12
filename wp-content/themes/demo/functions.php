@@ -1,4 +1,25 @@
 <?php
+add_filter('big_image_size_threshold', '__return_false');
+add_filter('use_block_editor_for_post', '__return_false', 10);
+add_filter('gutenberg_use_widgets_block_editor', '__return_false');
+add_filter('wpcf7_autop_or_not', '__return_false');
+add_filter( 'use_widgets_block_editor', '__return_true' );
+require('typerocket/init.php');
+//require('inc/corsivalab-shortcode.php');
+require('inc/menu-navwalker.php');
+//require('inc/corsivalab-field-product.php');
+require('inc/corsivalab-field-product-cat.php');
+//require('inc/corsivalab-field-page.php');
+// require('inc/custom-field-post.php');
+//require('inc/corsivalab-register-post.php');
+//require('inc/corsivalab-woocommerce.php');
+//require('inc/ajax.php');
+add_filter('tr_theme_options_page', function () {
+    return get_template_directory() . '/inc/theme-options.php';
+});
+add_filter('tr_theme_options_name', function () {
+    return 'corsivalab_options';
+});
 function corsivalab_setup()
 {
     add_theme_support('automatic-feed-links');
@@ -112,27 +133,6 @@ function remove_version_wp($src)
 }
 //add_filter('style_loader_src', 'remove_version_wp', 9999);
 //add_filter('script_loader_src', 'remove_version_wp', 9999);
-add_filter('big_image_size_threshold', '__return_false');
-add_filter('use_block_editor_for_post', '__return_false', 10);
-add_filter('gutenberg_use_widgets_block_editor', '__return_false');
-add_filter('wpcf7_autop_or_not', '__return_false');
-add_filter( 'use_widgets_block_editor', '__return_true' );
-require('typerocket/init.php');
-//require('inc/corsivalab-shortcode.php');
-require('inc/menu-navwalker.php');
-//require('inc/corsivalab-field-product.php');
-//require('inc/corsivalab-field-page.php');
-// require('inc/custom-field-post.php');
-//require('inc/corsivalab-register-post.php');
-//require('inc/corsivalab-woocommerce.php');
-//require('inc/ajax.php');
-add_filter('tr_theme_options_page', function () {
-    return get_template_directory() . '/inc/theme-options.php';
-});
-add_filter('tr_theme_options_name', function () {
-    return 'corsivalab_options';
-});
-// get image
 if (!function_exists('get_attachment')) {
     function get_attachment($attachment_id)
     {
