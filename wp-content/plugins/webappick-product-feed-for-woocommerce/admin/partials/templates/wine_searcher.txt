@@ -1,5 +1,0 @@
-<wine-searcher-datafeed>
-<product-list>
-{separator}
-  	</product-list>
-</wine-searcher-datafeed>

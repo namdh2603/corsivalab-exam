@@ -1,9 +1,0 @@
-<STORE>
-	<datetime>{DateTimeNow}</datetime>
-	<title>{BlogName}</title>
-	<link>{BlogURL}</link>
-	<description>{BlogDescription}</description>
-	<agency>{BlogName}</agency>
-	<email>{BlogEmail}</email>
-{separator}
-</STORE>

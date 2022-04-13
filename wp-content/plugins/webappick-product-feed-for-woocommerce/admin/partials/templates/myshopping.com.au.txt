@@ -1,3 +1,0 @@
-<productset>
-{separator}
-</productset>

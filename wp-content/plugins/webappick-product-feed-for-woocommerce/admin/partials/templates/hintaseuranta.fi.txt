@@ -1,7 +1,0 @@
-<products version="1.0" standalone="yes">
-	<datetime>{DateTimeNow}</datetime>
-	<title>{BlogName}</title>
-	<link>{BlogURL}</link>
-	<description>{BlogDescription}</description>
-{separator}
-</products>
