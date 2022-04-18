@@ -14,40 +14,40 @@
  * @package WooCommerce\Templates
  * @version 3.5.0
  */
-
-defined( 'ABSPATH' ) || exit; ?>
-
-
-<!-- <div class="page-inner default-template m-auto">
-							<div class="text-center">
-								<h2 class="heading">My account</h2>
-							</div>
-						</div> -->
-<div class="container">
-	
-
-
-<div class="row woocommerce-account-template">
-	<div class="col-12 col-lg-3">
-<?php
-/**
- * My Account navigation.
- *
- * @since 2.6.0
- */
-do_action( 'woocommerce_account_navigation' ); ?>
+defined('ABSPATH') || exit;
+?>
+<div class="section corsivalab-myaccount">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 mb-5">
+				<div class="title-section">MY ACCOUNT</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="corsivalab-myaccount-navbar">
+					<?php
+					/**
+					 * My Account navigation.
+					 *
+					 * @since 2.6.0
+					 */
+					do_action('woocommerce_account_navigation');
+					?>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="corsivalab-myaccount-content">
+					<div class="woocommerce-MyAccount-content">
+						<?php
+						/**
+						 * My Account content.
+						 *
+						 * @since 2.6.0
+						 */
+						do_action('woocommerce_account_content');
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="col-12 col-lg-9">
-
-<div class="woocommerce-MyAccount-content">
-	<?php
-		/**
-		 * My Account content.
-		 *
-		 * @since 2.6.0
-		 */
-		do_action( 'woocommerce_account_content' );
-	?>
-</div>
-</div>
-</div></div>

@@ -1,0 +1,21 @@
+.lmp_load_more_button.br_lmp_button_settings {
+    .lmp_button {
+      &.corsivalab-loadmore {
+        text-decoration: none !important;
+        @include font($d-fs, $d-fs, 700);
+        @include padding(15, 40, 15, 40);
+        margin-top: toRem(50);
+        border: 1px solid $color-183a1d !important;
+        text-align: center !important;
+        color: $white !important;
+        background-color: $color-183a1d !important;
+        border-radius: toRem(50) !important;
+        @include transition();
+        &:hover {
+          color: $white !important;
+          background-color: $color-183a1d !important;
+        }
+      }
+    }
+  }
+  

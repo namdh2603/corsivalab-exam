@@ -21,12 +21,12 @@ if (!defined('ABSPATH')) {
 do_action('woocommerce_before_customer_login_form'); ?>
 <div class="page-setion">
 	<div class="container pt-5 pb-5">
-		<div class="row">
-			<div class="col-4"></div>
-			<div class="col-12 col-lg-4">
-				<?php if ('yes' === get_option('woocommerce_enable_myaccount_registration')) :
-					if (!empty($_GET['register'])) { ?>
-<!-- 						<div class="page-inner default-template  m-auto">
+		<div class="row mx-0">
+			<div class="col-12 col-lg-6">
+				<?php
+				if (isset($_GET['action']) && $_GET['action'] == 'register') {
+					if ('yes' === get_option('woocommerce_enable_myaccount_registration')) { ?>
+						<!-- 						<div class="page-inner default-template  m-auto">
 							<div class="text-center">
 								<h2 class="heading">Register</h2>
 							</div>
@@ -63,48 +63,47 @@ do_action('woocommerce_before_customer_login_form'); ?>
 							</form>
 							<p class="text-center mt-4 login-now">Have an account? <a href="<?php echo wc_get_page_permalink('myaccount'); ?>">Login here!</a></p>
 						</div>
-					<?php } else { ?>
-<!-- 						<div class="page-inner default-template  m-auto">
+					<?php } ?>
+				<?php } else { ?>
+					<!-- 						<div class="page-inner default-template  m-auto">
 							<div class="text-center">
 								<h2 class="heading">login</h2>
 							</div>
 						</div> -->
-						<div class="page-inner login-inner m-auto">
-							<form class="woocommerce-form woocommerce-form-login corsivalab-login" method="post">
-								<?php do_action('woocommerce_login_form_start'); ?>
-								<div class="form-group">
-									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-										<label for="username">Email Address&nbsp;<span class="required">*</span></label>
-										<input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="username" id="username" autocomplete="username" value="<?php echo (!empty($_POST['username'])) ? esc_attr(wp_unslash($_POST['username'])) : ''; ?>" /><?php // @codingStandardsIgnoreLine 
-																																																																									?>
-									</p>
-								</div>
-								<div class="form-group">
-									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-										<label for="password">Password&nbsp;<span class="required">*</span></label>
-										<input class="woocommerce-Input woocommerce-Input--text input-text form-control" type="password" name="password" id="password" autocomplete="current-password" />
-										<small id="passHelp" class="form-text text-muted"><a href="<?php echo esc_url(wp_lostpassword_url()); ?>">Forget password?</a></small>
-									</p>
-								</div>
-								<?php do_action('woocommerce_login_form'); ?>
-								<p class="form-row">
-									<!-- <label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
+					<div class="page-inner login-inner m-auto">
+						<form class="woocommerce-form woocommerce-form-login corsivalab-login" method="post">
+							<?php do_action('woocommerce_login_form_start'); ?>
+							<div class="form-group">
+								<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+									<label for="username">Email Address&nbsp;<span class="required">*</span></label>
+									<input type="text" class="woocommerce-Input woocommerce-Input--text input-text form-control" name="username" id="username" autocomplete="username" value="<?php echo (!empty($_POST['username'])) ? esc_attr(wp_unslash($_POST['username'])) : ''; ?>" /><?php // @codingStandardsIgnoreLine 
+																																																																								?>
+								</p>
+							</div>
+							<div class="form-group">
+								<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+									<label for="password">Password&nbsp;<span class="required">*</span></label>
+									<input class="woocommerce-Input woocommerce-Input--text input-text form-control" type="password" name="password" id="password" autocomplete="current-password" />
+									<small id="passHelp" class="form-text text-muted"><a href="<?php echo esc_url(wp_lostpassword_url()); ?>">Forget password?</a></small>
+								</p>
+							</div>
+							<?php do_action('woocommerce_login_form'); ?>
+							<p class="form-row">
+								<!-- <label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
 			<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php esc_html_e('Remember me', 'woocommerce'); ?></span>
 		</label> -->
-									<?php wp_nonce_field('woocommerce-login', 'woocommerce-login-nonce'); ?>
-									<button type="submit" class="woocommerce-button button woocommerce-form-login__submit btn btn-account-page" name="login" value="<?php esc_attr_e('Log in', 'woocommerce'); ?>"><?php esc_html_e('Log in', 'woocommerce'); ?></button>
-								</p>
-								<!-- <p class="woocommerce-LostPassword lost_password">
+								<?php wp_nonce_field('woocommerce-login', 'woocommerce-login-nonce'); ?>
+								<button type="submit" class="woocommerce-button button woocommerce-form-login__submit btn btn-account-page" name="login" value="<?php esc_attr_e('Log in', 'woocommerce'); ?>"><?php esc_html_e('Log in', 'woocommerce'); ?></button>
+							</p>
+							<!-- <p class="woocommerce-LostPassword lost_password">
 		<a href="<?php echo esc_url(wp_lostpassword_url()); ?>"><?php esc_html_e('Lost your password?', 'woocommerce'); ?></a>
 	</p> -->
-								<?php do_action('woocommerce_login_form_end'); ?>
-								<p class="text-center mt-4 register-now">Don’t have an account? <a href="<?php echo wc_get_page_permalink('myaccount'); ?>?register=ok">Register now!</a></p>
-							</form>
-						</div>
-					<?php } ?>
-				<?php endif; ?>
+							<?php do_action('woocommerce_login_form_end'); ?>
+							<p class="text-center mt-4 register-now">Don’t have an account? <a href="<?php echo wc_get_page_permalink('myaccount'); ?>?register=ok">Register now!</a></p>
+						</form>
+					</div>
+				<?php } ?>
 			</div>
-			<div class="col-4"></div>
 		</div>
 	</div>
 </div>
