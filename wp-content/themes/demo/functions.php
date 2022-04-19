@@ -3,16 +3,18 @@ add_filter('big_image_size_threshold', '__return_false');
 add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('gutenberg_use_widgets_block_editor', '__return_false');
 add_filter('wpcf7_autop_or_not', '__return_false');
-add_filter( 'use_widgets_block_editor', '__return_true' );
+add_filter('use_widgets_block_editor', '__return_true');
 require('typerocket/init.php');
 //require('inc/corsivalab-shortcode.php');
 require('inc/menu-navwalker.php');
-//require('inc/corsivalab-field-product.php');
-//require('inc/corsivalab-field-product-cat.php');
+if (class_exists('woocommerce')) {
+    require('inc/corsivalab-field-product.php');
+    require('inc/corsivalab-field-product-cat.php');
+    require('inc/corsivalab-woocommerce.php');
+}
 //require('inc/corsivalab-field-page.php');
 // require('inc/custom-field-post.php');
 //require('inc/corsivalab-register-post.php');
-//require('inc/corsivalab-woocommerce.php');
 //require('inc/ajax.php');
 add_filter('tr_theme_options_page', function () {
     return get_template_directory() . '/inc/theme-options.php';
@@ -95,8 +97,8 @@ function corsivalab_scripts()
     //$ver = '1.0';
     wp_enqueue_style('corsivalab-swiper-style', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.css', '', $ver);
     wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/css/main.min.css', '', $ver);
-    wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/js/bootstrap-513/bootstrap.bundle.min.js', array('jquery'), $ver, true);
-    wp_enqueue_script('corsivalab-main-js', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), $ver, true);
+    wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/js/bootstrap-513/bootstrap.bundle.min.js', array('jquery'), $ver, false);
+    wp_enqueue_script('corsivalab-main-js', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), $ver, false);
     wp_enqueue_script('corsivalab-swiper-min-js', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.js', array('jquery'), $ver, false);
 }
 add_action('wp_enqueue_scripts', 'corsivalab_scripts');
