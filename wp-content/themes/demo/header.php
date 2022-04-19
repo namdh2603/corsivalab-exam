@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
-
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <?php wp_head(); ?>
 </head>
-
 <body <?php body_class(); ?>>
     <?php
     if (class_exists('woocommerce')) {
@@ -23,22 +21,17 @@
     $logo = get_attachment(get_theme_mod('custom_logo'));
     $home_link = get_home_url();
     ?>
-    <!-- Header -->
-    <div class="sidebar-popup-section open-left open-in-mobile menu-mobile-sidebar">
-        <?php wp_nav_menu(
-            array(
-                'theme_location' => 'main-menu',
-                'container' => false,
-                //'container_class' => 'menu',
-                'menu_class' => 'navbar',
-                'walker' => new Default_Walker(),
-            )
-        );
+    <div class="navbar-overlay"></div>
+    <div class="navbar-mobile">
+        <?php
+        wp_nav_menu(array(
+            'theme_location' => 'mobile-menu',
+            'container' => 'nav',
+        ));
         ?>
     </div>
-    <div class="header">
-        <div name="top" id="top"></div>
-        <header>
+    <!-- Header -->
+    <header class="header">
             <div class="site-header">
                 <div class="middle-header">
                     <div class="container">
@@ -91,8 +84,12 @@
                                     <div class="cart-total">
                                         <?php echo $cart_total; ?>
                                     </div>
-                                    <div class="d-block d-sm-none button-burger ml-5">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/icons/Hamburger.png" alt="Mobile Icon">
+                                    <div class="mobile d-block d-lg-none">
+                                        <div class="navbar-toggle">
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,4 +98,3 @@
                 </div>
             </div>
         </header>
-    </div>

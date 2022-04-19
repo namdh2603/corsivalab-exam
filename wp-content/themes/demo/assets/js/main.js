@@ -28,6 +28,21 @@ jQuery(document).ready(function ($) {
   //   $("html, body").animate({ scrollTop: $("#top").offset().top }, 500);
   //   return false;
   // });
+
+  // Mobile menu
+  var navToggle = $(".header .navbar-toggle"),
+    navOverlay = $(".navbar-overlay");
+
+  navToggle.on("click", function (e) {
+    //$(this).toggleClass('open');
+    body.toggleClass("navbarmobile-is-active");
+  });
+  navOverlay.on("click", this, function (e) {
+    navToggle.trigger("click");
+  });
+
+  // end mobile menu
+
   body.on("click", ".search-icon img", function (e) {
     e.preventDefault();
     $(".search-icon").toggleClass("active");

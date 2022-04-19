@@ -33,6 +33,7 @@ function corsivalab_setup()
     add_theme_support('html5', array('search-form'));
     register_nav_menus(array(
         'main-menu' => 'Main Menu',
+        'mobile-menu' => 'Mobile Menu',
     ));
     add_theme_support('customize-selective-refresh-widgets');
     add_filter('widget_text', 'do_shortcode');
@@ -96,7 +97,7 @@ function corsivalab_scripts()
     $ver = rand();
     //$ver = '1.0';
     wp_enqueue_style('corsivalab-swiper-style', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.css', '', $ver);
-    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/css/main.min.css', '', $ver);
+    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/css/main.css', '', $ver);
     wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/js/bootstrap-513/bootstrap.bundle.min.js', array('jquery'), $ver, false);
     wp_enqueue_script('corsivalab-main-js', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), $ver, false);
     wp_enqueue_script('corsivalab-swiper-min-js', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.js', array('jquery'), $ver, false);

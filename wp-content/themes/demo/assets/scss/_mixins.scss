@@ -20,6 +20,9 @@ $transition-base: all 0.3s ease-in-out;
 @mixin padding_all($val) {
   padding: toRem($val);
 }
+@mixin padding_tb($t, $b) {
+  padding: toRem($t) 0 toRem($b) 0;
+}
 @mixin bp-mobile {
   @include media-breakpoint-down(md) {
     @content;
