@@ -12483,9 +12483,13 @@ body .icon-bar {
   height: 0.08333rem;
   border-radius: 1px;
   background-color: #000;
-  margin-top: 0.20833rem;
+  margin-bottom: 0.20833rem;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+}
+
+body .icon-bar:last-child {
+  margin-bottom: 0;
 }
 
 body .navbar-toggle {

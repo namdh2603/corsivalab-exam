@@ -6,8 +6,11 @@ body {
     height: toRem(2);
     border-radius: 1px;
     background-color: $black;
-    margin-top: toRem(5);
+    margin-bottom: toRem(5);
     @include transition();
+    &:last-child{
+      margin-bottom: 0;
+    }
   }
   .navbar-toggle {
     cursor: pointer;
