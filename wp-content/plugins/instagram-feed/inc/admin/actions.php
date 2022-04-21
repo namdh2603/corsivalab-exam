@@ -101,7 +101,6 @@ add_filter( "plugin_action_links_instagram-feed/instagram-feed.php", 'sbi_add_se
 
 function sb_instagram_admin_style() {
 	wp_register_style( 'sb_instagram_admin_css', SBI_PLUGIN_URL . 'css/sb-instagram-admin.css', array(), SBIVER );
-	wp_enqueue_style( 'sb_instagram_font_awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' );
 	wp_enqueue_style( 'sb_instagram_admin_css' );
 	wp_enqueue_style( 'wp-color-picker' );
 }

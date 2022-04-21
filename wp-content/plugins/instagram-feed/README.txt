@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 4.1
 Tested up to: 5.9
-Stable tag: 6.0.4
+Stable tag: 6.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,9 +331,16 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 6.0.5 =
+* Tweak: If WordPress cron is broken or behind schedule and causing background caching to not work, the plugin will update the feed when the page loads.
+* Fix: Jetpack's "Master Bar" feature was causing the sidebar in the customizer to be partially hidden.
+* Fix: Added back support for the "class" shortcode setting for all feeds.
+* Fix: Only the first 20 sources were available when creating feeds and changing sources for a feed.
+* Fix: Removed all Font Awesome icons and no longer include the CSS file from the Font Awesome CDN.
+
 = 6.0.4 =
-* Fix: Added back the ability to use up to 10 columns in feeds for desktop and tablet devices, which was inadvertently removed in v6.0.
-* Fix: The reconnect link that would display when an account had an error would not successfully redirect to connect.smashballoon.com to reconnect the account.
+* Fix: Added back the ability to use up to 10 columns in feeds.
+* Fix: The reconnect link that would display when an account had an error would not redirect to connect.smashballoon.com.
 
 = 6.0.3 =
 * Tweak: Updated our logo throughout the plugin to match our new [website](https://smashballoon.com/).

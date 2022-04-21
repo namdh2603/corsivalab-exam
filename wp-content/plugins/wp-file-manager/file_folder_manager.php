@@ -4,7 +4,7 @@
   Plugin URI: https://wordpress.org/plugins/wp-file-manager
   Description: Manage your WP files.
   Author: mndpsingh287
-  Version: 7.1.4
+  Version: 7.1.5
   Author URI: https://profiles.wordpress.org/mndpsingh287
   License: GPLv2
  **/
@@ -16,7 +16,7 @@ if (!class_exists('mk_file_folder_manager')):
     class mk_file_folder_manager
     {
         protected $SERVER = 'http://ikon.digital/plugindata/api.php';
-        var $ver = '7.1.4';
+        var $ver = '7.1.5';
         /* Auto Load Hooks */
         public function __construct()
         {
@@ -38,29 +38,29 @@ if (!class_exists('mk_file_folder_manager')):
             Media Upload
             */
             add_action('wp_ajax_mk_file_folder_manager_media_upload', array(&$this, 'mk_file_folder_manager_media_upload'));
-             /* New Feature */
-             add_action('init', array(&$this, 'create_auto_directory'));
-             /* Backup - Feature */
-             add_action('wp_ajax_mk_file_manager_backup', array(&$this, 'mk_file_manager_backup_callback'));
-             add_action('wp_ajax_mk_file_manager_backup_remove', array(&$this, 'mk_file_manager_backup_remove_callback'));
-             add_action('wp_ajax_mk_file_manager_single_backup_remove', array(&$this, 'mk_file_manager_single_backup_remove_callback'));
-             add_action('wp_ajax_mk_file_manager_single_backup_logs', array(&$this, 'mk_file_manager_single_backup_logs_callback'));
-             add_action('wp_ajax_mk_file_manager_single_backup_restore', array(&$this, 'mk_file_manager_single_backup_restore_callback'));
-             $this->mk_file_manager_create_tables();
-             register_activation_hook( __FILE__, array(&$this, 'mk_file_manager_create_tables'));
-             add_action( 'rest_api_init', function () {
-				register_rest_route( 'v1', '/fm/backup/(?P<backup_id>[a-zA-Z0-9-=]+)/(?P<type>[a-zA-Z0-9-=]+)/(?P<key>[a-zA-Z0-9-=]+)', array(
-				    'methods' => 'GET',
-                    'callback' => array( $this, 'fm_download_backup' ),
-                    'permission_callback' => '__return_true',
-                ));
-            });
+            /* New Feature */
+            add_action('init', array(&$this, 'create_auto_directory'));
+            /* Backup - Feature */
+            add_action('wp_ajax_mk_file_manager_backup', array(&$this, 'mk_file_manager_backup_callback'));
+            add_action('wp_ajax_mk_file_manager_backup_remove', array(&$this, 'mk_file_manager_backup_remove_callback'));
+            add_action('wp_ajax_mk_file_manager_single_backup_remove', array(&$this, 'mk_file_manager_single_backup_remove_callback'));
+            add_action('wp_ajax_mk_file_manager_single_backup_logs', array(&$this, 'mk_file_manager_single_backup_logs_callback'));
+            add_action('wp_ajax_mk_file_manager_single_backup_restore', array(&$this, 'mk_file_manager_single_backup_restore_callback'));
+            add_action('admin_init', array('mk_file_folder_manager', 'mk_file_manager_create_tables'));
             add_action( 'rest_api_init', function () {
-				register_rest_route( 'v1', '/fm/backupall/(?P<backup_id>[a-zA-Z0-9-=]+)/(?P<type>[a-zA-Z0-9-=]+)/(?P<key>[a-zA-Z0-9-=]+)/(?P<all>[a-zA-Z]+)', array(
-				    'methods' => 'GET',
-                    'callback' => array( $this, 'fm_download_backup_all' ),
-                    'permission_callback' => '__return_true',
-                ));
+                if(is_user_logged_in() && current_user_can('manage_options')){
+                    register_rest_route( 'v1', '/fm/backup/(?P<backup_id>[a-zA-Z0-9-=]+)/(?P<type>[a-zA-Z0-9-=]+)/(?P<key>[a-zA-Z0-9-=]+)', array(
+                        'methods' => 'GET',
+                        'callback' => array( $this, 'fm_download_backup' ),
+                        'permission_callback' => '__return_true',
+                    ));
+                
+                    register_rest_route( 'v1', '/fm/backupall/(?P<backup_id>[a-zA-Z0-9-=]+)/(?P<type>[a-zA-Z0-9-=]+)/(?P<key>[a-zA-Z0-9-=]+)/(?P<all>[a-zA-Z]+)', array(
+                        'methods' => 'GET',
+                        'callback' => array( $this, 'fm_download_backup_all' ),
+                        'permission_callback' => '__return_true',
+                    ));
+                }
             });
         }
         /* Auto Directory */
@@ -96,21 +96,40 @@ if (!class_exists('mk_file_folder_manager')):
             }
         }
          /* 
+         function called on activation create table
+        */
+        public static function mk_file_manager_create_tables() {
+            if ( is_multisite() ) {
+				global $wpdb;
+                // Get all blogs in the network and activate plugin on each one
+                $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+                foreach ( $blog_ids as $blog_id ) {
+                    switch_to_blog( $blog_id );
+                    self::wp_fm_create_tables();
+                    restore_current_blog();
+                }
+            } else {
+                self::wp_fm_create_tables();
+            }
+        }
+
+        /* 
          create Backup table
         */
-        public function mk_file_manager_create_tables() {
+
+        public static function wp_fm_create_tables(){
             global $wpdb;
             $table_name = $wpdb->prefix . 'wpfm_backup';
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-            $charset_collate = $wpdb->get_charset_collate();        
-            $sql = "CREATE TABLE ".$table_name." (
-                id int(11) NOT NULL AUTO_INCREMENT,
-                backup_name text NULL,
-                backup_date text NULL,
-                PRIMARY KEY  (id)
-            ) $charset_collate;";                   
-            dbDelta( $sql );
+                $charset_collate = $wpdb->get_charset_collate();        
+                $sql = "CREATE TABLE ".$table_name." (
+                    id int(11) NOT NULL AUTO_INCREMENT,
+                    backup_name text NULL,
+                    backup_date text NULL,
+                    PRIMARY KEY  (id)
+                ) $charset_collate;";                   
+                dbDelta( $sql );
             }
         }
         /*
@@ -152,14 +171,14 @@ if (!class_exists('mk_file_folder_manager')):
                             $wp_filesystem->delete($filesDestination.'themes',true);
                             $restoreThemes = $restoreFiles->extract($backup_dirname.$fmbkp->backup_name.'-themes.zip',$filesDestination.'themes');
                             if($restoreThemes) {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-checked">Themes backup restored successfully.</li>', 'wp-file-manager')));  
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Themes backup restored successfully.', 'wp-file-manager').'</li>'));  
                                 die;
                             } else {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore themes.</li>', 'wp-file-manager')));   
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore themes.', 'wp-file-manager').'</li>'));   
                                 die;
                             }            
                         }else {
-                            echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => ''));   
+                            echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => 'false', 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => ''));   
                             die;
                         }   
                     } 
@@ -185,16 +204,16 @@ if (!class_exists('mk_file_folder_manager')):
 
                             $restoreUploads = $restoreFiles->extract($backup_dirname.$fmbkp->backup_name.'-uploads.zip',$path_direc);
                             if($restoreUploads) {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-checked">Uploads backup restored successfully.</li>', 'wp-file-manager')));  
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Uploads backup restored successfully.', 'wp-file-manager').'</li>'));  
                                 die;
                         
                             } else {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore uploads.</li>', 'wp-file-manager'))); 
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore uploads.', 'wp-file-manager').'</li>')); 
                                 die;
                         
                             }                    
                         } else {
-                            echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => '')); 
+                            echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> 'false', 'others' => $others,'bkpid' => $bkpid,'msg' => '')); 
                             die;
                     
                         }   
@@ -215,16 +234,16 @@ if (!class_exists('mk_file_folder_manager')):
                             }
                             $restoreOthers = $restoreFiles->extract($backup_dirname.$fmbkp->backup_name.'-others.zip',$filesDestination);
                             if($restoreOthers) {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-checked">Others backup restored successfully.</li>', 'wp-file-manager'))); 
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Others backup restored successfully.', 'wp-file-manager').'</li>')); 
                                 die;
                         
                             } else {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore others.</li>', 'wp-file-manager'))); 
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore others.', 'wp-file-manager').'</li>')); 
                                 die;
                         
                             }                  
                         }else {
-                            echo json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => '')); 
+                            echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => 'false','bkpid' => $bkpid,'msg' => '')); 
                             die;
                         }
                     }
@@ -245,15 +264,15 @@ if (!class_exists('mk_file_folder_manager')):
 
                             $restorePlugins = $restoreFiles->extract($backup_path.$fmbkp->backup_name.'-plugins.zip',$filesDestination.'plugins');
                             if($restorePlugins) {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-checked">Plugins backup restored successfully.</li>', 'wp-file-manager')));  
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Plugins backup restored successfully.', 'wp-file-manager').'</li>'));  
                                 die;
                     
                             } else {
-                                echo json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore plugins.</li>', 'wp-file-manager'))); 
+                                echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore plugins.', 'wp-file-manager').'</li>')); 
                                 die;
                             }                                      
                         }else {
-                            echo json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => 0,'msg' => '')); 
+                            echo wp_json_encode(array('step' => 1, 'database' => $database,'plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => 0,'msg' => '')); 
                             die;
                     
                         }   
@@ -264,22 +283,22 @@ if (!class_exists('mk_file_folder_manager')):
                             include('classes/db-restore.php');
                             $restoreDatabase = new Restore_Database($fmbkp->backup_name.'-db.sql.gz');
                             if($restoreDatabase->restoreDb()) {
-                                echo json_encode(array('step' => 0, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => '','msg' => __('<li class="fm-running-list fm-custom-checked">Database backup restored successfully.</li>', 'wp-file-manager'),  'msgg' => __('<li class="fm-running-list fm-custom-checked">All Done</li>', 'wp-file-manager'))); 
+                                echo wp_json_encode(array('step' => 0, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => '','msg' => '<li class="fm-running-list fm-custom-checked">'.__('Database backup restored successfully.', 'wp-file-manager').'</li>',  'msgg' => '<li class="fm-running-list fm-custom-checked">'.__('All Done', 'wp-file-manager').'</li>')); 
                                 die;
                             } else {
-                                echo json_encode(array('step' => 0, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore DB backup.</li>', 'wp-file-manager')));  
+                                echo wp_json_encode(array('step' => 0, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore DB backup.', 'wp-file-manager').'</li>'));  
                                 die;
                             }
                         }else {
-                            echo json_encode(array('step' => 1, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => ''));  
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $bkpid,'msg' => ''));  
                             die;
                         }  
                     }else {
-                        echo json_encode(array('step' => 0, 'database' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false', 'bkpid' => '', 'msg' => __('<li class="fm-running-list fm-custom-checked">All Done</li>', 'wp-file-manager')));                        
+                        echo wp_json_encode(array('step' => 0, 'database' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false', 'bkpid' => '', 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('All Done', 'wp-file-manager').'</li>'));                        
                         die;
                     }
                 } else {
-                        echo json_encode(array('step' => 0, 'database' => 'false','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false','bkpid' => '','msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to restore plugins.</li>', 'wp-file-manager')));
+                        echo wp_json_encode(array('step' => 0, 'database' => 'false','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false','bkpid' => '','msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to restore plugins.', 'wp-file-manager').'</li>'));
                         die;
                 }
                 die;
@@ -474,7 +493,7 @@ if (!class_exists('mk_file_folder_manager')):
             $others = sanitize_text_field($_POST['others']);
             $bkpid = isset($_POST['bkpid']) ? sanitize_text_field($_POST['bkpid']) : '';
             if($database == 'false' && $files == 'false' && $bkpid == '') {
-                echo json_encode(array('step' => '0', 'database' => 'false','files' => 'false','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => '0', 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Nothing selected for backup</li>','wp-file-manager')));
+                echo wp_json_encode(array('step' => '0', 'database' => 'false','files' => 'false','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => '0', 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Nothing selected for backup','wp-file-manager').'</li>'));
                 die; 
             }
             if($bkpid == '') {
@@ -494,7 +513,7 @@ if (!class_exists('mk_file_folder_manager')):
                 $id = $bkpid;
             }
             if ( ! wp_verify_nonce( $nonce, 'wpfmbackup' ) ) {
-                echo json_encode(array('step' => 0, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Security Issue.</li>', 'wp-file-manager')));
+                echo wp_json_encode(array('step' => 0, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Security Issue.', 'wp-file-manager').'</li>'));
             } else {
                 $fileName = $wpdb->get_row(
                   $wpdb->prepare("select * from ".$fmdb." where id=%d",$id)
@@ -505,10 +524,10 @@ if (!class_exists('mk_file_folder_manager')):
                     $backupDatabase = new Backup_Database($fileName->backup_name);
                     $result = $backupDatabase->backupTables(TABLES);
                     if($result == '1'){
-                        echo json_encode(array('step' => 1, 'database' => 'false','files' => $files,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id,'msg' => __('<li class="fm-running-list fm-custom-checked">Database backup done.</li>', 'wp-file-manager')));  
+                        echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => $files,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id,'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Database backup done.', 'wp-file-manager').'</li>'));  
                         die;
                     } else {
-                        echo json_encode(array('step' => 1, 'database' => 'false','files' => $files,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Unable to create database backup.</li>', 'wp-file-manager')));   
+                        echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => $files,'plugins' => $plugins,'themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Unable to create database backup.', 'wp-file-manager').'</li>'));   
                         die;
                     }                   
                 }
@@ -522,10 +541,10 @@ if (!class_exists('mk_file_folder_manager')):
                         $plugin_dir = WP_PLUGIN_DIR;  
                         $backup_plugins = $filesBackup->zipData( $plugin_dir,$backup_dirname.'/'.$fileName->backup_name.'-plugins.zip');
                         if($backup_plugins) {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">Plugins backup done.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others,'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Plugins backup done.', 'wp-file-manager').'</li>'));
                             die;
                         } else {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Plugins backup failed.</li>', 'wp-file-manager'))); 
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Plugins backup failed.', 'wp-file-manager').'</li>')); 
                             die;
                         }
                      } 
@@ -534,10 +553,10 @@ if (!class_exists('mk_file_folder_manager')):
                         $themes_dir = get_theme_root();
                         $backup_themes = $filesBackup->zipData( $themes_dir,$backup_dirname.'/'.$fileName->backup_name.'-themes.zip');
                         if($backup_themes) {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">Themes backup done.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Themes backup done.', 'wp-file-manager').'</li>'));
                             die;
                         } else {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Themes backup failed.</li>', 'wp-file-manager'))); 
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => $themes, 'uploads'=> $uploads, 'others' => $others, 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Themes backup failed.', 'wp-file-manager').'</li>')); 
                             die;
                         }
                      }
@@ -547,10 +566,10 @@ if (!class_exists('mk_file_folder_manager')):
                         $uploads_dir = $wpfm_upload_dir['basedir'];
                         $backup_uploads = $filesBackup->zipData( $uploads_dir,$backup_dirname.'/'.$fileName->backup_name.'-uploads.zip');
                         if($backup_uploads) {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => $others, 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">Uploads backup done.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => $others, 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Uploads backup done.', 'wp-file-manager').'</li>'));
                             die;
                         } else {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => $others, 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Uploads backup failed.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => $others, 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Uploads backup failed.', 'wp-file-manager').'</li>'));
                             die;
                         }
                      } 
@@ -559,18 +578,18 @@ if (!class_exists('mk_file_folder_manager')):
                         $others_dir = WP_CONTENT_DIR;
                         $backup_others = $filesBackup->zipOther( $others_dir,$backup_dirname.'/'.$fileName->backup_name.'-others.zip');
                         if($backup_others) {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">Others backup done.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('Others backup done.', 'wp-file-manager').'</li>'));
                             die; 
                         } else {
-                            echo json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-unchecked">Others backup failed.</li>', 'wp-file-manager')));
+                            echo wp_json_encode(array('step' => 1, 'database' => 'false','files' => 'true','plugins' => 'false','themes' => 'false', 'uploads'=> 'false', 'others' => 'false', 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-unchecked">'.__('Others backup failed.', 'wp-file-manager').'</li>'));
                             
                         }                        
                      } else {
-                        echo json_encode(array('step' => 0, 'database' => 'false', 'files' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false', 'bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">All Done</li>', 'wp-file-manager')));                        
+                        echo wp_json_encode(array('step' => 0, 'database' => 'false', 'files' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false', 'bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('All Done', 'wp-file-manager').'</li>'));
                         die;
                      }
                 } else {
-                 echo json_encode(array('step' => 0, 'database' => 'false', 'files' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false','bkpid' => $id, 'msg' => __('<li class="fm-running-list fm-custom-checked">All Done</li>', 'wp-file-manager')));
+                 echo wp_json_encode(array('step' => 0, 'database' => 'false', 'files' => 'false','plugins' => 'false','themes' => 'false','uploads'=> 'false','others' => 'false','bkpid' => $id, 'msg' => '<li class="fm-running-list fm-custom-checked">'.__('All Done', 'wp-file-manager').'</li>'));
                 }
             }
             die;
@@ -749,9 +768,9 @@ if (!class_exists('mk_file_folder_manager')):
             /* Only for admin */
             add_submenu_page('wp_file_manager', __('Settings', 'wp-file-manager'), __('Settings', 'wp-file-manager'), 'manage_options', 'wp_file_manager_settings', array(&$this, 'wp_file_manager_settings'));
             /* Only for admin */
-            add_submenu_page('wp_file_manager', __('Preferences', 'wp-file-manager'), __('Preferences', 'wp-file-manager'), 'manage_options', 'wp_file_manager_root', array(&$this, 'wp_file_manager_root'));
+            add_submenu_page('wp_file_manager', __('Preferences', 'wp-file-manager'), __('Preferences', 'wp-file-manager'), 'manage_options', 'wp_file_manager_preferences', array(&$this, 'wp_file_manager_root'));
             /* Only for admin */
-            add_submenu_page('wp_file_manager', __('System Properties', 'wp-file-manager'), __('System Properties', 'wp-file-manager'), 'manage_options', 'wp_file_manager_properties', array(&$this, 'wp_file_manager_properties'));
+            add_submenu_page('wp_file_manager', __('System Properties', 'wp-file-manager'), __('System Properties', 'wp-file-manager'), 'manage_options', 'wp_file_manager_sys_properties', array(&$this, 'wp_file_manager_properties'));
             /* Only for admin */
             add_submenu_page('wp_file_manager', __('Shortcode - PRO', 'wp-file-manager'), __('Shortcode - PRO', 'wp-file-manager'), 'manage_options', 'wp_file_manager_shortcode_doc', array(&$this, 'wp_file_manager_shortcode_doc'));
             add_submenu_page('wp_file_manager', __('Logs', 'wp-file-manager'), __('Logs', 'wp-file-manager'), 'manage_options', 'wpfm-logs', array(&$this, 'wp_file_manager_logs'));
@@ -856,19 +875,18 @@ if (!class_exists('mk_file_folder_manager')):
                 }
 
                 wp_enqueue_script('fm_jquery_ui', plugins_url('lib/jquery/'.$jquery_ui_js, __FILE__), $this->ver);
+                wp_enqueue_script('fm_elFinder_min', plugins_url('lib/js/elFinder.min.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder', plugins_url('lib/js/elFinder.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_version', plugins_url('lib/js/elFinder.version.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_jquery_elfinder', plugins_url('lib/js/jquery.elfinder.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_mimetypes', plugins_url('lib/js/elFinder.mimetypes.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_options', plugins_url('lib/js/elFinder.options.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_options_netmount', plugins_url('lib/js/elFinder.options.netmount.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_history', plugins_url('lib/js/elFinder.history.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_command', plugins_url('lib/js/elFinder.command.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_elFinder_resources', plugins_url('lib/js/elFinder.resources.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_elFinder', plugins_url('lib/js/elFinder.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder', plugins_url('lib/js/elFinder.min.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_version', plugins_url('lib/js/elFinder.version.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_jquery_elfinder', plugins_url('lib/js/jquery.elfinder.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_mimetypes', plugins_url('lib/js/elFinder.mimetypes.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_options', plugins_url('lib/js/elFinder.options.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_options_netmount', plugins_url('lib/js/elFinder.options.netmount.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_history', plugins_url('lib/js/elFinder.history.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_command', plugins_url('lib/js/elFinder.command.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_elFinder_resources', plugins_url('lib/js/elFinder.resources.js', __FILE__), '', $this->ver);
-
-                 wp_enqueue_script('fm_dialogelfinder', plugins_url('lib/js/jquery.dialogelfinder.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_dialogelfinder', plugins_url('lib/js/jquery.dialogelfinder.js', __FILE__), '', $this->ver);
                  
            
                     if (!empty($lang)) {
@@ -879,93 +897,91 @@ if (!class_exists('mk_file_folder_manager')):
                     } else {
                         wp_enqueue_script('fm_lang', plugins_url('lib/js/i18n/elfinder.en.js', __FILE__), '', $this->ver);  
                     }
-                 wp_enqueue_script('fm_ui_button', plugins_url('lib/js/ui/button.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_contextmenu', plugins_url('lib/js/ui/contextmenu.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_cwd', plugins_url('lib/js/ui/cwd.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_dialog', plugins_url('lib/js/ui/dialog.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_fullscreenbutton', plugins_url('lib/js/ui/fullscreenbutton.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_navbar', plugins_url('lib/js/ui/navbar.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_navdock', plugins_url('lib/js/ui/navdock.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_overlay', plugins_url('lib/js/ui/overlay.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_panel', plugins_url('lib/js/ui/panel.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_button', plugins_url('lib/js/ui/button.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_contextmenu', plugins_url('lib/js/ui/contextmenu.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_cwd', plugins_url('lib/js/ui/cwd.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_dialog', plugins_url('lib/js/ui/dialog.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_fullscreenbutton', plugins_url('lib/js/ui/fullscreenbutton.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_navbar', plugins_url('lib/js/ui/navbar.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_navdock', plugins_url('lib/js/ui/navdock.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_overlay', plugins_url('lib/js/ui/overlay.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_panel', plugins_url('lib/js/ui/panel.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_ui_path', plugins_url('lib/js/ui/path.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_path', plugins_url('lib/js/ui/path.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_ui_searchbutton', plugins_url('lib/js/ui/searchbutton.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_sortbutton', plugins_url('lib/js/ui/sortbutton.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_stat', plugins_url('lib/js/ui/stat.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_searchbutton', plugins_url('lib/js/ui/searchbutton.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_sortbutton', plugins_url('lib/js/ui/sortbutton.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_stat', plugins_url('lib/js/ui/stat.js', __FILE__), '', $this->ver);
 
 
-                 wp_enqueue_script('fm_ui_toast', plugins_url('lib/js/ui/toast.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_toolbar', plugins_url('lib/js/ui/toolbar.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_tree', plugins_url('lib/js/ui/tree.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_uploadButton', plugins_url('lib/js/ui/uploadButton.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_ui_viewbutton', plugins_url('lib/js/ui/viewbutton.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_toast', plugins_url('lib/js/ui/toast.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_toolbar', plugins_url('lib/js/ui/toolbar.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_tree', plugins_url('lib/js/ui/tree.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_uploadButton', plugins_url('lib/js/ui/uploadButton.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_ui_viewbutton', plugins_url('lib/js/ui/viewbutton.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_ui_workzone', plugins_url('lib/js/ui/workzone.js', __FILE__), '', $this->ver);
-            
-             
+                wp_enqueue_script('fm_ui_workzone', plugins_url('lib/js/ui/workzone.js', __FILE__), '', $this->ver);           
 
-                 wp_enqueue_script('fm_command_archive', plugins_url('lib/js/commands/archive.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_back', plugins_url('lib/js/commands/back.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_chmod', plugins_url('lib/js/commands/chmod.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_colwidth', plugins_url('lib/js/commands/colwidth.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_copy', plugins_url('lib/js/commands/copy.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_cut', plugins_url('lib/js/commands/cut.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_download', plugins_url('lib/js/commands/download.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_duplicate', plugins_url('lib/js/commands/duplicate.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_edit', plugins_url('lib/js/commands/edit.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_empty', plugins_url('lib/js/commands/empty.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_extract', plugins_url('lib/js/commands/extract.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_forward', plugins_url('lib/js/commands/forward.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_fullscreen', plugins_url('lib/js/commands/fullscreen.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_getfile', plugins_url('lib/js/commands/getfile.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_help', plugins_url('lib/js/commands/help.js', __FILE__), '', $this->ver); 
-                 
-                 wp_enqueue_script('fm_command_hidden', plugins_url('lib/js/commands/hidden.js', __FILE__), '', $this->ver);  
-                 wp_enqueue_script('fm_command_hide', plugins_url('lib/js/commands/hide.js', __FILE__), '', $this->ver);  
-                 wp_enqueue_script('fm_command_home', plugins_url('lib/js/commands/home.js', __FILE__), '', $this->ver);  
-                 wp_enqueue_script('fm_command_info', plugins_url('lib/js/commands/info.js', __FILE__), '', $this->ver);  
-                 wp_enqueue_script('fm_command_mkdir', plugins_url('lib/js/commands/mkdir.js', __FILE__), '', $this->ver);  
-                 wp_enqueue_script('fm_command_mkfile', plugins_url('lib/js/commands/mkfile.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_netmount', plugins_url('lib/js/commands/netmount.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_open', plugins_url('lib/js/commands/open.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_opendir', plugins_url('lib/js/commands/opendir.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_opennew', plugins_url('lib/js/commands/opennew.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_paste', plugins_url('lib/js/commands/paste.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_archive', plugins_url('lib/js/commands/archive.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_back', plugins_url('lib/js/commands/back.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_chmod', plugins_url('lib/js/commands/chmod.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_colwidth', plugins_url('lib/js/commands/colwidth.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_copy', plugins_url('lib/js/commands/copy.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_cut', plugins_url('lib/js/commands/cut.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_download', plugins_url('lib/js/commands/download.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_duplicate', plugins_url('lib/js/commands/duplicate.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_edit', plugins_url('lib/js/commands/edit.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_empty', plugins_url('lib/js/commands/empty.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_extract', plugins_url('lib/js/commands/extract.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_forward', plugins_url('lib/js/commands/forward.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_fullscreen', plugins_url('lib/js/commands/fullscreen.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_getfile', plugins_url('lib/js/commands/getfile.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_help', plugins_url('lib/js/commands/help.js', __FILE__), '', $this->ver); 
+                
+                wp_enqueue_script('fm_command_hidden', plugins_url('lib/js/commands/hidden.js', __FILE__), '', $this->ver);  
+                wp_enqueue_script('fm_command_hide', plugins_url('lib/js/commands/hide.js', __FILE__), '', $this->ver);  
+                wp_enqueue_script('fm_command_home', plugins_url('lib/js/commands/home.js', __FILE__), '', $this->ver);  
+                wp_enqueue_script('fm_command_info', plugins_url('lib/js/commands/info.js', __FILE__), '', $this->ver);  
+                wp_enqueue_script('fm_command_mkdir', plugins_url('lib/js/commands/mkdir.js', __FILE__), '', $this->ver);  
+                wp_enqueue_script('fm_command_mkfile', plugins_url('lib/js/commands/mkfile.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_netmount', plugins_url('lib/js/commands/netmount.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_open', plugins_url('lib/js/commands/open.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_opendir', plugins_url('lib/js/commands/opendir.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_opennew', plugins_url('lib/js/commands/opennew.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_paste', plugins_url('lib/js/commands/paste.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_places', plugins_url('lib/js/commands/places.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_places', plugins_url('lib/js/commands/places.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_quicklook', plugins_url('lib/js/commands/quicklook.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_quicklook', plugins_url('lib/js/commands/quicklook.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_quicklook_plugins', plugins_url('lib/js/commands/quicklook.plugins.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_quicklook_plugins', plugins_url('lib/js/commands/quicklook.plugins.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_reload', plugins_url('lib/js/commands/reload.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_reload', plugins_url('lib/js/commands/reload.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_rename', plugins_url('lib/js/commands/rename.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_rename', plugins_url('lib/js/commands/rename.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_resize', plugins_url('lib/js/commands/resize.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_resize', plugins_url('lib/js/commands/resize.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_restore', plugins_url('lib/js/commands/restore.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_restore', plugins_url('lib/js/commands/restore.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_rm', plugins_url('lib/js/commands/rm.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_rm', plugins_url('lib/js/commands/rm.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_search', plugins_url('lib/js/commands/search.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_search', plugins_url('lib/js/commands/search.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_selectall', plugins_url('lib/js/commands/selectall.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_selectall', plugins_url('lib/js/commands/selectall.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_selectinvert', plugins_url('lib/js/commands/selectinvert.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_selectinvert', plugins_url('lib/js/commands/selectinvert.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_selectnone', plugins_url('lib/js/commands/selectnone.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_selectnone', plugins_url('lib/js/commands/selectnone.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_sort', plugins_url('lib/js/commands/sort.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_sort', plugins_url('lib/js/commands/sort.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_command_undo', plugins_url('lib/js/commands/undo.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_up', plugins_url('lib/js/commands/up.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_upload', plugins_url('lib/js/commands/upload.js', __FILE__), '', $this->ver);
-                 wp_enqueue_script('fm_command_view', plugins_url('lib/js/commands/view.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_undo', plugins_url('lib/js/commands/undo.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_up', plugins_url('lib/js/commands/up.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_upload', plugins_url('lib/js/commands/upload.js', __FILE__), '', $this->ver);
+                wp_enqueue_script('fm_command_view', plugins_url('lib/js/commands/view.js', __FILE__), '', $this->ver);
 
-                 wp_enqueue_script('fm_quicklook_googledocs', plugins_url('lib/js/extras/quicklook.googledocs.js', __FILE__), '', $this->ver);         
+                wp_enqueue_script('fm_quicklook_googledocs', plugins_url('lib/js/extras/quicklook.googledocs.js', __FILE__), '', $this->ver);         
                      
                  // code mirror
                 wp_enqueue_script('fm-codemirror-js', plugins_url('lib/codemirror/lib/codemirror.js', __FILE__), '', $this->ver);
@@ -1157,10 +1173,9 @@ if (!class_exists('mk_file_folder_manager')):
          Loading Custom Assets
         */
         public function load_custom_assets()
-        {
-            echo '<script src="'.plugins_url('js/fm_script.js', __FILE__).'"></script>';
-            echo "<link rel='stylesheet' href='".plugins_url('css/fm_script.css', __FILE__)."' type='text/css' media='all' />
-		   ";
+        {                 
+            wp_enqueue_script('fm-custom-script', plugins_url('js/fm_script.js', __FILE__), array('jquery'), $this->ver);
+            wp_enqueue_style('fm-custom-script-style', plugins_url('css/fm_script.css', __FILE__), '', $this->ver);
         }
 
         /*
@@ -1168,8 +1183,7 @@ if (!class_exists('mk_file_folder_manager')):
         */
         public function custom_css()
         {
-            echo "<link rel='stylesheet' href='".plugins_url('css/fm_custom.css', __FILE__)."' type='text/css' media='all' />
-		   ";
+            wp_enqueue_style('fm-custom-style', plugins_url('css/fm_custom.css', __FILE__), '', $this->ver);
         }
 
         /* Languages */
@@ -1482,8 +1496,20 @@ if (!class_exists('mk_file_folder_manager')):
             }
         }
 
+        /*
+        * Redirection
+        */
+        public static function mk_fm_redirect($url){
+            $url= esc_url_raw($url);
+            wp_register_script( 'mk-fm-redirect', '', array("jquery"));
+            wp_enqueue_script( 'mk-fm-redirect' );
+            wp_add_inline_script('mk-fm-redirect','window.location.href="'.$url.'"');
+        }
+
     }
     $filemanager = new mk_file_folder_manager();
     global $filemanager;
     /* end class */
 endif;
+
+register_activation_hook( __FILE__, array( 'mk_file_folder_manager', 'mk_file_manager_create_tables' ) );
