@@ -3,36 +3,14 @@
     <div class="middle-footer">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-sm-6 col-lg-2">
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('widget-footer-col-1')) :  dynamic_sidebar('widget-footer-col-1');
-                        endif; ?>
+                <?php for ($i = 1; $i <= 4; $i++) { ?>
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="footer-widget">
+                            <?php if (is_active_sidebar('widget-sidebar-footer' . $i)) :  dynamic_sidebar('widget-sidebar-footer' . $i);
+                            endif; ?>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-sm-6 col-lg-2">
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('widget-footer-col-2')) :  dynamic_sidebar('widget-footer-col-2');
-                        endif; ?>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-lg-2">
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('widget-footer-col-3')) :  dynamic_sidebar('widget-footer-col-3');
-                        endif; ?>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-lg-2">
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('widget-footer-col-4')) :  dynamic_sidebar('widget-footer-col-4');
-                        endif; ?>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 col-lg-4">
-                    <div class="footer-widget">
-                        <?php if (is_active_sidebar('widget-footer-col-5')) :  dynamic_sidebar('widget-footer-col-5');
-                        endif; ?>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
