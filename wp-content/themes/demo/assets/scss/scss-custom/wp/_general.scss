@@ -12,7 +12,8 @@
   }
 }
 .main-title {
-  @include font(35, 39);
+  // @include font(35, 39);
+  @include font(40, 0, 500);
   font-weight: 700;
   font-family: $primary-ff;
   color: $third-color;

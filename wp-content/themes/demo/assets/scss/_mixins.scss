@@ -6,9 +6,13 @@
   transform: $property;
 }
 $transition-base: all 0.3s ease-in-out;
-@mixin font($fs, $lh, $fw: null) {
+@mixin font($fs, $lh: null, $fw: null) {
   font-size: toRem($fs);
-  line-height: toRem($lh + 4);
+  @if $lh == null {
+  } @else if $lh == 0 {
+  } @else {
+    line-height: toRem($lh + 4);
+  }
   font-weight: $fw;
 }
 @mixin margin($t, $r, $b, $l) {
