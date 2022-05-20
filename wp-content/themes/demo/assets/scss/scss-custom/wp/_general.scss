@@ -16,13 +16,13 @@
   @include font(40, 0, 500);
   font-weight: 700;
   font-family: $primary-ff;
-  color: $third-color;
+  color: $primary-color;
   z-index: 1;
   position: relative;
 }
 .btn-basic {
   text-decoration: underline;
-  color: $second-color;
+  color: $primary-color;
 }
 .btn-group {
   text-align: center;
@@ -34,7 +34,7 @@
     @include padding(12, 45, 12, 45);
     display: inline-block;
     color: $white;
-    @include font($fs-15, $fs-15 + 4);
+    @include font(15, 15);
     font-family: $primary-ff;
     font-weight: 700;
     text-decoration: none;
@@ -99,7 +99,7 @@ form.wpcf7-form {
     font-weight: 400;
   }
   input.wpcf7-submit {
-    background: $second-color;
+    background: $primary-color;
     color: $white;
     @include font($d-fs, $d-fs + 4);
     font-weight: 400;
@@ -135,7 +135,7 @@ form.wpcf7-form {
   h1 {
     @include font(50, 60);
     font-weight: 700;
-    color: $third-color;
+    color: $primary-color;
     margin-bottom: toRem(20);
   }
   .sub-title {

@@ -5,7 +5,6 @@
 @import "bootstrap-513/variables";
 @import "bootstrap-513/mixins";
 @import "bootstrap-513/utilities";
-
 @import "bootstrap-513/root";
 @import "bootstrap-513/type";
 @import "bootstrap-513/images";
@@ -35,15 +34,11 @@
 @import "bootstrap-513/spinners";
 @import "bootstrap-513/offcanvas";
 @import "bootstrap-513/placeholders";
-
 // Helpers
 @import "bootstrap-513/helpers";
-
 // Utilities
 @import "bootstrap-513/utilities/api";
 // scss-docs-end import-stack
-
-
 @import "functions";
 @import "mixins";
 @import "variables";
@@ -51,41 +46,15 @@
 # Fonts
 --------------------------------------------------------------*/
 @import "fonts";
-
-/*--------------------------------------------------------------
-# FontAwesome Icon
---------------------------------------------------------------*/
-// @import "fontawesome-pro-5153/scss/solid.scss";
-// @import "fontawesome-pro-5153/scss/regular.scss";
-// @import "fontawesome-pro-5153/scss/light.scss";
-// @import "fontawesome-pro-5153/scss/variables";
-
-/*--------------------------------------------------------------
-# Material Icon
---------------------------------------------------------------*/
-// @import "material-design/scss/variables";
-// @import "material-design/scss/functions";
-// @import "material-design/scss/path";
-// @import "material-design/scss/core";
-// @import "material-design/scss/icons";
-// @import "material-design/scss/extras";
-// @import "material-design/scss/animated";
-
-
 /*--------------------------------------------------------------
 # Base
 --------------------------------------------------------------*/
 @import "base";
-
-
-
-
 /*--------------------------------------------------------------
 # Woocommerce
 --------------------------------------------------------------*/
 // @import "woocommerce/woocommerce-layout.scss";
 // @import "woocommerce/woocommerce";
-
 // @import "scss-custom/woocommerce/general";
 // @import "scss-custom/woocommerce/price";
 // @import "scss-custom/woocommerce/shop";
@@ -94,7 +63,6 @@
 // @import "scss-custom/woocommerce/checkout";
 // @import "scss-custom/woocommerce/thankyou";
 // @import "scss-custom/woocommerce/account";
-
 /*--------------------------------------------------------------
 # Custom
 --------------------------------------------------------------*/

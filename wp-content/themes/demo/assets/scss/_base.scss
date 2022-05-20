@@ -1,18 +1,17 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box; // 1
+  box-sizing: border-box;
 }
 html {
   height: 100%;
   width: 100%;
-  //font-size: $d-fs*1px;
-  font-size: ($d-fs / $w-design * 100) + vw;
+  font-size: calc($d-fs / $w-design * 100) + vw;
   @media (max-width: ($re-lg*1px)) {
-    font-size: ($d-fs / $re-lg * 100) + vw;
+    font-size: calc($d-fs / $re-lg * 100) + vw;
   }
   @media (max-width: ($re-sm*1px)) {
-    font-size: ($d-fs / $re-sm * 100) + vw;
+    font-size: calc($d-fs / $re-sm * 100) + vw;
   }
   @media (min-width: ($w-design*1px)) {
     font-size: $d-fs + px;
@@ -172,8 +171,8 @@ section {
   display: block;
 }
 body {
-  color: $second-color;
-  font-family: $primary-ff, $Satisfy-ff;
+  color: $primary-color;
+  font-family: $primary-ff;
   line-height: 1.5;
   font-weight: 300;
 }
@@ -220,7 +219,7 @@ input,
 textarea,
 select {
   border: 1px solid $black;
-  @include padding(10, 20, 10, 20);
+  @include padding_tb(10, 20);
   margin-bottom: toRem(20);
   background: transparent;
 }

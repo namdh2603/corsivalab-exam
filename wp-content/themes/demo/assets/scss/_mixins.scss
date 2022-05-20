@@ -18,14 +18,20 @@ $transition-base: all 0.3s ease-in-out;
 @mixin margin($t, $r, $b, $l) {
   margin: toRem($t) toRem($r) toRem($b) toRem($l);
 }
-@mixin padding($t, $r, $b, $l) {
-  padding: toRem($t) toRem($r) toRem($b) toRem($l);
-}
+
 @mixin padding_all($val) {
   padding: toRem($val);
 }
-@mixin padding_tb($t, $b) {
-  padding: toRem($t) 0 toRem($b) 0;
+@mixin padding($t, $r, $b, $l) {
+  padding: toRem($t) toRem($r) toRem($b) toRem($l);
+}
+@mixin padding_tb($t: null, $b: null) {
+  padding-top: toRem($t);
+  padding-bottom: toRem($b);
+}
+@mixin padding_lr($l: null, $r: null) {
+  padding-left: toRem($l);
+  padding-right: toRem($r);
 }
 @mixin bp-mobile {
   @include media-breakpoint-down(md) {
