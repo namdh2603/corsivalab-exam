@@ -1,8 +1,8 @@
 <?php
 /**
- * The Template for displaying product archives, including the main shop page which is a post type archive
+ * Variable product add to cart
  *
- * This template can be overridden by copying it to yourtheme/woocommerce/archive-product.php.
+ * This template can be overridden by copying it to yourtheme/woocommerce/single-product/add-to-cart/variable.php.
  *
  * HOWEVER, on occasion WooCommerce will need to update template files and you
  * (the theme developer) will need to copy the new files to your theme to
@@ -12,145 +12,98 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 3.4.0
+ * @version 3.5.5
  */
 defined('ABSPATH') || exit;
-get_header('shop'); ?>
-<?php
-/**
- * Hook: woocommerce_before_main_content.
- *
- * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
- * @hooked woocommerce_breadcrumb - 20
- * @hooked WC_Structured_Data::generate_website_data() - 30
- */
-do_action('woocommerce_before_main_content');
-?>
-<!-- <header class="woocommerce-products-header">
-<?php if (apply_filters('woocommerce_show_page_title', true)) : ?>
-		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
-	<?php endif; ?>
-	<?php
-	/**
-	 * Hook: woocommerce_archive_description.
-	 *
-	 * @hooked woocommerce_taxonomy_archive_description - 10
-	 * @hooked woocommerce_product_archive_description - 10
-	 */
-	//    do_action('woocommerce_archive_description');
-	?>
-</header> -->
-<section class="banner">
-	<div class="container">
-		<div class="banner__content">
-			<div class="banner__content--image">
-				<img src="<?= get_template_directory_uri() ?>/assets/images/shop/Group1122.jpg" alt="">
+global $product;
+$attribute_keys  = array_keys($attributes);
+$variations_json = wp_json_encode($available_variations);
+$variations_attr = function_exists('wc_esc_json') ? wc_esc_json($variations_json) : _wp_specialchars($variations_json, ENT_QUOTES, 'UTF-8', true);
+do_action('woocommerce_before_add_to_cart_form'); ?>
+<form class="variations_form cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint($product->get_id()); ?>" data-product_variations="<?php echo $variations_attr; // WPCS: XSS ok. 
+																																																																							?>">
+	<?php do_action('woocommerce_before_variations_form'); ?>
+	<?php if (empty($available_variations) && false !== $available_variations) : ?>
+		<p class="stock out-of-stock"><?php echo esc_html(apply_filters('woocommerce_out_of_stock_message', __('This product is currently out of stock and unavailable.', 'woocommerce'))); ?></p>
+	<?php else : ?>
+		<div class="row">
+			<div class="col-9">
+				<table class="variations" cellspacing="0">
+					<tbody>
+						<?php foreach ($attributes as $attribute_name => $options) : ?>
+							<tr>
+								<td class="label"><label for="<?php echo esc_attr(sanitize_title($attribute_name)); ?>"><?php echo wc_attribute_label($attribute_name); // WPCS: XSS ok. 
+																															?></label></td>
+								<td class="value">
+									<?php
+									wc_dropdown_variation_attribute_options(
+										array(
+											'options'   => $options,
+											'attribute' => $attribute_name,
+											'product'   => $product,
+											'show_option_none' => 'Select ' . wc_attribute_label($attribute_name),
+										)
+									);
+									echo end($attribute_keys) === $attribute_name ? wp_kses_post(apply_filters('woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__('Clear', 'woocommerce') . '</a>')) : '';
+									?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
 			</div>
-			<div class="banner__content--title">
-				<h2 class="title__banner">All Activities</h2>
-			</div>
-		</div>
-	</div>
-</section>
-<section class="shop__activities mt-60">
-	<?php
-	$args = array(
-		'type' => 'product',
-		'child_of' => 0,
-		'parent' => '',
-		'taxonomy' => 'product_cat',
-	);
-	$categories = get_categories($args);
-	?>
-	<div class="container">
-		<div class="shop__activities--all">
-			<?php $active = '';
-			$shop_page_url = get_permalink(wc_get_page_id('shop'));
-			if (is_shop()) {
-				$active = 'active';
-			} ?>
-			<div class="shop__activities--item <?php echo $active; ?>">
-				<div class="item__content">
-					<a href="<?php echo $shop_page_url; ?>">
-						<div class="icon">
-							<img src="<?= get_template_directory_uri() ?>/assets/images/icons/Group1124.png" alt="">
-						</div>
-						<h6>All activities</h6>
-					</a>
+			<div class="col-3 align-items-end d-flex justify-content-end">
+				<div class="custom-size-guide-button" data-toggle="modal" data-target="#exampleModal">
+					Size Guide
 				</div>
 			</div>
+		</div>
+		<div class="single_variation_wrap">
 			<?php
-			foreach ($categories as $category) :
+			/**
+			 * Hook: woocommerce_before_single_variation.
+			 */
+			do_action('woocommerce_before_single_variation');
+			/**
+			 * Hook: woocommerce_single_variation. Used to output the cart button and placeholder for variation data.
+			 *
+			 * @since 2.4.0
+			 * @hooked woocommerce_single_variation - 10 Empty div for variation data.
+			 * @hooked woocommerce_single_variation_add_to_cart_button - 20 Qty and cart button.
+			 */
+			do_action('woocommerce_single_variation');
+			/**
+			 * Hook: woocommerce_after_single_variation.
+			 */
+			do_action('woocommerce_after_single_variation');
 			?>
-				<div class="shop__activities--item">
-					<div class="item__content">
-						<a href="<?= get_term_link($category->term_id); ?>">
-							<?php
-							$thumbnail_id = get_term_meta($category->term_id, 'thumbnail_id', true);
-							?>
-							<?php if ($thumbnail_id) : ?>
-								<div class="icon">
-									<img src="<?= wp_get_attachment_url($thumbnail_id); ?>" alt="">
-								</div>
-							<?php endif; ?>
-							<h6><?php echo $category->name; ?></h6>
-						</a>
-					</div>
-				</div>
-			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+	<?php do_action('woocommerce_after_variations_form'); ?>
+</form>
+<form class="sticky-variations-form variations_form cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint($product->get_id()); ?>" data-product_variations="<?php echo $variations_attr; // WPCS: XSS ok. 
+?>">			<div class="variations">																																																																			?>">
+	<?php foreach ($attributes as $attribute_name => $options) :
+		wc_dropdown_variation_attribute_options(
+			array(
+				'options'   => $options,
+				'attribute' => $attribute_name,
+				'product'   => $product,
+				'show_option_none' => 'Select ' . wc_attribute_label($attribute_name),
+			)
+		);
+		echo end($attribute_keys) === $attribute_name ? wp_kses_post(apply_filters('woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__('Clear', 'woocommerce') . '</a>')) : '';
+	?>
+	</div>
+	<?php endforeach; ?>
+	<div class="single_variation_wrap">
+		<div class="woocommerce-variation-add-to-cart variations_button">
+			<button type="submit" class="single_add_to_cart_button button alt wc-custom-button">Add to cart</button>
+			<input type="hidden" name="add-to-cart" value="<?php echo absint($product->get_id()); ?>" />
+			<input type="hidden" name="product_id" value="<?php echo absint($product->get_id()); ?>" />
+			<input type="hidden" name="variation_id" class="variation_id" value="0" />
 		</div>
 	</div>
-</section>
-<section class="shop__main mt-120 py-5">
-	<div class="container">
-		<?php
-		if (woocommerce_product_loop()) { ?>
-			<div class="shop__main--sort">
-				<?php
-				/**
-				 * Hook: woocommerce_before_shop_loop.
-				 *
-				 * @hooked woocommerce_output_all_notices - 10
-				 * @hooked woocommerce_result_count - 20
-				 * @hooked woocommerce_catalog_ordering - 30
-				 */
-				do_action('woocommerce_before_shop_loop');
-				?>
-			</div>
-		<?php
-			woocommerce_product_loop_start();
-			if (wc_get_loop_prop('total')) {
-				while (have_posts()) {
-					the_post();
-					/**
-					 * Hook: woocommerce_shop_loop.
-					 */
-					do_action('woocommerce_shop_loop');
-					wc_get_template_part('content', 'product');
-				}
-			}
-			woocommerce_product_loop_end();
-			/**
-			 * Hook: woocommerce_after_shop_loop.
-			 *
-			 * @hooked woocommerce_pagination - 10
-			 */
-			do_action('woocommerce_after_shop_loop');
-		} else {
-			/**
-			 * Hook: woocommerce_no_products_found.
-			 *
-			 * @hooked wc_no_products_found - 10
-			 */
-			do_action('woocommerce_no_products_found');
-		}
-		/**
-		 * Hook: woocommerce_after_main_content.
-		 *
-		 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
-		 */
-		//do_action( 'woocommerce_after_main_content' );
-		?>
-	</div>
-</section>
-<?php get_footer('shop'); ?>
+</form>
+<?php
+do_action('woocommerce_after_add_to_cart_form');
