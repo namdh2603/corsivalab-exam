@@ -1,12 +1,4 @@
-# TypeRocket WordPress Framework
-
-## Highlighted Features
-
-### Advanced Custom Post Types
-
-## License
-
+## Build scss
 npm install -g sass
-
-sass --watch main.scss main.css
-
+cd C:/xampp/htdocs/website/corsivalab-exam/wp-content/themes/demo/assets/scss
+sass --watch --no-source-map main.scss ../css/main.css
