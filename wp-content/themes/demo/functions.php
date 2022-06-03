@@ -98,13 +98,12 @@ function corsivalab_scripts()
 {
     $ver = rand();
     //$ver = '1.0';
-
     wp_enqueue_style('corsivalab-fontawesome', get_stylesheet_directory_uri() . '/assets/fontawesome-pro-611/css/all.min.css', '', $ver);
-
     wp_enqueue_style('corsivalab-swiper-style', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.css', '', $ver);
-    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_directory_uri() . '/assets/css/main.css', '', $ver);
-    wp_enqueue_style('corsivalab-custom-style', get_stylesheet_directory_uri() . '/style.css', '', $ver);
-    wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/js/bootstrap-513/bootstrap.bundle.min.js', array('jquery'), $ver, false);
+    wp_enqueue_style('corsivalab-core-style', get_stylesheet_directory_uri() . '/assets/css/main.css', '', $ver);
+    wp_enqueue_style('corsivalab-theme-style', get_stylesheet_uri(), '', $ver);
+
+    wp_enqueue_script('corsivalab-bootstrap-js', get_stylesheet_directory_uri() . '/assets/bootstrap-513/dist/js/bootstrap.bundle.min.js', array('jquery'), $ver, false);
     wp_enqueue_script('corsivalab-main-js', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), $ver, false);
     wp_enqueue_script('corsivalab-swiper-min-js', get_stylesheet_directory_uri() . '/assets/swiper-741/swiper-bundle.min.js', array('jquery'), $ver, false);
 }
@@ -186,23 +185,6 @@ function disable_wp_responsive_images()
     return 1;
 }
 add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
-function wp_tsas_grid_column($grid = '')
-{
-    if ($grid == '2') {
-        $grid_clmn = '6';
-    } else if ($grid == '3') {
-        $grid_clmn = '4';
-    } else if ($grid == '4') {
-        $grid_clmn = '3';
-    } else if ($grid == '6') {
-        $grid_clmn = '2';
-    } else if ($grid == '1') {
-        $grid_clmn = '12';
-    } else {
-        $grid_clmn = '12';
-    }
-    return $grid_clmn;
-}
 function corsivalab_menu_classes($classes, $item, $args)
 {
     if ($args->theme_location == 'main-menu') {
