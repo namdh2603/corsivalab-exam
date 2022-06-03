@@ -103,14 +103,8 @@ This is an example of Corsivalab Theme
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Install SCSS
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-### Installation
-
-#### .SCSS
 1. Download sass package
 ```sh
 npm install -g sass
