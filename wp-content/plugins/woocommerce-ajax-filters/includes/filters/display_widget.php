@@ -338,6 +338,7 @@ class BeRocket_AAPF_Widget {
         $instance['text_after_price'] = $text_after_price;
         extract( $args );
         extract( $instance );
+        $set_query_var_title['widget_type']                 = $widget_type;
         $set_query_var_title['unique_filter_id']            = $unique_filter_id;
         $set_query_var_title['description']                 = (isset($description) ? $description : null);
         $set_query_var_title['title']                       = apply_filters( 'berocket_aapf_widget_title', berocket_isset($filter_title) );

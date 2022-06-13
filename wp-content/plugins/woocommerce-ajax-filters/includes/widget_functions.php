@@ -166,7 +166,7 @@ class BeRocket_AAPF_Widget_functions {
     }
 
     public static function color_list_view( $type, $taxonomy_name, $load_script = false ) {
-        $terms = get_terms( $taxonomy_name, array( 'hide_empty' => false ) );
+        $terms = berocket_aapf_get_terms( array( 'taxonomy' => $taxonomy_name, 'hide_empty' => false ), array('hierarchical' => true, 'disable_recount' => true, 'disable_hide_empty' => true) );
         $set_query_var_color = array();
         $set_query_var_color['terms'] = $terms;
         $set_query_var_color['type'] = $type;
@@ -183,7 +183,7 @@ class BeRocket_AAPF_Widget_functions {
     }
     
     public static function include_exclude_terms_list($taxonomy_name = false, $selected = array() ) {
-        $terms = get_terms( $taxonomy_name, array( 'hide_empty' => false ) );
+        $terms = berocket_aapf_get_terms( array( 'taxonomy' => $taxonomy_name, 'hide_empty' => false ), array('hierarchical' => true, 'disable_recount' => true, 'disable_hide_empty' => true) );
         $set_query_var_exclude_list = array();
         $set_query_var_exclude_list['taxonomy'] = $taxonomy_name;
         $set_query_var_exclude_list['terms'] = $terms;

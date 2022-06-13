@@ -69,6 +69,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<?php endif; ?>
 			</div>
+
+			<div id="ai1wm-backups-list-archive-browser">
+				<archive-browser></archive-browser>
+			</div>
+
 		</div>
 
 		<?php include AI1WM_TEMPLATES_PATH . '/common/sidebar-right.php'; ?>

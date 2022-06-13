@@ -4,7 +4,7 @@
     <div>
 <?php if ( is_array(berocket_isset($terms)) ) { ?>
 <?php foreach( $terms as $term ) { ?>
-    <div>
+    <div class="element-depth-<?php echo $term->depth; ?>">
         <label>
             <input type="checkbox" value="<?php echo berocket_isset($term, 'term_id'); ?>" name="%field_name%[]"<?php if( in_array( $term->term_id, $selected ) ) echo ' checked'; ?>>
             <?php echo berocket_isset($term, 'name') ?>

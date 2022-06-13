@@ -21,7 +21,7 @@ class BeRocket_aapf_variations_tables {
     function get_current_variation_attributes() {
         if( $this->variation_attributes !== FALSE ) return $this->variation_attributes;
         global $wpdb;
-        $result = $wpdb->get_col("SELECT attribute FROM {$wpdb->prefix}braapf_variable_attributes GROUP BY attribute");
+        $result = $wpdb->get_col("SELECT attribute FROM {$wpdb->prefix}braapf_variable_attributes GROUP BY CAST(attribute AS binary)");
         if( ! is_array($result) ) {
             $result = array();
         }
@@ -82,7 +82,12 @@ class BeRocket_aapf_variations_tables {
         $current_terms = array(0);
         foreach($data['filters'] as $filter) {
             if( $this->check_is_taxonomy_variable(false, $filter['taxonomy']) ) {
-                $current_attributes[] = sanitize_title($filter['taxonomy']);
+                $taxonomy1 = sanitize_title($filter['taxonomy']);
+                $taxonomy2 = urldecode($taxonomy1);
+                $current_attributes[] = $taxonomy1;
+                if( $taxonomy1 != $taxonomy2 ) {
+                    $current_attributes[] = $taxonomy2;
+                }
                 if( ! empty($filter['terms']) ) {
                     foreach($filter['terms'] as $term) {
                         $current_terms[] = $term->term_id;
@@ -99,9 +104,9 @@ class BeRocket_aapf_variations_tables {
             'group'  => 'GROUP BY post_id',
         );
         
-        $query['subquery']['select'] = 'SELECT filtered_post.post_id as var_id, filtered_post.parent_id as ID, COUNT(filtered_post.post_id) as meta_count, 
- max(filtered_post.stock_status) as stock_status, max_filtered_post.max_meta_count,
- IF(max_filtered_post.max_meta_count != COUNT(filtered_post.post_id) OR max(filtered_post.stock_status) = 0, 1, 0) as out_of_stock';
+        $query['subquery']['select'] = 'SELECT filtered_post.post_id as var_id, MAX(filtered_post.parent_id) as ID, COUNT(filtered_post.post_id) as meta_count, 
+ max(filtered_post.stock_status) as stock_status, MAX(max_filtered_post.max_meta_count) as max_meta_count,
+ IF(MAX(max_filtered_post.max_meta_count) != COUNT(filtered_post.post_id) OR max(filtered_post.stock_status) = 0, 1, 0) as out_of_stock';
 
         $query['subquery']['from_open'] = "FROM {$wpdb->prefix}braapf_product_variation_attributes as filtered_post";
         $query['subquery']['join_close_1'] = ') as max_filtered_post ON max_filtered_post.ID = filtered_post.parent_id';
@@ -240,7 +245,11 @@ class BeRocket_aapf_variations_tables {
                                 if( empty($terms_cache[$taxonomy]) ) {
                                     $terms_cache[$taxonomy] = array();
                                 }
-                                $terms_cache[$taxonomy][$attribute] = get_term_by('slug', $attribute, $taxonomy);
+                                $term_test = get_term_by('slug', $attribute, $taxonomy);
+                                if( $term_test === false ) {
+                                    $term_test = get_term_by('slug', $attribute, urldecode($taxonomy));
+                                }
+                                $terms_cache[$taxonomy][$attribute] = $term_test;
                             }
                             $term = $terms_cache[$taxonomy][$attribute];
                             if( $term !== false ) {

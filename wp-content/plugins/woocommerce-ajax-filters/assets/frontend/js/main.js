@@ -400,7 +400,7 @@ function braapf_filtered_filters_set() {
             if( grab_single ) {
                 var $elements = element;
             } else {
-                var $elements = $('.bapf_sfilter[data-taxonomy='+taxonomy+']');
+                var $elements = $('.bapf_sfilter[data-taxonomy="'+taxonomy+'"]');
             }
             $elements.find('input:checked:not(:disabled)').each(function(i, val) {
                 if( values_find.indexOf($(this).val()) == -1 ) {
@@ -823,7 +823,7 @@ function braapf_filtered_filters_set() {
     
     $(document).on('click', '.berocket_aapf_widget_selected_area .braapf_unselect', function(event) {
         event.preventDefault();
-        $('.bapf_sfilter[data-taxonomy='+$(this).data('taxonomy')+']').trigger('braapf_unselect', $(this).data());
+        $('.bapf_sfilter[data-taxonomy="'+$(this).data('taxonomy')+'"]').trigger('braapf_unselect', $(this).data());
         berocket_do_action('update_products', 'reset_single', $(this));
     });
     braapf_unselect_all = function() {
@@ -831,7 +831,7 @@ function braapf_filtered_filters_set() {
         if( typeof(braapf_selected_filters) != 'undefined' && braapf_selected_filters.length > 0 ) {
             $.each(braapf_selected_filters, function(i, taxonomy) {
                 if( taxonomy.values.length > 0 ) {
-                    $('.bapf_sfilter[data-taxonomy='+taxonomy.taxonomy+']').trigger('braapf_unselect_all', taxonomy);
+                    $('.bapf_sfilter[data-taxonomy="'+taxonomy.taxonomy+'"]').trigger('braapf_unselect_all', taxonomy);
                 }
             });
         }
@@ -1238,7 +1238,7 @@ brapf_jet_smart_filters;
          && typeof(single_data) == 'object' && typeof(single_data.values) != 'undefined' && Array.isArray(single_data.values) && single_data.values.length > 0 ) {
             child_position++;
             var taxonomy = element.data('taxonomy');
-            var next_child = $('.bapf_sfilter.bapf_child_'+child_position+'[data-taxonomy='+taxonomy+']');
+            var next_child = $('.bapf_sfilter.bapf_child_'+child_position+'[data-taxonomy="'+taxonomy+'"]');
             if( next_child.length ) {
                 var new_single_data = braapf_grab_single (next_child, [], true);
                 if( typeof(new_single_data) == 'object' && typeof(new_single_data.values) != 'undefined' && Array.isArray(new_single_data.values) && new_single_data.values.length > 0 ) {
@@ -1255,8 +1255,8 @@ brapf_jet_smart_filters;
                 var child_position = $filter.data('child');
                 var taxonomy = $filter.data('taxonomy');
                 if( typeof(child_position) != 'undefined' && child_position > 0 ) {
-                    for(i = child_position + 1; $('.bapf_sfilter.bapf_child_'+i+'[data-taxonomy='+taxonomy+']').length; i++) {
-                        $('.bapf_sfilter.bapf_child_'+i+'[data-taxonomy='+taxonomy+']').trigger('braapf_unselect', false);
+                    for(i = child_position + 1; $('.bapf_sfilter.bapf_child_'+i+'[data-taxonomy="'+taxonomy+'"]').length; i++) {
+                        $('.bapf_sfilter.bapf_child_'+i+'[data-taxonomy="'+taxonomy+'"]').trigger('braapf_unselect', false);
                     }
                 }
             }
@@ -1413,7 +1413,7 @@ braapf_jqrui_slidr_ion_values_link_arr_attr;
         });
     }
     braapf_ion_slidr_same = function (taxonomy, data) {
-        $('.bapf_slidr_ion.bapf_slidr_ready[data-taxonomy='+taxonomy+']').each(function() {
+        $('.bapf_slidr_ion.bapf_slidr_ready[data-taxonomy="'+taxonomy+'"]').each(function() {
             var $slider = $(this).find('.bapf_slidr_main');
             $slider.addClass('bapf_ion_blocked');
             var slider_data = $slider.data("ionRangeSlider");
@@ -1726,7 +1726,7 @@ braapf_jqrui_slidr_values_link_arr_attr;
         });
     }
     braapf_jqrui_slidr_same = function (taxonomy, values) {
-        $('.bapf_slidr_jqrui.bapf_slidr_ready[data-taxonomy='+taxonomy+']').each(function() {
+        $('.bapf_slidr_jqrui.bapf_slidr_ready[data-taxonomy="'+taxonomy+'"]').each(function() {
             var $slider = $(this).find('.bapf_slidr_main');
             $slider.addClass('bapf_jqrui_blocked');
             $slider.slider('values', values);

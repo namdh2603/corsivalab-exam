@@ -346,6 +346,9 @@
 			}
 
 			element.on('animationend', handleAnimationEnd);
+            setTimeout(function() {
+                element.trigger('animationend');
+            }, 1500);
 		};
         this.print = function() {
             $('body').addClass('print');

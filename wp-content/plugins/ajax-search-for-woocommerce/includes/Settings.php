@@ -150,6 +150,8 @@ class Settings
      */
     function settingsFields()
     {
+        $darkenedBgLink = 'https://fibosearch.com/darkened-background/';
+        $fuzzySearchLink = 'https://fibosearch.com/documentation/features/fuzzy-search/';
         $settingsFields = array(
             'dgwt_wcas_basic'        => apply_filters( 'dgwt/wcas/settings/section=basic', array(
             90  => array(
@@ -249,7 +251,7 @@ class Settings
         ),
             695  => array(
             'name'    => 'darken_background',
-            'label'   => __( 'Darkened background', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'darken-_background', __( 'Darkening the page background while autocomplete is active gives it stronger emphasis, minimizing elements (e.g., ads, carousels, and other page content) that could distract users from considering autocomplete suggestions.', 'ajax-search-for-woocommerce' ) ),
+            'label'   => __( 'Darkened background', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'darken-_background', sprintf( __( 'Darkening the page background while autocomplete is active gives it stronger emphasis, minimizing elements (e.g., ads, carousels, and other page content) that could distract users from considering autocomplete suggestions. <a target="_blank" href="%s">Read more</a> about this feature.', 'ajax-search-for-woocommerce' ), $darkenedBgLink ) ),
             'desc'    => __( '(beta feature)', 'ajax-search-for-woocommerce' ),
             'type'    => 'checkbox',
             'class'   => 'js-dgwt-wcas-adv-settings',
@@ -655,7 +657,7 @@ class Settings
         ) ),
         );
         $fuzzinesText1 = '<strong>' . __( 'Increases sales conversions', 'ajax-search-for-woocommerce' ) . '</strong>';
-        $fuzzinesText2 = __( 'returns suggestions based on likely relevance, even though a search keyword may not exactly match. E.g if you type “ipho<b>m</b>e” you get the same results as for “iphone”', 'ajax-search-for-woocommerce' );
+        $fuzzinesText2 = sprintf( __( 'Returns suggestions based on likely relevance, even though a search keyword may not exactly match. E.g if you type “ipho<b>m</b>e” you get the same results as for “iphone”. <a target="_blank" href="%s">Read more</a> about fuzzy search feature.', 'ajax-search-for-woocommerce' ), $fuzzySearchLink );
         
         if ( dgoraAsfwFs()->is_premium() ) {
         } else {

@@ -19,7 +19,7 @@ if ( ! defined( 'DGWT_WCAS_FILE' ) ) {
 	<div class="js-dgwt-wcas-troubleshooting-issues-critical"></div>
 	<div class="js-dgwt-wcas-troubleshooting-issues-recommended"></div>
 	<div>
-		<?php submit_button( __( 'Check status again', 'ajax-search-for-woocommerce' ), 'primary', 'dgwt-wcas-reset-async-tests', false ); ?>
+		<?php submit_button( __( 'Recheck the status', 'ajax-search-for-woocommerce' ), 'primary', 'dgwt-wcas-reset-async-tests', false ); ?>
 	</div>
 </div>
 <script id="tmpl-dgwt-wcas-troubleshooting-issue" type="text/template">

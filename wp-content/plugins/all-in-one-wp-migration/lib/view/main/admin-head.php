@@ -58,6 +58,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		content: "\e619";
 	}
 
+	.ai1wm-icon-bullhorn:before {
+		content: "\e91a";
+	}
+
 	.ai1wm-label {
 		border: 1px solid #5cb85c;
 		background-color: transparent;

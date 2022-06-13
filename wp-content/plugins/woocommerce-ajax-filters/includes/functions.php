@@ -172,7 +172,7 @@ if ( ! function_exists( 'br_is_term_selected' ) ) {
      *
      * @return string ' selected="selected"' if selected, empty string '' if not selected
      */
-    function br_is_term_selected( $term, $checked = FALSE, $child_parent = FALSE, $depth = 0 ) {
+    function br_is_term_selected( $term, $checked = FALSE, $child_parent = FALSE, $depth = 0, $additional = array() ) {
         //TODO: Notice: Trying to get property 'taxonomy' of non-object
         $term_taxonomy = apply_filters('br_is_term_selected_taxonomy', $term->taxonomy, $term);
         if( $term_taxonomy == '_rating' ) {
@@ -181,7 +181,7 @@ if ( ! function_exists( 'br_is_term_selected' ) ) {
         $is_checked = apply_filters('br_is_term_selected_checked', false, $term_taxonomy, $term, $checked, $child_parent, $depth);
 
         if ( ! $is_checked && $child_parent ) {
-            $selected_terms = br_get_selected_term( $term_taxonomy );
+            $selected_terms = br_get_selected_term( $term_taxonomy, $additional );
             foreach( $selected_terms as $selected_term ) {
                 $ancestors = get_ancestors( $selected_term, $term_taxonomy );
                 if( count( $ancestors ) > $depth ) {
@@ -196,7 +196,8 @@ if ( ! function_exists( 'br_is_term_selected' ) ) {
             $filter_data = $berocket_parse_page_obj->get_current();
             if( isset($filter_data['filters']) && is_array($filter_data['filters']) ) {
                 foreach($filter_data['filters'] as $filter) {
-                    if( $filter['taxonomy'] == $term_taxonomy && in_array($term->term_id, $filter['val_ids']) ) {
+                    $is_checked_correct = $filter['taxonomy'] == $term_taxonomy && in_array($term->term_id, $filter['val_ids']);
+                    if( apply_filters('br_is_term_selected_checked_each', $is_checked_correct, $term_taxonomy, $term, $checked, $child_parent, $depth, $filter, $additional) ) {
                         $is_checked = true;
                     }
                 }
@@ -218,13 +219,14 @@ if ( ! function_exists( 'br_get_selected_term' ) ) {
      *
      * @return array selected terms
      */
-    function br_get_selected_term( $taxonomy ) {
+    function br_get_selected_term( $taxonomy, $additional = array() ) {
         global $berocket_parse_page_obj;
         $filter_data = $berocket_parse_page_obj->get_current();
         $term_ids = array();
         if( isset($filter_data['filters']) && is_array($filter_data['filters']) ) {
             foreach($filter_data['filters'] as $filter) {
-                if($filter['taxonomy'] == $taxonomy) {
+                $is_checked_correct = $filter['taxonomy'] == $taxonomy;
+                if( apply_filters('br_get_selected_term_checked_each', $is_checked_correct, $filter, $taxonomy, $additional) ) {
                     $term_ids = array_merge($term_ids, $filter['val_ids']);
                 }
             }
@@ -1736,5 +1738,78 @@ if( ! function_exists('braapf_is_filters_displayed_debug') ) {
             }
             BeRocket_AAPF::$current_page_filters = $temp;
         }
+    }
+}
+if( ! function_exists('braapf_get_data_taxonomy_from_post') ) {
+    function braapf_get_data_taxonomy_from_post($post_data) {
+        $result = apply_filters('braapf_get_data_taxonomy_from_post_before', null, $post_data);
+        if( $result !== null ) {
+            return $result;
+        }
+        $filter_type = br_get_value_from_array($post_data, 'filter_type');
+        $attribute   = br_get_value_from_array($post_data, 'attribute');
+        $custom_taxonomy   = br_get_value_from_array($post_data, 'custom_taxonomy');
+        if ( $filter_type == 'price' ) {
+            $filter_type = 'attribute';
+            $attribute   = 'price';
+        }
+        $filter_type_array = array(
+            'attribute' => array(
+                'name' => __('Attribute', 'BeRocket_AJAX_domain'),
+                'sameas' => 'attribute',
+            ),
+            'tag' => array(
+                'name' => __('Tag', 'BeRocket_AJAX_domain'),
+                'sameas' => 'tag',
+            ),
+            'all_product_cat' => array(
+                'name' => __('Product Category', 'BeRocket_AJAX_domain'),
+                'sameas' => 'custom_taxonomy',
+                'attribute' => 'product_cat',
+            ),
+        );
+        $filter_type_array['_rating'] = array(
+            'name' => __('Rating', 'BeRocket_AJAX_domain'),
+            'sameas' => '_rating',
+            'attribute' => '_rating',
+        );
+        $filter_type_array = apply_filters('berocket_filter_filter_type_array', $filter_type_array, $post_data);
+        if( empty($filter_type) || ! array_key_exists($filter_type, $filter_type_array) ) {
+            if( $filter_type == 'filter' ) {
+                return false;
+            }
+            foreach($filter_type_array as $filter_type_key => $filter_type_val) {
+                $filter_type = $filter_type_key;
+                break;
+            }
+        }
+        if( ! empty($filter_type) && ! empty($filter_type_array[$filter_type]) && ! empty($filter_type_array[$filter_type]['sameas']) ) {
+            $sameas = $filter_type_array[$filter_type];
+            $filter_type = $sameas['sameas'];
+            if( ! empty($sameas['attribute']) && $sameas['sameas'] == 'attribute' ) {
+                $attribute = $sameas['attribute'];
+            } elseif( $sameas['sameas'] == 'custom_taxonomy' ) {
+                if( ! empty($sameas['attribute']) ) {
+                    $attribute = $sameas['attribute'];
+                } else {
+                    $attribute = $custom_taxonomy;
+                }
+            } elseif ( ! empty($sameas['slug']) ) {
+                $attribute = $sameas['slug'];
+            }
+        }
+        if ( ! empty($filter_type) && ( in_array($filter_type, array('product_cat', '_stock_status', '_sale', '_rating', 'tag')) ) ) {
+            switch ($filter_type) {
+                case 'tag':
+                    $attribute = 'product_tag';
+                    break;
+                case '_rating':
+                    $attribute = 'product_visibility';
+                    break;
+                default:
+                    $attribute   = $filter_type;
+            }
+        }
+        return $attribute;
     }
 }

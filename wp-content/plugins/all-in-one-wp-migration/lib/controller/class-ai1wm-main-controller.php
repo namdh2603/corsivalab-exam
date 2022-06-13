@@ -126,6 +126,9 @@ class Ai1wm_Main_Controller {
 		// Enqueue backups scripts and styles
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_backups_scripts_and_styles' ), 5 );
 
+		// Enqueue what's new scripts and styles
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_whats_new_scripts_and_styles' ), 5 );
+
 		// Enqueue updater scripts and styles
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_updater_scripts_and_styles' ), 5 );
 	}
@@ -654,6 +657,16 @@ class Ai1wm_Main_Controller {
 			'ai1wm_backups',
 			'Ai1wm_Backups_Controller::index'
 		);
+
+		// Sub-level What's new menu
+		add_submenu_page(
+			'ai1wm_export',
+			__( 'What\'s new', AI1WM_PLUGIN_NAME ),
+			__( 'What\'s new', AI1WM_PLUGIN_NAME ) . Ai1wm_Template::get_content( 'main/whats-new', array() ),
+			'import',
+			'ai1wm_whats_new',
+			'Ai1wm_Whats_New_Controller::index'
+		);
 	}
 
 	/**
@@ -1037,6 +1050,20 @@ class Ai1wm_Main_Controller {
 
 		wp_localize_script(
 			'ai1wm_backups',
+			'ai1wm_list',
+			array(
+				'ajax'       => array(
+					'url' => wp_make_link_relative( add_query_arg( array( 'ai1wm_import' => 1 ), admin_url( 'admin-ajax.php?action=ai1wm_backup_list_content' ) ) ),
+				),
+				'download'   => array(
+					'url' => wp_make_link_relative( add_query_arg( array( 'ai1wm_import' => 1 ), admin_url( 'admin-ajax.php?action=ai1wm_backup_download_file' ) ) ),
+				),
+				'secret_key' => get_option( AI1WM_SECRET_KEY ),
+			)
+		);
+
+		wp_localize_script(
+			'ai1wm_backups',
 			'ai1wm_locale',
 			array(
 				'stop_exporting_your_website'         => __( 'You are about to stop exporting your website, are you sure?', AI1WM_PLUGIN_NAME ),
@@ -1077,9 +1104,45 @@ class Ai1wm_Main_Controller {
 				),
 				'backups_count_singular'              => __( 'You have %d backup', AI1WM_PLUGIN_NAME ),
 				'backups_count_plural'                => __( 'You have %d backups', AI1WM_PLUGIN_NAME ),
+				'archive_browser_error'               => __( 'Error', AI1WM_PLUGIN_NAME ),
+				'archive_browser_list_error'          => __( 'Error while reading backup content', AI1WM_PLUGIN_NAME ),
+				'archive_browser_download_error'      => __( 'Error while downloading file', AI1WM_PLUGIN_NAME ),
+				'archive_browser_title'               => __( 'List the content of the backup', AI1WM_PLUGIN_NAME ),
+				'progress_bar_title'                  => __( 'Reading...', AI1WM_PLUGIN_NAME ),
 			)
 		);
 	}
+
+	/**
+	 * Enqueue scripts and styles for What's new Controller
+	 *
+	 * @param  string $hook Hook suffix
+	 * @return void
+	 */
+	public function enqueue_whats_new_scripts_and_styles( $hook ) {
+		if ( stripos( 'all-in-one-wp-migration_page_ai1wm_whats_new', $hook ) === false ) {
+			return;
+		}
+
+		// We don't want heartbeat to occur when restoring
+		wp_deregister_script( 'heartbeat' );
+
+		// We don't want auth check for monitoring whether the user is still logged in
+		remove_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
+
+		if ( is_rtl() ) {
+			wp_enqueue_style(
+				'ai1wm_whats_new',
+				Ai1wm_Template::asset_link( 'css/whats-new.min.rtl.css' )
+			);
+		} else {
+			wp_enqueue_style(
+				'ai1wm_whats_new',
+				Ai1wm_Template::asset_link( 'css/whats-new.min.css' )
+			);
+		}
+	}
+
 
 	/**
 	 * Enqueue scripts and styles for Updater Controller
@@ -1129,6 +1192,8 @@ class Ai1wm_Main_Controller {
 			)
 		);
 	}
+
+
 
 	/**
 	 * Outputs menu icon between head tags
@@ -1193,6 +1258,8 @@ class Ai1wm_Main_Controller {
 		add_action( 'wp_ajax_ai1wm_feedback', 'Ai1wm_Feedback_Controller::feedback' );
 		add_action( 'wp_ajax_ai1wm_add_backup_label', 'Ai1wm_Backups_Controller::add_label' );
 		add_action( 'wp_ajax_ai1wm_backup_list', 'Ai1wm_Backups_Controller::backup_list' );
+		add_action( 'wp_ajax_ai1wm_backup_list_content', 'Ai1wm_Backups_Controller::backup_list_content' );
+		add_action( 'wp_ajax_ai1wm_backup_download_file', 'Ai1wm_Backups_Controller::download_file' );
 
 		// Update actions
 		if ( current_user_can( 'update_plugins' ) ) {

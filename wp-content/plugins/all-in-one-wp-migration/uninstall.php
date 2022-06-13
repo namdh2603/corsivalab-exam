@@ -51,4 +51,5 @@ if ( defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	delete_option( AI1WM_SECRET_KEY );
 	delete_option( AI1WM_AUTH_USER );
 	delete_option( AI1WM_AUTH_PASSWORD );
+	delete_option( 'ai1wm_backups_path' );
 }

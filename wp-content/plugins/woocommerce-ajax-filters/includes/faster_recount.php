@@ -58,7 +58,8 @@ class BeRocket_AAPF_faster_attribute_recount {
         $new_taxonomy_data = self::get_query_for_calculate(array(
             'use_filters'   => $use_filters,
             'add_tax_query' => ( empty($taxonomy_data['additional_tax_query']) ? array() : $taxonomy_data['additional_tax_query'] ),
-            'taxonomy_remove' => (strtoupper($operator) == 'OR' ? $taxonomy : FALSE)
+            'taxonomy_remove' => (strtoupper($operator) == 'OR' ? $taxonomy : FALSE),
+            'taxonomy_data'   => $taxonomy_data
         ));
         $query = $new_taxonomy_data['query'];
         unset($new_taxonomy_data['query']);
@@ -138,7 +139,11 @@ class BeRocket_AAPF_faster_attribute_recount {
             if( $additional_data['taxonomy_remove'] === false ) {
                 $filter_data = self::$current_url_data;
             } else {
-                $filter_data = $berocket_parse_page_obj->remove_taxonomy(array('taxonomy' => $additional_data['taxonomy_remove']));
+                $filter_data = $berocket_parse_page_obj->remove_taxonomy(
+                    apply_filters('bapf_faster_recount_remove_taxonomy_data', 
+                    array('taxonomy' => $additional_data['taxonomy_remove']),
+                    $additional_data)
+                );
             }
             $berocket_parse_page_obj->set_default_data($filter_data);
             $query_vars = apply_filters('bapf_uparse_apply_filters_to_query_vars', $query_vars);
@@ -211,10 +216,6 @@ class BeRocket_AAPF_faster_attribute_recount {
 		}
         $taxonomy_data['query'] = $query;
         return $taxonomy_data;
-    }
-    static function implode_query_for_calculate($query, $additional_data = array()) {
-        
-        return $query;
     }
     static function child_include($query, $taxonomy_data, $terms) {
         global $wpdb;

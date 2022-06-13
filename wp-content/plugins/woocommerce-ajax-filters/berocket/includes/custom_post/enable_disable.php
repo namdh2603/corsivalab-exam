@@ -7,7 +7,7 @@ if ( ! class_exists('BeRocket_custom_post_enable_disable_addon_class') ) {
             $this->post_name = $custom_post->post_name;
             $this->custom_post = $custom_post;
             add_action('init', array($this, 'register_disabled_taxonomy'), 10);
-            add_action('init', array($this, 'add_disabled_term'), 20);
+            add_action('admin_init', array($this, 'add_disabled_term'), 20);
             add_filter( 'bulk_actions-edit-'.$this->post_name, array($this, 'disable_bulk_action_dropdown') );
             add_action('handle_bulk_actions-edit-'.$this->post_name, array($this, 'disable_bulk_actions'), 10, 3);
             add_action('post_action_enable', array($this, 'post_action_enable'));
@@ -23,6 +23,9 @@ if ( ! class_exists('BeRocket_custom_post_enable_disable_addon_class') ) {
             register_taxonomy( 'berocket_taxonomy_data', $this->post_name);
         }
         public function add_disabled_term() {
+			if ( term_exists( 'isdisabled', 'berocket_taxonomy_data' ) ) {
+			    return;
+		    }
             wp_insert_term( 'isdisabled', 'berocket_taxonomy_data', array(
                 'description' => '',
                 'parent'      => 0,

@@ -1,0 +1,8 @@
+2022-06-10T03:04:22+00:00 CRITICAL Uncaught Error: Call to a member function get_permalink() on null in C:\xampp\htdocs\website\corsivalab-exam\wp-content\themes\demo\404.php:23
+Stack trace:
+#0 C:\xampp\htdocs\website\corsivalab-exam\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\website\corsivalab-exam\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\website\corsivalab-exam\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\website\corsivalab-exam\wp-content\themes\demo\404.php on line 23
+

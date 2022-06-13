@@ -130,6 +130,17 @@
 
                     }, wait);
                 },
+                isTextSelected: function () {
+                    var selected = false,
+                        selObj = document.getSelection();
+
+                    if (typeof selObj == 'object') {
+                        if (selObj.toString().length > 0) {
+                            selected = true;
+                        }
+                    }
+                    return selected
+                },
                 getActiveInstance: function () {
                     var $el = $('.dgwt-wcas-search-wrapp.dgwt-wcas-active'),
                         instance;
@@ -435,12 +446,6 @@
         },
         registerEventsSearchBar: function () {
             var that = this;
-
-            // Click close icon
-            $(document).on('click.autocomplete', '.' + that.options.closeTrigger, function () {
-                var that = utils.getActiveInstance();
-                that.close(true);
-            });
 
             // Extra tasks on submit
             that.el.closest('.' + that.options.formClass).on('submit.autocomplete', function (e) {
@@ -918,22 +923,9 @@
             $el.val('');
             $wrapp.removeClass(that.classes.inputFilled);
 
-            if ($wrapp.hasClass('js-dgwt-wcas-layout-icon')) {
-                that.disableOverlayDarkened();
-            }
-
             if (focus) {
                 $el.focus();
             }
-        },
-        disable: function () {
-            var that = this;
-            that.disabled = true;
-            clearTimeout(that.onChangeTimeout);
-            that.abortAjax();
-        },
-        enable: function () {
-            this.disabled = false;
         },
         fixPosition: function () {
             var that = this,
@@ -1185,22 +1177,41 @@
             return true;
         },
         onKeyPress: function (e) {
-            var that = this;
+            var that = this,
+                $wrapp = that.getFormWrapper();
 
             // If suggestions are hidden and user presses arrow down, display suggestions:
-            if (!that.disabled && !that.visible && e.keyCode === keys.DOWN && that.currentValue) {
+            if (!that.visible && e.keyCode === keys.DOWN && that.currentValue) {
                 that.suggest();
                 return;
             }
 
-            if (that.disabled || !that.visible) {
+            if (!that.visible) {
+                // Hide the search icon mode on ESC when there are no suggestions
+                if (e.keyCode === keys.ESC && $wrapp.hasClass('dgwt-wcas-layout-icon-open')) {
+                    that.hideIconModeSearch();
+                }
+
+                // Hide the darkened overlay on ESC when there are no suggestions
+                if (e.keyCode === keys.ESC && that.isMountedOverlayDarkened()) {
+                    that.disableOverlayDarkened();
+                    that.el.blur();
+                }
+
+                return;
+            }
+
+            // Open selected suggestion in new tab
+            if ((e.ctrlKey || e.metaKey) && e.keyCode === keys.RETURN) {
+                if (that.selectedIndex > -1) {
+                    that.openInNewTab(that.selectedIndex);
+                }
                 return;
             }
 
             switch (e.keyCode) {
                 case keys.ESC:
-                    that.el.val(that.currentValue);
-                    that.hide();
+                    that.close();
                     break;
                 case keys.RIGHT:
                     if (that.hint && that.options.onHint && that.isCursorAtEnd()) {
@@ -1209,18 +1220,6 @@
                     }
                     return;
                 case keys.TAB:
-                    if (that.hint && that.options.onHint) {
-                        that.selectHint();
-                        return;
-                    }
-                    if (that.selectedIndex === -1) {
-                        that.hide();
-                        return;
-                    }
-                    that.select(that.selectedIndex);
-                    if (that.options.tabDisabled === false) {
-                        return;
-                    }
                     break;
                 case keys.RETURN:
 
@@ -1250,10 +1249,6 @@
         },
         onKeyUp: function (e) {
             var that = this;
-
-            if (that.disabled) {
-                return;
-            }
 
             switch (e.keyCode) {
                 case keys.UP:
@@ -1370,7 +1365,8 @@
                 searchForm = that.getFormWrapper(),
                 params,
                 cacheKey,
-                ajaxSettings;
+                ajaxSettings,
+                iconSearchActive = that.isActiveIconModeSearch();
 
             options.params[options.paramName] = q;
 
@@ -1436,6 +1432,12 @@
 
 
                     that.currentRequest = $.ajax(ajaxSettings).done(function (data) {
+
+                        // Interrupt if the icon mode was closed in the meantime
+                        if (iconSearchActive && !that.isActiveIconModeSearch()) {
+                            return;
+                        }
+
                         var result;
                         that.currentRequest = null;
                         result = that.options.transformResult(data, q);
@@ -1909,12 +1911,19 @@
             $form.css({'left': formLeftValue + 'px'});
 
         },
-        hideIconModeSearch: function () {
-
-            var $openedElements = $('.dgwt-wcas-layout-icon-open');
-
+        isActiveIconModeSearch: function () {
+            var active = false,
+                $openedElements = $('.dgwt-wcas-layout-icon-open');
             if ($openedElements.length > 0) {
-                $openedElements.removeClass('dgwt-wcas-layout-icon-open');
+                active = true;
+            }
+            return active;
+        },
+        hideIconModeSearch: function () {
+            var that = this;
+
+            if (that.isActiveIconModeSearch() && !utils.isTextSelected()) {
+                $('.dgwt-wcas-layout-icon-open').removeClass('dgwt-wcas-layout-icon-open');
             }
         },
         hideAfterClickOutsideListener: function () {
@@ -2601,6 +2610,13 @@
                 onSelectCallback.call(that.element, suggestion);
             }
         },
+        openInNewTab: function (index) {
+            var that = this,
+                suggestion = that.suggestions[index];
+            if (suggestion.url.length > 0) {
+                window.open(suggestion.url, '_blank').focus();
+            }
+        },
         getValue: function (value) {
             var that = this,
                 delimiter = that.options.delimiter,
@@ -2866,6 +2882,13 @@
                 iconBody = typeof dgwt_wcas.close_icon != 'undefined' ? dgwt_wcas.close_icon : '',
                 $actionsEl = that.getFormWrapper().find('.' + that.options.preloaderClass);
 
+            // Click close icon
+            if (!$actionsEl.hasClass(that.options.closeTrigger)) {
+                $actionsEl.on('click.autocomplete', function () {
+                    that.close(true);
+                });
+            }
+
             $actionsEl.addClass(that.options.closeTrigger);
             $actionsEl.html(iconBody);
 
@@ -2878,6 +2901,8 @@
                 $btn.removeClass(that.options.closeTrigger);
                 $btn.html('');
             }
+
+            $btn.off('click.autocomplete');
         },
         elementOrParentIsFixed: function ($element) {
 
@@ -3350,5 +3375,30 @@
             }
         });
     }());
+
+    /**
+     * Fix Elementor popups
+     * Reinit the search bars after loading Elementor popup
+     */
+    $(document).ready(function () {
+        if ($('[href^="#elementor-action%3Aaction%3Dpopup%3Aopen"]').length > 0) {
+            $(document).on('elementor/popup/show', () => {
+                var $inputs = $('.elementor-popup-modal .dgwt-wcas-search-input');
+
+                if ($inputs.length > 0) {
+                    $inputs.each(function () {
+                        var $el = $(this);
+
+                        setTimeout(function () {
+                            if (typeof $el.data('autocomplete') == 'object') {
+                                $el.data('autocomplete').dispose();
+                            }
+                            $el.dgwtWcasAutocomplete(window.dgwt_wcas.config);
+                        }, 500);
+                    });
+                }
+            });
+        }
+    });
 
 }));

@@ -131,7 +131,7 @@ class Multilingual {
 		}
 
 		if ( empty( $currentLang ) && ! empty( $_GET['lang'] ) && self::isLangCode( $_GET['lang'] ) ) {
-			$currentLang = strtolower($_GET['lang']);
+			$currentLang = strtolower( $_GET['lang'] );
 		}
 
 		$currentLang = apply_filters( 'dgwt/wcas/multilingual/current-language', $currentLang );
@@ -207,7 +207,7 @@ class Multilingual {
 		}
 
 		if ( self::isPolylang() ) {
-			$lang = pll_get_term_language($termID, 'slug');
+			$lang = pll_get_term_language( $termID, 'slug' );
 		}
 
 		// TranslatePress/qTranslate-XT has no language relationship with the post, so we always return the default
@@ -308,6 +308,55 @@ class Multilingual {
 	}
 
 	/**
+	 * Get language details by language code
+	 *
+	 * @param string $lang
+	 * @param string $field | name | locale |
+	 *
+	 * @return string
+	 */
+	public static function getLanguageField( $lang, $field ) {
+		$value = $lang;
+
+		if ( self::isWPML() ) {
+			global $sitepress;
+			$details = $sitepress->get_language_details( $lang );
+
+			if ( $field === 'name' && ! empty( $details['display_name'] ) ) {
+				$value = $details['display_name'];
+			}
+
+			if ( $field === 'locale' && ! empty( $details['default_locale'] ) ) {
+				$value = $details['default_locale'];
+			}
+		}
+
+		if ( self::isPolylang() ) {
+			$langs = pll_languages_list( array(
+				'hide_empty' => false,
+				'fields'     => ''
+			) );
+
+			if ( ! empty( $langs ) && is_array( $langs ) ) {
+				foreach ( $langs as $object ) {
+					if ( ! empty( $object->slug ) && $object->slug === $lang ) {
+
+						if ( $field === 'name' ) {
+							$value = $object->name;
+						}
+
+						if ( $field === 'locale' ) {
+							$value = $object->locale;
+						}
+					}
+				}
+			}
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Get all terms in one taxonomy for all languages
 	 *
 	 * @param string $taxonomy
@@ -315,11 +364,11 @@ class Multilingual {
 	 * @return array of WP_Term objects
 	 */
 	public static function getTermsInAllLangs( $taxonomy ) {
-		$terms   = array();
+		$terms = array();
 
 		if ( self::isWPML() ) {
 			$currentLang = self::getCurrentLanguage();
-			$usedIds = array();
+			$usedIds     = array();
 
 			foreach ( self::getLanguages() as $lang ) {
 				do_action( 'wpml_switch_language', $lang );
@@ -331,6 +380,7 @@ class Multilingual {
 				$termsInLang = get_terms( apply_filters( 'dgwt/wcas/search/' . $taxonomy . '/args', $args ) );
 
 				if ( ! empty( $termsInLang ) && is_array( $termsInLang ) ) {
+					;
 					foreach ( $termsInLang as $termInLang ) {
 
 						if ( ! in_array( $termInLang->term_id, $usedIds ) ) {
@@ -348,9 +398,9 @@ class Multilingual {
 		if ( self::isPolylang() ) {
 
 			$terms = get_terms( array(
-				'taxonomy' => $taxonomy,
+				'taxonomy'   => $taxonomy,
 				'hide_empty' => true,
-				'lang' => '', // query terms in all languages
+				'lang'       => '', // query terms in all languages
 			) );
 
 		}
@@ -415,7 +465,7 @@ class Multilingual {
 		return $terms;
 	}
 
-	public static function searchTerms($taxonomy, $query, $lang = ''){
+	public static function searchTerms( $taxonomy, $query, $lang = '' ) {
 		$terms = array();
 
 		if ( empty( $lang ) ) {
@@ -428,7 +478,7 @@ class Multilingual {
 			'search'     => $query,
 		);
 		$terms = get_terms( $args );
-}
+	}
 
 	/**
 	 * Get term in specific language

@@ -52,6 +52,16 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
             }
         }
     }
+    function get_charset_collate() {
+        global $wpdb;
+        $result = $wpdb->get_row("SHOW TABLE STATUS where name like '{$wpdb->posts}'");
+        if( ! empty($result) && ! empty($result->Collation) ) {
+            $collate = 'DEFAULT CHARACTER SET ' . $wpdb->charset . ' COLLATE ' . $result->Collation;
+        } else {
+            $collate = $wpdb->get_charset_collate();
+        }
+        return $collate;
+    }
     function cron() {
         $start_time = time();
         $time_limit = ( (function_exists('ini_get') && (int)ini_get('max_execution_time')) ? (int)ini_get('max_execution_time') : 30 );
@@ -305,7 +315,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
     }
     function create_table_braapf_term_taxonomy_hierarchical() {
         global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $table_name = $wpdb->prefix . 'braapf_term_taxonomy_hierarchical';
         $sql = "DROP TABLE IF EXISTS {$table_name};";
@@ -326,7 +336,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
     }
     function create_table_braapf_product_stock_status_parent() {
         global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $table_name = $wpdb->prefix . 'braapf_product_stock_status_parent';
         $sql = "DROP TABLE IF EXISTS {$table_name};";
@@ -343,7 +353,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
     }
     function create_table_braapf_variable_attributes() {
         global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $table_name = $wpdb->prefix . 'braapf_variable_attributes';
         $sql = "DROP TABLE IF EXISTS {$table_name};";
@@ -360,7 +370,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
     }
     function create_table_braapf_product_variation_attributes() {
         global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $table_name = $wpdb->prefix . 'braapf_product_variation_attributes';
         $sql = "DROP TABLE IF EXISTS {$table_name};";
@@ -396,7 +406,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
         ));
         global $wpdb;
         $table_name = $wpdb->prefix . 'braapf_product_stock_status_parent';
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $sql_select = "SELECT {$wpdb->posts}.ID as post_id, {$wpdb->posts}.post_parent as parent_id, IF({$wpdb->prefix}wc_product_meta_lookup.stock_status = 'instock', 1, 0) as stock_status FROM {$wpdb->prefix}wc_product_meta_lookup
         JOIN {$wpdb->posts} ON {$wpdb->prefix}wc_product_meta_lookup.product_id = {$wpdb->posts}.ID
@@ -464,8 +474,25 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
         $end_id = $start_id + apply_filters('berocket_insert_table_braapf_product_variation_attributes_end', 10000);
         global $wpdb;
         $table_name = $wpdb->prefix . 'braapf_product_variation_attributes';
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        $sql_select = "SELECT meta_key FROM {$wpdb->postmeta}
+                       WHERE meta_key LIKE 'attribute_pa_%'
+                       GROUP BY CAST(meta_key AS binary)";
+        $postmeta_vars = $wpdb->get_col($sql_select);
+        $postmeta_vars_diff = array();
+        foreach($postmeta_vars as $postmeta_var) {
+            $postmeta_var_new = urldecode($postmeta_var);
+            if( $postmeta_var != $postmeta_var_new ) {
+                $postmeta_vars_diff[$postmeta_var] = $postmeta_var_new;
+            }
+        }
+        $join_tables = array("CONCAT('attribute_', {$wpdb->term_taxonomy}.taxonomy) = {$wpdb->postmeta}.meta_key");
+        foreach($postmeta_vars_diff as $postmeta_from => $postmeta_to) {
+            $postmeta_to = str_replace("attribute_pa_", 'pa_', $postmeta_to);
+            $join_tables[] = "({$wpdb->term_taxonomy}.taxonomy = '{$postmeta_to}' AND {$wpdb->postmeta}.meta_key = '{$postmeta_from}')";
+        }
+        $join_tables = implode(' OR ', $join_tables);
         $sql_select = "SELECT 
             {$wpdb->postmeta}.post_id as post_id, 
             {$wpdb->posts}.post_parent as parent_id, 
@@ -473,7 +500,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
             {$wpdb->terms}.term_id as meta_value_id,
             IF({$wpdb->wc_product_meta_lookup}.stock_status = 'instock' OR {$wpdb->wc_product_meta_lookup}.stock_status = 'onbackorder', 1, 0) as stock_status
         FROM {$wpdb->postmeta}
-        JOIN {$wpdb->term_taxonomy} ON CONCAT('attribute_', {$wpdb->term_taxonomy}.taxonomy) = {$wpdb->postmeta}.meta_key
+        JOIN {$wpdb->term_taxonomy} ON {$join_tables}
         JOIN {$wpdb->terms} ON {$wpdb->terms}.term_id = {$wpdb->term_taxonomy}.term_id AND {$wpdb->postmeta}.meta_value = {$wpdb->terms}.slug
         JOIN {$wpdb->posts} ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID
         JOIN {$wpdb->wc_product_meta_lookup} ON {$wpdb->posts}.ID = {$wpdb->wc_product_meta_lookup}.product_id
@@ -546,7 +573,7 @@ class BeRocket_aapf_variations_tables_addon extends BeRocket_framework_addon_lib
         ));
         global $wpdb;
         $table_name = $wpdb->prefix . 'braapf_variable_attributes';
-        $charset_collate = $wpdb->get_charset_collate();
+        $charset_collate = $this->get_charset_collate();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $sql_select = "SELECT {$wpdb->posts}.ID as id, {$wpdb->postmeta}.meta_value as value FROM {$wpdb->posts}
         JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id

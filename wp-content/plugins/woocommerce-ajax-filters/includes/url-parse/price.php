@@ -110,9 +110,9 @@ if( ! class_exists('BeRocket_url_parse_page_price') ) {
             $max = apply_filters('bapf_uparse_price_for_filtering_convert', (isset( $filter['val_arr']['to'] ) ? floatval( $filter['val_arr']['to'] ) : 9999999999));
             list($min, $max) = apply_filters('berocket_min_max_filter', array($min, $max));
             $args['where'] .= $wpdb->prepare(
-                ' AND wc_product_meta_lookup.min_price >= %f AND wc_product_meta_lookup.max_price <= %f ',
-                $min,
-                $max
+                ' AND NOT (%f<wc_product_meta_lookup.min_price OR %f>wc_product_meta_lookup.max_price ) ',
+                $max,
+                $min
             );
             return $args;
         }

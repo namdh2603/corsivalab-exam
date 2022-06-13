@@ -66,9 +66,9 @@
             if (checked) {
                 $('.' + groupClass).each(function () {
                     if (!(
-                            $(this).hasClass('js-dgwt-wcas-adv-settings')
-                            && $('.js-dgwt-wcas-adv-settings-toggle').hasClass('woocommerce-input-toggle--disabled')
-                        )
+                        $(this).hasClass('js-dgwt-wcas-adv-settings')
+                        && $('.js-dgwt-wcas-adv-settings-toggle').hasClass('woocommerce-input-toggle--disabled')
+                    )
                     ) {
                         $(this).fadeIn();
                     }
@@ -130,131 +130,131 @@
 
     };
 
-	var CHECKBOX_SETTINGS_TOGGLE_SIBLING = {
-		inputSel: 'js-dgwt-wcas-options-toggle-sibling input[type=checkbox]',
+    var CHECKBOX_SETTINGS_TOGGLE_SIBLING = {
+        inputSel: 'js-dgwt-wcas-options-toggle-sibling input[type=checkbox]',
 
-		toogleSibling: function ($el) {
-			var _this = this;
-			var checked = $el.is(':checked');
+        toogleSibling: function ($el) {
+            var _this = this;
+            var checked = $el.is(':checked');
 
-			if (checked) {
-				$el.closest('label').next().fadeIn();
-			} else {
-				$el.closest('label').next().hide();
-			}
-		},
+            if (checked) {
+                $el.closest('label').next().fadeIn();
+            } else {
+                $el.closest('label').next().hide();
+            }
+        },
 
-		registerListeners: function () {
-			var _this = this;
+        registerListeners: function () {
+            var _this = this;
 
-			$(document).on('change', '.' + _this.inputSel, function () {
-				_this.toogleSibling($(this));
-			});
-		},
+            $(document).on('change', '.' + _this.inputSel, function () {
+                _this.toogleSibling($(this));
+            });
+        },
 
-		init: function () {
-			var _this = this;
-			var $sel = $('.' + _this.inputSel);
+        init: function () {
+            var _this = this;
+            var $sel = $('.' + _this.inputSel);
 
-			if ($sel.length > 0) {
-				_this.registerListeners();
+            if ($sel.length > 0) {
+                _this.registerListeners();
 
-				$sel.each(function () {
-					_this.toogleSibling($(this));
-				});
-			}
-		}
-	};
+                $sel.each(function () {
+                    _this.toogleSibling($(this));
+                });
+            }
+        }
+    };
 
-	var CONDITIONAL_LAYOUT_SETTINGS = {
-		layoutSelect: "select[id*='search_layout']",
-		overlayMobile: "input[id*='enable_mobile_overlay']",
-		mobileBreakpoint: "input[id*='mobile_breakpoint']",
-		searchIconColor: "input[id*='search_icon_color']",
-		$select: null,
-		$overlayMobileEl: null,
-		$mobileBreakpointEl: null,
-		$searchIconColorEl: null,
-		setConditions: function () {
-			var _this = this,
-				currentVal = _this.$select.find('option:selected').val(),
-				hasAdvSettings = $('.js-dgwt-wcas-adv-settings-toggle').hasClass('woocommerce-input-toggle--enabled');
+    var CONDITIONAL_LAYOUT_SETTINGS = {
+        layoutSelect: "select[id*='search_layout']",
+        overlayMobile: "input[id*='enable_mobile_overlay']",
+        mobileBreakpoint: "input[id*='mobile_breakpoint']",
+        searchIconColor: "input[id*='search_icon_color']",
+        $select: null,
+        $overlayMobileEl: null,
+        $mobileBreakpointEl: null,
+        $searchIconColorEl: null,
+        setConditions: function () {
+            var _this = this,
+                currentVal = _this.$select.find('option:selected').val(),
+                hasAdvSettings = $('.js-dgwt-wcas-adv-settings-toggle').hasClass('woocommerce-input-toggle--enabled');
 
-			_this.hideOption(_this.$overlayMobileEl);
-			_this.hideOption(_this.$mobileBreakpointEl);
-			_this.hideOption(_this.$searchIconColorEl);
+            _this.hideOption(_this.$overlayMobileEl);
+            _this.hideOption(_this.$mobileBreakpointEl);
+            _this.hideOption(_this.$searchIconColorEl);
 
-			$("input[id*='bg_search_icon_color']").closest('tr').show();
+            $("input[id*='bg_search_icon_color']").closest('tr').show();
 
-			switch (currentVal) {
-				case 'icon':
+            switch (currentVal) {
+                case 'icon':
 
-					if (hasAdvSettings) {
-						_this.showOption(_this.$searchIconColorEl);
-					}
+                    if (hasAdvSettings) {
+                        _this.showOption(_this.$searchIconColorEl);
+                    }
 
-					break;
-				case 'icon-flexible':
+                    break;
+                case 'icon-flexible':
 
-					if (hasAdvSettings) {
-						_this.showOption(_this.$mobileBreakpointEl);
-						_this.showOption(_this.$searchIconColorEl);
-					}
+                    if (hasAdvSettings) {
+                        _this.showOption(_this.$mobileBreakpointEl);
+                        _this.showOption(_this.$searchIconColorEl);
+                    }
 
-					break;
-				default:
+                    break;
+                default:
 
-					if (hasAdvSettings) {
+                    if (hasAdvSettings) {
 
-						_this.showOption(_this.$overlayMobileEl);
+                        _this.showOption(_this.$overlayMobileEl);
 
-						$("input[id*='bg_search_icon_color']").closest('tr').hide();
+                        $("input[id*='bg_search_icon_color']").closest('tr').hide();
 
-						if (_this.$overlayMobileEl.is(':checked')) {
-							_this.showOption(_this.$mobileBreakpointEl);
-						}
-					}
+                        if (_this.$overlayMobileEl.is(':checked')) {
+                            _this.showOption(_this.$mobileBreakpointEl);
+                        }
+                    }
 
-					break;
-			}
-		},
-		hideOption: function($el){
-			$el.closest('tr').hide();
-		},
-		showOption: function($el){
-			$el.closest('tr').show();
-		},
-		registerListeners: function () {
-			var _this = this;
+                    break;
+            }
+        },
+        hideOption: function ($el) {
+            $el.closest('tr').hide();
+        },
+        showOption: function ($el) {
+            $el.closest('tr').show();
+        },
+        registerListeners: function () {
+            var _this = this;
 
-			_this.$select.on('change', function () {
-				_this.setConditions();
-			});
+            _this.$select.on('change', function () {
+                _this.setConditions();
+            });
 
-			_this.$overlayMobileEl.on('change', function () {
-				_this.setConditions();
-			});
+            _this.$overlayMobileEl.on('change', function () {
+                _this.setConditions();
+            });
 
-		},
-		init: function () {
-			var _this = this,
-				$sel = $(_this.layoutSelect);
+        },
+        init: function () {
+            var _this = this,
+                $sel = $(_this.layoutSelect);
 
-			if ($sel.length > 0) {
-				_this.$select = $sel;
-				_this.$overlayMobileEl = $(_this.overlayMobile);
-				_this.$mobileBreakpointEl = $(_this.mobileBreakpoint);
-				_this.$searchIconColorEl = $(_this.searchIconColor);
-				_this.registerListeners();
+            if ($sel.length > 0) {
+                _this.$select = $sel;
+                _this.$overlayMobileEl = $(_this.overlayMobile);
+                _this.$mobileBreakpointEl = $(_this.mobileBreakpoint);
+                _this.$searchIconColorEl = $(_this.searchIconColor);
+                _this.registerListeners();
 
-				setTimeout(function(){
-				    _this.setConditions();
-				}, 400);
-			}
+                setTimeout(function () {
+                    _this.setConditions();
+                }, 400);
+            }
 
-		}
+        }
 
-	};
+    };
 
     var AJAX_BUILD_INDEX = {
         actionTriggerClass: 'js-ajax-build-index',
@@ -292,11 +292,11 @@
                 $.ajax({
                     url: ajaxurl,
                     type: 'post',
-					data: {
-						action: 'dgwt_wcas_build_index',
-						emergency: emergency,
-						_wpnonce: dgwt_wcas.nonces.build_index,
-					},
+                    data: {
+                        action: 'dgwt_wcas_build_index',
+                        emergency: emergency,
+                        _wpnonce: dgwt_wcas.nonces.build_index,
+                    },
                     success: function (response) {
                         if (typeof response != 'undefined' && response.success) {
                             _this.getWrapper().html(response.data.html);
@@ -325,7 +325,7 @@
                     type: 'post',
                     data: {
                         action: 'dgwt_wcas_stop_build_index',
-						_wpnonce: dgwt_wcas.nonces.stop_build_index,
+                        _wpnonce: dgwt_wcas.nonces.stop_build_index,
                     },
                     success: function (response) {
                         if (typeof response != 'undefined' && response.success) {
@@ -349,7 +349,7 @@
                     type: 'post',
                     data: {
                         action: 'dgwt_wcas_build_index_heartbeat',
-						_wpnonce: dgwt_wcas.nonces.build_index_heartbeat,
+                        _wpnonce: dgwt_wcas.nonces.build_index_heartbeat,
                     },
                     success: function (response) {
                         if (typeof response != 'undefined' && response.success) {
@@ -365,17 +365,17 @@
                             }
 
                             if (!response.data.loop && response.data.refresh_once.length > 0) {
-                            	// If refresh cookie non exist and Troubleshooting tab is hidden then reload
-								if (
-									!document.cookie.split(';').some(function (item) {
-										return item.trim().indexOf('dgwt_wcas_refresh_once=' + response.data.refresh_once) === 0;
-									}) &&
-									$('#dgwt_wcas_troubleshooting-tab').css('display') === 'none'
-								) {
-									document.cookie = 'dgwt_wcas_refresh_once=' + response.data.refresh_once;
-									location.reload();
-								}
-							}
+                                // If refresh cookie non exist and Troubleshooting tab is hidden then reload
+                                if (
+                                    !document.cookie.split(';').some(function (item) {
+                                        return item.trim().indexOf('dgwt_wcas_refresh_once=' + response.data.refresh_once) === 0;
+                                    }) &&
+                                    $('#dgwt_wcas_troubleshooting-tab').css('display') === 'none'
+                                ) {
+                                    document.cookie = 'dgwt_wcas_refresh_once=' + response.data.refresh_once;
+                                    location.reload();
+                                }
+                            }
 
                         }
                     }
@@ -444,7 +444,7 @@
                     },
                     success: function (res) {
 
-                        if(typeof res != 'undefined' && typeof res.data != 'undefined') {
+                        if (typeof res != 'undefined' && typeof res.data != 'undefined') {
                             _this.initSelectize(res.data);
                         }
                     }
@@ -635,7 +635,7 @@
                             setTimeout(function () {
                                 $options.removeClass(_this.transClass);
                                 CHECKBOX_SETTINGS_TOGGLE.refresh();
-								CONDITIONAL_LAYOUT_SETTINGS.setConditions();
+                                CONDITIONAL_LAYOUT_SETTINGS.setConditions();
                             }, 500)
 
                         }, 500);
@@ -654,6 +654,288 @@
                 }
             }
 
+        },
+    };
+
+    var STATS_INTERFACE = {
+        placeholderClass: 'js-dgwt-wcas-stats-placeholder',
+        placeholderClassLoaded: 'js-dgwt-wcas-stats-placeholder-loaded',
+        preloaderClass: 'dgwt-wcas-stats-preloader',
+        settingsGroupSel: '#dgwt_wcas_analytics',
+        criticalSearchesLoadMoreClass: 'js-dgwt-wcas-critical-searches-load-more',
+        autocompleteWithResultsLoadMoreClass: 'js-dgwt-wcas-autocomplete-with-results-load-more',
+        searchPageWithResultsLoadMoreClass: 'js-dgwt-wcas-search-page-with-results-load-more',
+        checkPhraseStatusClass: 'js-dgwt-wcas-stats-critical-check',
+        checkPhraseStatusInitClass: 'js-dgwt-wcas-stats-critical-check-init',
+        rowLoadingClass: 'dgwt-wcas-analytics-row-loading',
+        languageSwitcherClass: 'js-dgwt-wcas-analytics-lang',
+        excludePhraseClass: 'js-dgwt-wcas-analytics-exclude-phrase',
+        checkIndexerAction: 'js-dgwt-wcas-analytics-check-indexer',
+        init: function () {
+            var _this = this;
+
+            // Do nothing if the analytics module is disabled
+            if (typeof dgwt_wcas.analytics == 'undefined' || !dgwt_wcas.analytics.enabled) {
+                return;
+            }
+
+            _this.interfaceLoaderListener();
+        },
+        interfaceLoaderListener: function () {
+            var _this = this,
+                $languageSelectorEl = $('.' + _this.languageSwitcherClass);
+
+            $(document).on('dgwt_wcas_settings_group_active', function (event, el) {
+                if ($(el).length > 0 && el.id === 'dgwt_wcas_analytics') {
+                    if (!_this.isLoaded()) {
+                        _this.loadInterface();
+                    }
+                }
+            });
+
+            if ($languageSelectorEl.length > 0) {
+                $languageSelectorEl.on('change', function () {
+                    var $canvas = $('.' + _this.placeholderClass);
+                    if ($canvas.length > 0) {
+                        $canvas.html('');
+                        _this.loadInterface();
+                    }
+                });
+            }
+
+        },
+        isLoaded: function () {
+            var _this = this;
+            return $('.' + _this.placeholderClassLoaded).length > 0;
+        },
+        showPreloader: function () {
+            var _this = this,
+                $placeholder = $('.' + _this.placeholderClass),
+                html = '<img class="' + _this.preloaderClass + '" src="' + dgwt_wcas.analytics.images.placeholder + '" />';
+
+            if ($placeholder.length) {
+                $placeholder.append(html);
+            }
+        },
+        loadInterface: function () {
+            var _this = this,
+                $lang = $('.' + _this.languageSwitcherClass + ' option:selected');
+
+            _this.showPreloader();
+
+            var data = {
+                'action': 'dgwt_wcas_load_stats_interface',
+                '_wpnonce': dgwt_wcas.analytics.nonce.analytics_load_interface
+            };
+
+            if ($lang.length > 0) {
+                data.lang = $lang.val();
+            }
+
+            $.post(
+                ajaxurl,
+                data,
+                function (response) {
+                    var $el = $('.' + _this.placeholderClass);
+                    if (typeof response == 'object' && response.success && $el.length > 0) {
+                        $el.addClass(_this.placeholderClassLoaded);
+                        $el.html(response.data.html);
+                        _this.loadCheckCriticalSearchesListeners();
+                        _this.loadMoreListeners();
+                    }
+                }
+            );
+        },
+        loadCheckCriticalSearchesListeners: function () {
+            var _this = this,
+                $elements = $('.' + _this.checkPhraseStatusClass + ':not(.' + _this.checkPhraseStatusInitClass + ')');
+
+            // Critical searches - check status
+            $elements.on('click', function (e) {
+                e.preventDefault();
+                $(e.target).after('<img src="' + dgwt_wcas.images.admin_preloader_url + '" />');
+                _this.checkPhraseStatus($(e.target));
+            })
+
+            $elements.each(function () {
+                $(this).addClass(_this.checkPhraseStatusInitClass);
+            });
+
+        },
+        loadMoreListeners: function () {
+            var _this = this;
+
+            // Critical searches - load more
+            $('.' + _this.criticalSearchesLoadMoreClass).on('click', function (e) {
+                e.preventDefault();
+                $(this).before('<img src="' + dgwt_wcas.images.admin_preloader_url + '" />');
+                $(this).closest('tr').addClass(_this.rowLoadingClass);
+                _this.loadMoreCriticalSearches();
+            })
+
+            // Autocomplete with results - load more
+            $('.' + _this.autocompleteWithResultsLoadMoreClass).on('click', function (e) {
+                e.preventDefault();
+                _this.loadMorePhrases('autocomplete', $(e.target));
+            })
+
+            // Search page with results - load more
+            $('.' + _this.searchPageWithResultsLoadMoreClass).on('click', function (e) {
+                e.preventDefault();
+                _this.loadMorePhrases('search-page', $(e.target));
+            })
+
+
+        },
+        checkPhraseStatus: function ($el) {
+            var _this = this,
+                $lang = $('.' + _this.languageSwitcherClass + ' option:selected');
+
+            var data = {
+                'action': 'dgwt_wcas_check_critical_phrase',
+                'phrase': $el.closest('tr').find('td:nth-child(2)').text(),
+                '_wpnonce': dgwt_wcas.analytics.nonce.check_critical_phrase
+            };
+
+            if ($lang.length > 0) {
+                data.lang = $lang.val();
+            }
+
+            $.post(
+                ajaxurl,
+                data,
+                function (response) {
+                    if (typeof response == 'object' && response.success) {
+                        var $row = $el.closest('tr');
+                        $el.closest('td').html(response.data.html);
+
+                        var $excludeEl = $row.find('.' + _this.excludePhraseClass);
+                        var $checkIndexerEl = $row.find('.' + _this.checkIndexerAction);
+
+                        // Critical searches - exclude phrase
+                        if ($excludeEl.length > 0) {
+                            $excludeEl.on('click', function (e) {
+                                e.preventDefault();
+                                var html = '<p>Processing...</p>';
+                                $(e.target).closest('td').html(html);
+                                _this.excludePhrase($row);
+                            })
+                        }
+
+                        // Check the indexer status
+                        if ($checkIndexerEl.length > 0) {
+                            $('.' + _this.checkIndexerAction).on('click', function (e) {
+                                e.preventDefault();
+                                var $tab = $('#dgwt_wcas_performance-tab');
+                                if ($tab.length > 0) {
+                                    $tab[0].click();
+                                    $([document.documentElement, document.body]).animate({
+                                        scrollTop: 0
+                                    }, 1000);
+                                }
+                            })
+                        }
+                    }
+                }
+            );
+        },
+        excludePhrase: function ($el) {
+            var _this = this,
+                $lang = $('.' + _this.languageSwitcherClass + ' option:selected');
+
+            var data = {
+                'action': 'dgwt_wcas_exclude_critical_phrase',
+                'phrase': $el.find('td:nth-child(2)').text(),
+                '_wpnonce': dgwt_wcas.analytics.nonce.exclude_critical_phrase
+            };
+
+            if ($lang.length > 0) {
+                data.lang = $lang.val();
+            }
+
+            $.post(
+                ajaxurl,
+                data,
+                function (response) {
+                    if (typeof response == 'object' && response.success) {
+                        $el.addClass('dgwt-wcas-analytics-disable-row');
+                        $el.find('td:last-child').html(response.data);
+                    }
+                }
+            );
+        },
+        loadMoreCriticalSearches: function () {
+            var _this = this,
+                $lang = $('.' + _this.languageSwitcherClass + ' option:selected');
+
+            var data = {
+                'action': 'dgwt_wcas_laod_more_critical_searches',
+                'loaded': $('.js-dgwt-wcas-critical-searches-row').length,
+                '_wpnonce': dgwt_wcas.analytics.nonce.load_more_critical_searches
+            };
+
+            if ($lang.length > 0) {
+                data.lang = $lang.val();
+            }
+
+            $.post(
+                ajaxurl,
+                data,
+                function (response) {
+                    if (typeof response == 'object' && response.success) {
+                        var $loadMoreRow = $('.' + _this.criticalSearchesLoadMoreClass).closest('tr');
+
+                        if (response.data.html.length > 0) {
+                            $loadMoreRow.before(response.data.html);
+                        }
+
+                        if (response.data.more > 0) {
+                            $loadMoreRow.removeClass(_this.rowLoadingClass);
+                            $loadMoreRow.find('img').remove();
+                            $('.' + _this.criticalSearchesLoadMoreClass + ' span:first-child').text(response.data.more_label);
+                            _this.loadCheckCriticalSearchesListeners();
+                        } else {
+                            $loadMoreRow.remove();
+                        }
+                    }
+                }
+            );
+        },
+        loadMorePhrases: function (context, $el) {
+            var _this = this,
+                $lang = $('.' + _this.languageSwitcherClass + ' option:selected');
+
+            $el.before('<img src="' + dgwt_wcas.images.admin_preloader_url + '" />');
+            $el.closest('tr').addClass(_this.rowLoadingClass);
+
+            if (context === 'autocomplete') {
+                var data = {
+                    'action': 'dgwt_wcas_laod_more_autocomplete',
+                    'loaded': $('.js-dgwt-wcas-autocomplete-row').length,
+                    '_wpnonce': dgwt_wcas.analytics.nonce.load_more_autocomplete
+                };
+            } else {
+                var data = {
+                    'action': 'dgwt_wcas_laod_more_search_page',
+                    'loaded': $('.js-dgwt-wcas-search-page-row').length,
+                    '_wpnonce': dgwt_wcas.analytics.nonce.load_more_search_page
+                };
+            }
+
+            if ($lang.length > 0) {
+                data.lang = $lang.val();
+            }
+
+            $.post(
+                ajaxurl,
+                data,
+                function (response) {
+                    if (typeof response == 'object' && response.success) {
+                        var $tBody = $el.closest('tbody');
+                        $tBody.html(response.data.html);
+                    }
+                }
+            );
         },
     };
 
@@ -705,19 +987,19 @@
                     relativeY = e.pageY + 10,
                     tooltipHTML = '<div class="dgwt-wcas-click-alert">No interaction! This is only a preview.</div>';
 
-                if(typeof timeout != 'undefined'){
+                if (typeof timeout != 'undefined') {
                     clearTimeout(timeout);
-                    if($tooltip){
+                    if ($tooltip) {
                         $tooltip.remove();
                     }
                 }
 
                 $('body').append(tooltipHTML);
                 $tooltip = $('.dgwt-wcas-click-alert');
-                $tooltip.css({left: relativeX, top:relativeY});
+                $tooltip.css({left: relativeX, top: relativeY});
                 $('.dgwt-wcas-preview-source').addClass('dgwt-wcas-preview-source-no-click');
 
-                timeout = setTimeout(function(){
+                timeout = setTimeout(function () {
                     $tooltip.fadeOut(500, function () {
                         $(this).remove();
                         $('.dgwt-wcas-preview-source').removeClass('dgwt-wcas-preview-source-no-click');
@@ -769,10 +1051,10 @@
                 ];
             for (var i = 0; i < options.length; i++) {
                 var selector = "input[id='dgwt_wcas_settings\\[" + options[i] + "\\]']";
-                var altSelector = "input[id^='dgwt_wcas_settings'][data-option-trigger='"+options[i]+"']";
+                var altSelector = "input[id^='dgwt_wcas_settings'][data-option-trigger='" + options[i] + "']";
                 var $el = $(selector),
                     $altEl = $(altSelector)
-                    methodToCall = 'onChange' + _this.camelCase(options[i]);
+                methodToCall = 'onChange' + _this.camelCase(options[i]);
 
                 if (typeof _this[methodToCall] == 'function' && $el.length > 0) {
                     _this[methodToCall]($el, $el.val());
@@ -967,13 +1249,13 @@
                 $items = $('.dgwt-wcas-suggestion-cat');
 
             if (_this.isChecked($el)) {
-            	$headline.show();
+                $headline.show();
                 $items.show();
                 $items.removeClass('js-dgwt-wcas-suggestion-hidden');
 
                 _this.onChangeShowGroupedResults($("input[id*='show_grouped_results']"));
             } else {
-            	$headline.hide();
+                $headline.hide();
                 $items.hide();
                 $items.addClass('js-dgwt-wcas-suggestion-hidden');
             }
@@ -982,16 +1264,16 @@
             _this.onChangeSuggestionsLimit($limitInput, $limitInput.val());
 
         },
-		onChangeShowCategoriesImages: function ($el, value) {
-			var _this = this,
-				$contentWrapp = $('.js-dgwt-wcas-suggestion-cat');
+        onChangeShowCategoriesImages: function ($el, value) {
+            var _this = this,
+                $contentWrapp = $('.js-dgwt-wcas-suggestion-cat');
 
-			if (_this.isChecked($el)) {
-				$contentWrapp.addClass('dgwt-wcas-has-img');
-			} else {
-				$contentWrapp.removeClass('dgwt-wcas-has-img');
-			}
-		},
+            if (_this.isChecked($el)) {
+                $contentWrapp.addClass('dgwt-wcas-has-img');
+            } else {
+                $contentWrapp.removeClass('dgwt-wcas-has-img');
+            }
+        },
         onChangeShowMatchingTags: function ($el, value) {
             var _this = this,
                 $headline = $('.dgwt-wcas-suggestion-headline-tag'),
@@ -1034,16 +1316,16 @@
             _this.onChangeSuggestionsLimit($limitInput, $limitInput.val());
 
         },
-		onChangeShowBrandsImages: function ($el, value) {
-			var _this = this,
-				$contentWrapp = $('.js-dgwt-wcas-suggestion-brand');
+        onChangeShowBrandsImages: function ($el, value) {
+            var _this = this,
+                $contentWrapp = $('.js-dgwt-wcas-suggestion-brand');
 
-			if (_this.isChecked($el)) {
-				$contentWrapp.addClass('dgwt-wcas-has-img');
-			} else {
-				$contentWrapp.removeClass('dgwt-wcas-has-img');
-			}
-		},
+            if (_this.isChecked($el)) {
+                $contentWrapp.addClass('dgwt-wcas-has-img');
+            } else {
+                $contentWrapp.removeClass('dgwt-wcas-has-img');
+            }
+        },
         onChangeShowMatchingPosts: function ($el, value) {
             var _this = this,
                 $headline = $('.dgwt-wcas-suggestion-headline-post'),
@@ -1177,7 +1459,7 @@
             }, 10);
 
         },
-        onChangeShowDetailsBox: function($el, value){
+        onChangeShowDetailsBox: function ($el, value) {
             var _this = this;
 
             if (_this.isChecked($el)) {
@@ -1187,13 +1469,13 @@
                 _this.previewWrapper.addClass('dgwt-wcas-details-right');
 
 
-                setTimeout(function(){
+                setTimeout(function () {
 
                     $('.dgwt-wcas-suggestion-product:not(.dgwt-wcas-suggestion-duplicated)').addClass('dgwt-wcas-suggestion-selected');
 
                     var searchWidth = _this.searchWrapp.width();
 
-                    if(searchWidth >= 550){
+                    if (searchWidth >= 550) {
                         _this.previewWrapper.addClass('dgwt-wcas-full-width');
 
                         var realWidth = getComputedStyle(_this.searchWrapp[0]).width;
@@ -1207,7 +1489,7 @@
                             _this.detailsWrapp.css('width', Math.ceil(realWidth / 2));
                         }
 
-                    }else{
+                    } else {
                         _this.suggestionWrapp.width(_this.searchWrapp.width());
                     }
 
@@ -1225,8 +1507,8 @@
                 _this.detailsWrapp.css('width', '');
             }
         },
-		onColorSearchIconColor: function ($el, value) {
-		},
+        onColorSearchIconColor: function ($el, value) {
+        },
         onColorBgInputColor: function ($el, value) {
             var _this = this;
             if (_this.isColor(value)) {
@@ -1247,7 +1529,7 @@
                 style += '.dgwt-wcas-search-input:-moz-placeholder{opacity: 0.3; color:' + value + '!important;}';
                 style += '.dgwt-wcas-search-input::-moz-placeholder{opacity: 0.3; color:' + value + '!important;}';
                 style += '.dgwt-wcas-search-input:-ms-input-placeholder{opacity: 0.3; color:' + value + '!important;}';
-				style += '.dgwt-wcas-ico-magnifier path {fill:' + value + '}';
+                style += '.dgwt-wcas-ico-magnifier path {fill:' + value + '}';
                 style += '</style>';
 
                 $('head').append(style);
@@ -1334,7 +1616,7 @@
         onColorSugHoverColor: function ($el, value) {
             var _this = this;
             if (_this.isColor(value)) {
-                setTimeout(function(){
+                setTimeout(function () {
                     $('.dgwt-wcas-suggestion-selected').css('background-color', value);
                 }, 50);
             } else {
@@ -1426,374 +1708,391 @@
         },
         onTypeSearchPlaceholder: function ($el, value) {
             var _this = this;
-            if(value.length == 0){
+            if (value.length == 0) {
                 value = dgwt_wcas.labels.search_placeholder;
             }
             _this.searchInput.attr('placeholder', value);
         },
         onTypeSearchNoResultsText: function ($el, value) {
-            if(value.length == 0){
+            if (value.length == 0) {
                 value = dgwt_wcas.labels.no_results;
             }
             $('.js-dgwt-wcas-suggestion-nores span').text(value);
         },
         onTypeSearchSeeAllResultsText: function ($el, value) {
-            if(value.length == 0){
+            if (value.length == 0) {
                 value = dgwt_wcas.labels.show_more;
             }
             $('.js-dgwt-wcas-st-more-label').text(value);
         },
-        fixSizesInit: function(){
+        fixSizesInit: function () {
             var _this = this;
 
-            $(document).on('click', '#dgwt_wcas_autocomplete-tab', function(){
+            $(document).on('click', '#dgwt_wcas_autocomplete-tab', function () {
                 _this.onChangeShowDetailsBox($("input[id*='show_details_box']"));
             });
 
         }
     };
 
-	var TROUBLESHOOTING = {
-		settingsTab: '#dgwt_wcas_troubleshooting-tab',
-		noIssuesClass: '.js-dgwt-wcas-troubleshooting-no-issues',
-		counterClass: '.js-dgwt-wcas-troubleshooting-count',
-		issuesListClass: '.js-dgwt-wcas-troubleshooting-issues',
-		progressBar: '.dgwt-wcas-troubleshooting-wrapper .progress_bar',
-		progressBarInner: '.dgwt-wcas-troubleshooting-wrapper .progress-bar-inner',
-		resetButtonName: 'dgwt-wcas-reset-async-tests',
-		fixOutofstockButtonName: 'dgwt-wcas-fix-out-of-stock-relationships',
+    var TROUBLESHOOTING = {
+        settingsTab: '#dgwt_wcas_troubleshooting-tab',
+        noIssuesClass: '.js-dgwt-wcas-troubleshooting-no-issues',
+        counterClass: '.js-dgwt-wcas-troubleshooting-count',
+        issuesListClass: '.js-dgwt-wcas-troubleshooting-issues',
+        progressBar: '.dgwt-wcas-troubleshooting-wrapper .progress_bar',
+        progressBarInner: '.dgwt-wcas-troubleshooting-wrapper .progress-bar-inner',
+        resetButtonName: 'dgwt-wcas-reset-async-tests',
+        fixOutofstockButtonName: 'dgwt-wcas-fix-out-of-stock-relationships',
+        maintenanceAnalyticsButtonName: 'dgwt-wcas-maintenance-analytics',
         switchAlternativeEndpoint: 'dgwt-wcas-switch-alternative-endpoint',
-		dismissElementorTemplateButtonName: 'dgwt-wcas-dismiss-elementor-template',
-		init: function () {
-			var _this = this;
-			if (typeof dgwt_wcas['troubleshooting'] === 'undefined') {
-				return;
-			}
+        dismissElementorTemplateButtonName: 'dgwt-wcas-dismiss-elementor-template',
+        init: function () {
+            var _this = this;
+            if (typeof dgwt_wcas['troubleshooting'] === 'undefined') {
+                return;
+            }
 
-			const count = dgwt_wcas['troubleshooting']['tests']['issues']['critical'] + dgwt_wcas['troubleshooting']['tests']['issues']['recommended'];
-			if (count > 0) {
-				$(_this.counterClass).text(count).addClass('active');
-				$(_this.settingsTab).addClass('enabled');
-			}
+            const count = dgwt_wcas['troubleshooting']['tests']['issues']['critical'] + dgwt_wcas['troubleshooting']['tests']['issues']['recommended'];
+            if (count > 0) {
+                $(_this.counterClass).text(count).addClass('active');
+                $(_this.settingsTab).addClass('enabled');
+            }
 
-			if (dgwt_wcas.troubleshooting.tests.results_async.length > 0) {
-				$.each(dgwt_wcas.troubleshooting.tests.results_async, function () {
-					_this.appendIssue(this, false);
-				});
-			}
+            if (dgwt_wcas.troubleshooting.tests.results_async.length > 0) {
+                $.each(dgwt_wcas.troubleshooting.tests.results_async, function () {
+                    _this.appendIssue(this, false);
+                });
+            }
 
-			if (dgwt_wcas.troubleshooting.tests.direct.length > 0) {
-				$.each(dgwt_wcas.troubleshooting.tests.direct, function () {
-					_this.appendIssue(this, false);
-				});
-			}
+            if (dgwt_wcas.troubleshooting.tests.direct.length > 0) {
+                $.each(dgwt_wcas.troubleshooting.tests.direct, function () {
+                    _this.appendIssue(this, false);
+                });
+            }
 
-			if (dgwt_wcas.troubleshooting.tests.async.length > 0) {
-				_this.maybeRunNextAsyncTest();
-			}
+            if (dgwt_wcas.troubleshooting.tests.async.length > 0) {
+                _this.maybeRunNextAsyncTest();
+            }
 
-			$(document).on('click', 'input[name="' + _this.resetButtonName + '"]', function (e) {
-				$('input[name="' + _this.resetButtonName + '"]').attr('disabled', 'disabled');
-				var data = {
-					'action': 'dgwt_wcas_troubleshooting_reset_async_tests',
-					'_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_reset_async_tests
-				};
-				$.post(
-					ajaxurl,
-					data,
-					function () {
-						location.reload();
-					}
-				);
-				return false;
-			});
+            $(document).on('click', 'input[name="' + _this.resetButtonName + '"]', function (e) {
+                $('input[name="' + _this.resetButtonName + '"]').attr('disabled', 'disabled');
+                var data = {
+                    'action': 'dgwt_wcas_troubleshooting_reset_async_tests',
+                    '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_reset_async_tests
+                };
+                $.post(
+                    ajaxurl,
+                    data,
+                    function () {
+                        location.reload();
+                    }
+                );
+                return false;
+            });
 
-			$(document).on('click', 'input[name="' + _this.fixOutofstockButtonName + '"]', function (e) {
-				$('input[name="' + _this.fixOutofstockButtonName + '"]').attr('disabled', 'disabled').next().addClass('loading');
-				var data = {
-					'action': 'dgwt_wcas_troubleshooting_fix_outofstock',
-					'_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_fix_outofstock
-				};
-				$.post(
-					ajaxurl,
-					data,
-					function () {
-						location.reload();
-					}
-				);
-				return false;
-			});
+            $(document).on('click', 'input[name="' + _this.fixOutofstockButtonName + '"]', function (e) {
+                $('input[name="' + _this.fixOutofstockButtonName + '"]').attr('disabled', 'disabled').next().addClass('loading');
+                var data = {
+                    'action': 'dgwt_wcas_troubleshooting_fix_outofstock',
+                    '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_fix_outofstock
+                };
+                $.post(
+                    ajaxurl,
+                    data,
+                    function () {
+                        location.reload();
+                    }
+                );
+                return false;
+            });
 
-			$(document).on('click', 'input[name="' + _this.switchAlternativeEndpoint + '"]', function (e) {
+            $(document).on('click', 'input[name="' + _this.maintenanceAnalyticsButtonName + '"]', function (e) {
+                $('input[name="' + _this.maintenanceAnalyticsButtonName + '"]').attr('disabled', 'disabled').next().addClass('loading');
+                var data = {
+                    'action': 'dgwt_wcas_troubleshooting_maintenance_analytics',
+                    '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_maintenance_analytics
+                };
+                $.post(
+                    ajaxurl,
+                    data,
+                    function () {
+                        location.reload();
+                    }
+                );
+                return false;
+            });
+
+            $(document).on('click', 'input[name="' + _this.switchAlternativeEndpoint + '"]', function (e) {
                 var action = parseInt($(this).data('switch')) === 1 ? 'enable' : 'disable';
-				$('input[name="' + _this.switchAlternativeEndpoint + '"]').attr('disabled', 'disabled').next().addClass('loading');
+                $('input[name="' + _this.switchAlternativeEndpoint + '"]').attr('disabled', 'disabled').next().addClass('loading');
                 var data = {
                     'action': 'dgwt_wcas_troubleshooting_switch_alternative_endpoint',
                     '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_switch_alternative_endpoint,
                     'switch': action,
                 };
-				$.post(
-					ajaxurl,
-					data,
-					function () {
-						location.reload();
-					}
-				);
-				return false;
-			});
+                $.post(
+                    ajaxurl,
+                    data,
+                    function () {
+                        location.reload();
+                    }
+                );
+                return false;
+            });
 
-			$(document).on('click', 'input[name="' + _this.dismissElementorTemplateButtonName + '"]', function (e) {
-				$('input[name="' + _this.dismissElementorTemplateButtonName + '"]').attr('disabled', 'disabled');
-				var data = {
-					'action': 'dgwt_wcas_troubleshooting_dismiss_elementor_template',
-					'_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_dismiss_elementor_template
-				};
-				$.post(
-					ajaxurl,
-					data,
-					function () {
-						location.reload();
-					}
-				);
-				return false;
-			});
-		},
-		appendIssue: function (issue, incrementCounter) {
-			var _this = this;
-			var template = wp.template('dgwt-wcas-troubleshooting-issue'),
-				issueWrapper = $(_this.issuesListClass + '-' + issue.status),
-				count;
+            $(document).on('click', 'input[name="' + _this.dismissElementorTemplateButtonName + '"]', function (e) {
+                $('input[name="' + _this.dismissElementorTemplateButtonName + '"]').attr('disabled', 'disabled');
+                var data = {
+                    'action': 'dgwt_wcas_troubleshooting_dismiss_elementor_template',
+                    '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_dismiss_elementor_template
+                };
+                $.post(
+                    ajaxurl,
+                    data,
+                    function () {
+                        location.reload();
+                    }
+                );
+                return false;
+            });
+        },
+        appendIssue: function (issue, incrementCounter) {
+            var _this = this;
+            var template = wp.template('dgwt-wcas-troubleshooting-issue'),
+                issueWrapper = $(_this.issuesListClass + '-' + issue.status),
+                count;
 
-			if (issue.status === 'good') {
-				return;
-			}
+            if (issue.status === 'good') {
+                return;
+            }
 
-			$(_this.noIssuesClass).hide();
+            $(_this.noIssuesClass).hide();
 
-			if (incrementCounter) {
-				dgwt_wcas.troubleshooting.tests.issues[issue.status]++;
-			}
+            if (incrementCounter) {
+                dgwt_wcas.troubleshooting.tests.issues[issue.status]++;
+            }
 
-			count = dgwt_wcas.troubleshooting.tests.issues['critical'] + dgwt_wcas.troubleshooting.tests.issues['recommended'];
+            count = dgwt_wcas.troubleshooting.tests.issues['critical'] + dgwt_wcas.troubleshooting.tests.issues['recommended'];
 
-			if (count > 0) {
-				$(_this.counterClass).text(count).addClass('active');
-				$(_this.settingsTab).addClass('enabled');
-			}
+            if (count > 0) {
+                $(_this.counterClass).text(count).addClass('active');
+                $(_this.settingsTab).addClass('enabled');
+            }
 
-			$(issueWrapper).append(template(issue));
-		},
-		maybeRunNextAsyncTest: function () {
-			var _this = this;
+            $(issueWrapper).append(template(issue));
+        },
+        maybeRunNextAsyncTest: function () {
+            var _this = this;
 
-			if (dgwt_wcas.troubleshooting.tests.async.length > 0) {
-				$.each(dgwt_wcas.troubleshooting.tests.async, function () {
-					var data = {
-						'action': 'dgwt_wcas_troubleshooting_test',
-						'test': this.test,
-						'_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_async_test
-					};
+            if (dgwt_wcas.troubleshooting.tests.async.length > 0) {
+                $.each(dgwt_wcas.troubleshooting.tests.async, function () {
+                    var data = {
+                        'action': 'dgwt_wcas_troubleshooting_test',
+                        'test': this.test,
+                        '_wpnonce': dgwt_wcas.troubleshooting.nonce.troubleshooting_async_test
+                    };
 
-					if (this.completed) {
-						return true;
-					}
+                    if (this.completed) {
+                        return true;
+                    }
 
-					this.completed = true;
+                    this.completed = true;
 
-					$(_this.progressBar).show();
+                    $(_this.progressBar).show();
 
-					$.post(
-						ajaxurl,
-						data,
-						function (response) {
-							if (response.success) {
-								_this.appendIssue(response.data, true)
-							}
-							_this.maybeRunNextAsyncTest();
-						}
-					);
+                    $.post(
+                        ajaxurl,
+                        data,
+                        function (response) {
+                            if (response.success) {
+                                _this.appendIssue(response.data, true)
+                            }
+                            _this.maybeRunNextAsyncTest();
+                        }
+                    );
 
-					return false;
-				});
-			}
+                    return false;
+                });
+            }
 
-			_this.recalculateProgression();
-		},
-		recalculateProgression: function () {
-			var _this = this;
-			var total = dgwt_wcas.troubleshooting.tests.async.length;
-			var completed = 0;
+            _this.recalculateProgression();
+        },
+        recalculateProgression: function () {
+            var _this = this;
+            var total = dgwt_wcas.troubleshooting.tests.async.length;
+            var completed = 0;
 
-			$.each(dgwt_wcas.troubleshooting.tests.async, function () {
-				if (this.completed) {
-					completed++;
-				}
-			});
-			var progress = Math.ceil((completed / total) * 100);
-			$(_this.progressBarInner).css('width', progress + '%');
-			if (progress === 100) {
-				setTimeout(function () {
-					$(_this.progressBar).slideUp();
-				}, 2000);
-			}
-		},
-	}
+            $.each(dgwt_wcas.troubleshooting.tests.async, function () {
+                if (this.completed) {
+                    completed++;
+                }
+            });
+            var progress = Math.ceil((completed / total) * 100);
+            $(_this.progressBarInner).css('width', progress + '%');
+            if (progress === 100) {
+                setTimeout(function () {
+                    $(_this.progressBar).slideUp();
+                }, 2000);
+            }
+        },
+    }
 
-	var MOVE_OPTIONS = {
-		moveOptionClass: '.js-dgwt-wcas-move-option',
-		init: function () {
-			var optionsToMove = $(this.moveOptionClass);
-			if (optionsToMove.length > 0) {
-				$.each(optionsToMove, function (index, el) {
-					var moveDest = $('#' + $(el).data('move-dest').replace(/(:|\.|\[|\])/g, '\\$1'));
-					if (moveDest.length > 0) {
-						if ($(el).closest('tr').hasClass('dgwt-wcas-premium-only')) {
-							$(el).addClass('dgwt-wcas-premium-only');
-						}
-						$(el).clone().appendTo(moveDest.closest('td fieldset'));
-					}
-					$(el).closest('tr').remove();
-				});
-			}
-		}
-	}
+    var MOVE_OPTIONS = {
+        moveOptionClass: '.js-dgwt-wcas-move-option',
+        init: function () {
+            var optionsToMove = $(this.moveOptionClass);
+            if (optionsToMove.length > 0) {
+                $.each(optionsToMove, function (index, el) {
+                    var moveDest = $('#' + $(el).data('move-dest').replace(/(:|\.|\[|\])/g, '\\$1'));
+                    if (moveDest.length > 0) {
+                        if ($(el).closest('tr').hasClass('dgwt-wcas-premium-only')) {
+                            $(el).addClass('dgwt-wcas-premium-only');
+                        }
+                        $(el).clone().appendTo(moveDest.closest('td fieldset'));
+                    }
+                    $(el).closest('tr').remove();
+                });
+            }
+        }
+    }
 
-	var SETTINGS_FILTERS_RULES = {
-		init: function () {
+    var SETTINGS_FILTERS_RULES = {
+        init: function () {
 
-			if (typeof Vue == 'undefined') {
-				return;
-			}
+            if (typeof Vue == 'undefined') {
+                return;
+            }
 
-			var productSearchSettings = function ({nonce, options, type}) {
-				return {
-					persist: false,
-					maxItems: null,
-					valueField: 'key',
-					labelField: 'label',
-					searchField: ['label'],
-					options: options,
-					preload: true,
-					create: function (input) {
-						return {
-							value: input.key,
-							label: input.label
-						}
-					},
-					load: function (query, callback) {
-						$.ajax({
-							url: ajaxurl,
-							method: 'POST',
-							data: {
-								action: 'dgwt_wcas_settings_search_terms',
-								query: query,
-								type: type,
-								_wpnonce: nonce
-							},
-							error: function () {
-								callback();
-							},
-							success: function (res) {
-								callback(res.data);
-							}
-						});
-					}
-				};
-			};
+            var productSearchSettings = function ({nonce, options, type}) {
+                return {
+                    persist: false,
+                    maxItems: null,
+                    valueField: 'key',
+                    labelField: 'label',
+                    searchField: ['label'],
+                    options: options,
+                    preload: true,
+                    create: function (input) {
+                        return {
+                            value: input.key,
+                            label: input.label
+                        }
+                    },
+                    load: function (query, callback) {
+                        $.ajax({
+                            url: ajaxurl,
+                            method: 'POST',
+                            data: {
+                                action: 'dgwt_wcas_settings_search_terms',
+                                query: query,
+                                type: type,
+                                _wpnonce: nonce
+                            },
+                            error: function () {
+                                callback();
+                            },
+                            success: function (res) {
+                                callback(res.data);
+                            }
+                        });
+                    }
+                };
+            };
 
-			Vue.component('dgwt-wcas-rule', {
-				template: '#dgwt-wcas-settings-filters-rules-rule',
-				components: {
-					Selectize
-				},
-				props: ['nonce', 'rule', 'rules', 'index'],
-				data() {
-					return {
-						isSelectActive: true,
-					}
-				},
-				computed: {
-					ruleValue(value) {
-						return this.rule.group;
-					},
-				},
-				watch: {
-					rule: {
-						handler: function () {
-							this.$emit('update:rule', this.index);
-						},
-						deep: true,
-					},
-					ruleValue() {
-						// Reset values on group change
-						var vm = this;
-						this.$emit('change:group', this.index);
-						this.isSelectActive = false;
-						setTimeout(function () {
-							vm.isSelectActive = true;
-						}, 0);
-					},
-				},
-				methods: {
-					deleteRule() {
-						this.$emit('delete:rule', this.index)
-					},
-					getSelectizeSettings(type) {
-						var options = (typeof dgwt_wcas_filters_rules_selected_options[type] === 'undefined') ? [] : dgwt_wcas_filters_rules_selected_options[type];
-						return productSearchSettings({nonce: this.nonce, type: type, options: options});
-					},
-				},
-			});
+            Vue.component('dgwt-wcas-rule', {
+                template: '#dgwt-wcas-settings-filters-rules-rule',
+                components: {
+                    Selectize
+                },
+                props: ['nonce', 'rule', 'rules', 'index'],
+                data() {
+                    return {
+                        isSelectActive: true,
+                    }
+                },
+                computed: {
+                    ruleValue(value) {
+                        return this.rule.group;
+                    },
+                },
+                watch: {
+                    rule: {
+                        handler: function () {
+                            this.$emit('update:rule', this.index);
+                        },
+                        deep: true,
+                    },
+                    ruleValue() {
+                        // Reset values on group change
+                        var vm = this;
+                        this.$emit('change:group', this.index);
+                        this.isSelectActive = false;
+                        setTimeout(function () {
+                            vm.isSelectActive = true;
+                        }, 0);
+                    },
+                },
+                methods: {
+                    deleteRule() {
+                        this.$emit('delete:rule', this.index)
+                    },
+                    getSelectizeSettings(type) {
+                        var options = (typeof dgwt_wcas_filters_rules_selected_options[type] === 'undefined') ? [] : dgwt_wcas_filters_rules_selected_options[type];
+                        return productSearchSettings({nonce: this.nonce, type: type, options: options});
+                    },
+                },
+            });
 
-			var FiltersRules = new Vue({
-				el: '#dgwt-wcas-settings-filters-rules',
-				components: {
-					Selectize
-				},
-				data() {
-					return {
-						rules: []
-					}
-				},
-				mounted() {
-					try {
-						const rules = JSON.parse(this.$refs['dgwt-wcas-settings-filters-rules-ref'].value);
-						$.each(rules, function (index, rule) {
-							rules[index].key = Math.random();
-						});
-						this.rules = rules;
-					} catch (e) {
-					}
-					this.updateInput();
-				},
-				methods: {
-					addRule() {
-						this.rules.push({group: '', values: [], key: Math.random()});
-						this.updateInput();
-					},
-					changeGroup(index) {
-						this.rules[index].values = [];
-						this.updateInput();
-					},
-					deleteRule(index) {
-						this.rules = this.rules.filter(function (item, itemIndex) {
-							return itemIndex !== index;
-						});
-						this.updateInput();
-					},
-					updateInput() {
-						const rules = JSON.parse(JSON.stringify(this.rules));
-						this.$refs['dgwt-wcas-settings-filters-rules-ref'].value = JSON.stringify(rules.map(function (rule) {
-							if (typeof (rule['key'] !== 'undefined')) {
-								delete (rule['key']);
-							}
-							return rule;
-						}));
-					}
-				},
-			});
-		}
-	};
+            var FiltersRules = new Vue({
+                el: '#dgwt-wcas-settings-filters-rules',
+                components: {
+                    Selectize
+                },
+                data() {
+                    return {
+                        rules: []
+                    }
+                },
+                mounted() {
+                    try {
+                        const rules = JSON.parse(this.$refs['dgwt-wcas-settings-filters-rules-ref'].value);
+                        $.each(rules, function (index, rule) {
+                            rules[index].key = Math.random();
+                        });
+                        this.rules = rules;
+                    } catch (e) {
+                    }
+                    this.updateInput();
+                },
+                methods: {
+                    addRule() {
+                        this.rules.push({group: '', values: [], key: Math.random()});
+                        this.updateInput();
+                    },
+                    changeGroup(index) {
+                        this.rules[index].values = [];
+                        this.updateInput();
+                    },
+                    deleteRule(index) {
+                        this.rules = this.rules.filter(function (item, itemIndex) {
+                            return itemIndex !== index;
+                        });
+                        this.updateInput();
+                    },
+                    updateInput() {
+                        const rules = JSON.parse(JSON.stringify(this.rules));
+                        this.$refs['dgwt-wcas-settings-filters-rules-ref'].value = JSON.stringify(rules.map(function (rule) {
+                            if (typeof (rule['key'] !== 'undefined')) {
+                                delete (rule['key']);
+                            }
+                            return rule;
+                        }));
+                    }
+                },
+            });
+        }
+    };
 
     function automateSettingsColspan() {
         var $el = $('.js-dgwt-wcas-sgs-autocolspan');
@@ -1844,7 +2143,7 @@
 
         RADIO_SETTINGS_TOGGLE.init();
         CHECKBOX_SETTINGS_TOGGLE.init();
-		CONDITIONAL_LAYOUT_SETTINGS.init();
+        CONDITIONAL_LAYOUT_SETTINGS.init();
 
         automateSettingsColspan();
 
@@ -1852,11 +2151,12 @@
         SELECTIZE.init();
         TOOLTIP.init();
         ADVANCED_SETTINGS.init();
-		TROUBLESHOOTING.init();
-		MOVE_OPTIONS.init();
-		CHECKBOX_SETTINGS_TOGGLE_SIBLING.init();
+        TROUBLESHOOTING.init();
+        MOVE_OPTIONS.init();
+        CHECKBOX_SETTINGS_TOGGLE_SIBLING.init();
+        STATS_INTERFACE.init();
 
-		SETTINGS_FILTERS_RULES.init();
+        SETTINGS_FILTERS_RULES.init();
         window.DGWT_WCAS_SEARCH_PREVIEW.init();
 
     });

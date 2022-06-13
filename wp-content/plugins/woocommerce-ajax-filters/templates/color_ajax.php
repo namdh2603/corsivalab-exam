@@ -5,13 +5,14 @@
 <?php if ( is_array(berocket_isset($terms)) ) { 
     if( $type == 'color' ) {?>
 <table>
-    <?php foreach( $terms as $term ) { 
+    <?php 
+    foreach( $terms as $term ) { 
         $color_term_selector = apply_filters('berocket_aapf_color_term_select_line', '', $term);
         if( ! empty($color_term_selector) ) {
             echo $color_term_selector;
             continue;
         }
-        $color_term_selector = '<tr>';
+        $color_term_selector = '<tr class="element-depth-'.$term->depth.'">';
         $color_term_selector .= '<td>'.berocket_isset($term, 'name').'</td>';
         $color_meta = get_metadata('berocket_term', $term->term_id, 'color'); 
         $color_term_selector .= '<td class="br_colorpicker_field" data-color="' . br_get_value_from_array($color_meta, 0, 'ffffff') . '">

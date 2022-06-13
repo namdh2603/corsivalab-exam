@@ -7,6 +7,7 @@ class BeRocket_aapf_custom_sidebar_addon extends BeRocket_framework_addon_lib {
         $data = parent::get_addon_data();
         return array_merge($data, array(
             'addon_name'    => __('Custom Sidebar', 'BeRocket_AJAX_domain'),
+            'image'         => plugins_url('/custom_sidebar.png', __FILE__),
             'paid'          => true
         ));
     }

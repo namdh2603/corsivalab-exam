@@ -2,9 +2,9 @@
 Contributors: damian-gora, matczar
 Tags: woocommerce search, ajax search, search by sku, product search, woocommerce
 Requires at least: 5.0
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 1.17.0
+Stable tag: 1.18.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,26 @@ You can read more and compare Pro and Free features here: [Full comparison - Pro
 5. Settings page
 
 == Changelog ==
+
+= 1.18.1, May 23, 2022 =
+* FIX: Exceeding the memory limit on the search results page
+
+= 1.18.0, May 12, 2022 =
+* ADD: New feature - FiboSearch Analytics. This feature will be available to everyone in FiboSearch v1.19.0. To enable it in v1.18.0 declare constant `define( 'DGWT_WCAS_ANALYTICS_ENABLE', true );` in `wp-config.php`
+* ADD: Open selected suggestion in new tab by shortcut Cmd+Enter/Ctrl+Enter
+* ADD: Show score in search results on the Debug page
+* ADD: Link darkened background and fuzzy search feature to the documentation
+
+* FIX: Improving ESC key functionality: If there are suggestions, ESC hides them. If there are not suggestions and mobile icon mode is enabled, ESC disables mobile icon mode. If there are not suggestions and darkened overlay is enabled, ESC disables darkened overlay
+* FIX: Allow recognizing CMD key
+* FIX: Remove interaction on the TAB key
+* FIX: Elementor popups - reinit search bars after loading Elementor's popup
+* FIX: Cannot open the first result with Ctrl + Enter
+* FIX: Prevent displaying search results, if the search icon mode is closed
+* FIX: Unnecessary closing mobile icon mode and darkened overlay mode after selecting text in the search bar. It used to happen often when users selected text from the search bar to remove it and write something new but clicked outside the search bar (JS mouseup event was outside the bar)
+* FIX: Better sanitization of the plugin settings
+
+* FACTOR: Retrieving results on the search page without additional HTTP request
 
 = 1.17.0, February 28, 2022 =
 * ADD: New beta feature - “Darkened background”
@@ -563,7 +583,7 @@ You can read more and compare Pro and Free features here: [Full comparison - Pro
 * ADD: Admin notice if there is no WooCommerce installed
 * ADD: Admin notice for better feedback from users
 * FIX: Deleting the 'dgwt-wcas-open' class after hiding the suggestion
-* FIX: Allows to display HTML entities in suggestions title and description
+* FIX: Allows displaying HTML entities in suggestions title and description
 * FIX: Better synchronizing suggestions and resutls on a search page
 * CHANGE: Move menu item to WooCommerce submenu
 

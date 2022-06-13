@@ -229,7 +229,9 @@ class BeRocket_AAPF_get_terms {
             'tax_query'             => $additional['recount_tax_query'],
             'post__not_in'          => $post__not_in,
             'post__in'              => $post__in,
-            'additional_tax_query'  => $additional['additional_tax_query']
+            'additional_tax_query'  => $additional['additional_tax_query'],
+            'args'                  => $args,
+            'additional'            => $additional
         ));
         if( empty($terms) || ! is_array($terms) ) {
             $terms = array();
@@ -256,7 +258,9 @@ class BeRocket_AAPF_get_terms {
             'tax_query'             => $additional['recount_tax_query'],
             'post__not_in'          => $post__not_in,
             'post__in'              => $post__in,
-            'additional_tax_query'  => $additional['additional_tax_query']
+            'additional_tax_query'  => $additional['additional_tax_query'],
+            'args'                  => $args,
+            'additional'            => $additional
         ));
         return $terms;
     }

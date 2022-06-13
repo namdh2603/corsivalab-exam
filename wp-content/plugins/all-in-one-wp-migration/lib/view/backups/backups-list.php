@@ -101,10 +101,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<span><?php _e( 'Restore', AI1WM_PLUGIN_NAME ); ?></span>
 										</a>
 									</li>
+									<?php if ( $downloadable ) : ?>
+										<li>
+											<a tabindex="-1" href="<?php echo esc_url( ai1wm_backup_url( array( 'archive' => $backup['filename'] ) ) ); ?>" role="menuitem" download="<?php echo esc_attr( $backup['filename'] ); ?>" aria-label="<?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?>">
+												<i class="ai1wm-icon-arrow-down"></i>
+												<?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?>
+											</a>
+										</li>
+									<?php else : ?>
+										<li class="ai1wm-disabled">
+											<a tabindex="-1" href="#" role="menuitem" aria-label="<?php _e( 'Downloading is not possible because backups directory is not accessible.', AI1WM_PLUGIN_NAME ); ?>" title="<?php _e( 'Downloading is not possible because backups directory is not accessible.', AI1WM_PLUGIN_NAME ); ?>">
+												<i class="ai1wm-icon-arrow-down"></i>
+												<?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?>
+											</a>
+										</li>
+									<?php endif; ?>
 									<li>
-										<a tabindex="-1" href="<?php echo esc_url( ai1wm_backup_url( array( 'archive' => $backup['filename'] ) ) ); ?>" role="menuitem" download="<?php echo esc_attr( $backup['filename'] ); ?>" aria-label="<?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?>">
-											<i class="ai1wm-icon-arrow-down"></i>
-											<?php _e( 'Download', AI1WM_PLUGIN_NAME ); ?>
+										<a tabindex="-1" href="#" class="ai1wm-backup-list-content" data-archive="<?php echo esc_attr( $backup['filename'] ); ?>" role="menuitem" aria-label="<?php _e( 'Show backup content', AI1WM_PLUGIN_NAME ); ?>">
+											<i class="ai1wm-icon-file-content"></i>
+											<span><?php _e( 'List', AI1WM_PLUGIN_NAME ); ?></span>
 										</a>
 									</li>
 									<li class="divider"></li>

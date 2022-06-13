@@ -2,6 +2,7 @@
 
 namespace DgoraWcas\Engines\WordPressNative;
 
+use  DgoraWcas\Analytics\Recorder ;
 use  DgoraWcas\Multilingual ;
 use  DgoraWcas\Product ;
 use  DgoraWcas\Helpers ;
@@ -40,6 +41,10 @@ class Search
      * @var array
      */
     private  $searchIn = array() ;
+    /**
+     * @var bool Whether the search results have already been overwritten.
+     */
+    private  $hooked = false ;
     public function __construct()
     {
         $this->searchIn = apply_filters( 'dgwt/wcas/native/search_in', array(
@@ -95,7 +100,6 @@ class Search
                     10,
                     2
                 );
-                $this->BasicAuthBypass();
             }
         
         } );
@@ -124,6 +128,15 @@ class Search
                 2
             );
         }
+        // Add "No results" suggestion if all results have been removed in earlier filters.
+        add_filter( 'dgwt/wcas/search_results/output', array( 'DgoraWcas\\Helpers', 'noResultsSuggestion' ), PHP_INT_MAX - 10 );
+        // Init Search Analytics
+        
+        if ( DGWT_WCAS()->settings->getOption( 'analytics_enabled' ) === 'on' ) {
+            $stats = new Recorder();
+            $stats->listen();
+        }
+    
     }
     
     /**
@@ -138,6 +151,10 @@ class Search
     public function getSearchResults( $phrase = '', $return = false, $context = 'autocomplete' )
     {
         $start = microtime( true );
+        $lang = '';
+        if ( Multilingual::isMultilingual() ) {
+            $lang = Multilingual::getCurrentLanguage();
+        }
         if ( !defined( 'DGWT_WCAS_AJAX' ) ) {
             define( 'DGWT_WCAS_AJAX', true );
         }
@@ -191,6 +208,7 @@ class Search
         }
         
         /* SEARCH IN PRODUCTS */
+        $totalProducts = 0;
         
         if ( apply_filters( 'dgwt/wcas/search_in_products', true ) ) {
             $args = array(
@@ -212,6 +230,13 @@ class Search
             
             $args = apply_filters( 'dgwt/wcas/search_query/args', $args );
             $products = get_posts( $args );
+            $totalProducts = count( $products );
+            do_action(
+                'dgwt/wcas/after_searching/products',
+                $keyword,
+                $totalProducts,
+                $lang
+            );
             
             if ( !empty($products) ) {
                 $orderedProducts = array();
@@ -316,7 +341,6 @@ class Search
         if ( !empty($relevantProducts) ) {
             $this->groups['product']['results'] = $relevantProducts;
         }
-        $total = ( isset( $products ) ? count( $products ) : 0 );
         
         if ( $this->hasResutls() ) {
             if ( $this->flexibleLimits ) {
@@ -324,10 +348,10 @@ class Search
             }
             $results = $this->convertGroupsToSuggestions();
             // Show more
-            if ( !empty($this->groups['product']['results']) && count( $this->groups['product']['results'] ) < $total ) {
+            if ( !empty($this->groups['product']['results']) && count( $this->groups['product']['results'] ) < $totalProducts ) {
                 $results[] = array(
                     'value' => '',
-                    'total' => $total,
+                    'total' => $totalProducts,
                     'url'   => add_query_arg( array(
                     's'         => $keyword,
                     'post_type' => 'product',
@@ -339,9 +363,9 @@ class Search
         } else {
             
             if ( $remote ) {
-                $results[] = array(
-                    'ID' => 0,
-                );
+                $emptyResult = new \stdClass();
+                $emptyResult->ID = 0;
+                $results[] = $emptyResult;
             } else {
                 $results[] = array(
                     'value' => '',
@@ -352,7 +376,7 @@ class Search
         }
         
         $output['suggestions'] = $results;
-        $output['total'] = $total;
+        $output['total'] = $totalProducts;
         $output['time'] = number_format(
             microtime( true ) - $start,
             2,
@@ -543,7 +567,7 @@ class Search
     {
         global  $wpdb ;
         
-        if ( empty($search) || is_admin() ) {
+        if ( empty($search) ) {
             return $search;
             // skip processing - there is no keyword
         }
@@ -625,7 +649,7 @@ class Search
             // skip processing
         }
         
-        if ( $this->isAjaxSearch() && !is_admin() ) {
+        if ( $this->isAjaxSearch() ) {
             if ( DGWT_WCAS()->settings->getOption( 'search_in_product_sku' ) === 'on' && in_array( 'sku', $this->searchIn ) ) {
                 $join .= " INNER JOIN {$wpdb->postmeta} AS dgwt_wcasmsku ON ( {$wpdb->posts}.ID = dgwt_wcasmsku.post_id )";
             }
@@ -666,6 +690,10 @@ class Search
         if ( !Helpers::isSearchQuery( $query ) ) {
             return;
         }
+        if ( $this->hooked ) {
+            return;
+        }
+        $this->hooked = true;
         /**
          * Disable cache: `cache_results` defaults to false but can be enabled
          */
@@ -683,43 +711,18 @@ class Search
         if ( !empty($query->query_vars['order']) ) {
             $order = strtolower( $query->query_vars['order'] );
         }
-        $urlPhrase = str_replace( "\\'", "'", $phrase );
-        $urlPhrase = str_replace( '\\"', '"', $urlPhrase );
-        $args = array(
-            's'      => urlencode( $urlPhrase ),
-            'remote' => 1,
-        );
-        if ( Multilingual::isMultilingual() ) {
-            $args['l'] = Multilingual::getCurrentLanguage();
-        }
-        $url = add_query_arg( $args, Helpers::getAjaxSearchEndpointUrl() );
         $postIn = array();
-        $correctResponse = false;
-        $r = wp_remote_retrieve_body( wp_remote_get( $url, array(
-            'timeout' => 120,
-        ) ) );
-        $decR = json_decode( $r );
-        if ( json_last_error() == JSON_ERROR_NONE ) {
-            
-            if ( is_object( $decR ) && property_exists( $decR, 'suggestions' ) && is_array( $decR->suggestions ) ) {
-                $correctResponse = true;
-                foreach ( $decR->suggestions as $suggestion ) {
-                    $postIn[] = $suggestion->ID;
-                }
-            }
-        
+        $searchResults = $this->getSearchResults( $phrase, true, 'all-results' );
+        foreach ( $searchResults['suggestions'] as $suggestion ) {
+            $postIn[] = $suggestion->ID;
         }
-        
-        if ( $correctResponse ) {
-            // Save for later use
-            $this->postsIDsBuffer = $postIn;
-            $query->set( 'orderby', $orderby );
-            $query->set( 'order', $order );
-            $query->set( 'post__in', $postIn );
-            // Resetting the key 's' to disable the default search logic.
-            $query->set( 's', '' );
-        }
-    
+        // Save for later use
+        $this->postsIDsBuffer = $postIn;
+        $query->set( 'orderby', $orderby );
+        $query->set( 'order', $order );
+        $query->set( 'post__in', $postIn );
+        // Resetting the key 's' to disable the default search logic.
+        $query->set( 's', '' );
     }
     
     /**
@@ -913,29 +916,6 @@ class Search
             return $this->postsIDsBuffer;
         }
         return $postsIDs;
-    }
-    
-    /**
-     * Basic Auth bypass when retrieving search results from a native engine.
-     *
-     * @return void
-     */
-    public function BasicAuthBypass()
-    {
-        $authorization = Helpers::getBasicAuthHeader();
-        if ( $authorization ) {
-            add_filter(
-                'http_request_args',
-                function ( $r, $url ) {
-                if ( strpos( $url, \WC_AJAX::get_endpoint( DGWT_WCAS_SEARCH_ACTION ) ) !== false ) {
-                    $r['headers']['Authorization'] = Helpers::getBasicAuthHeader();
-                }
-                return $r;
-            },
-                10,
-                2
-            );
-        }
     }
     
     /**

@@ -241,7 +241,7 @@ class BeRocket_AAPF extends BeRocket_Framework {
                     add_action( 'bapf_select2_load', array($this, 'select2_load') );
                     add_action( 'bapf_include_all_tempate_styles', array($this, 'include_all_tempate_styles'), 900 );
 
-                    add_action ( 'widgets_init', array( $this, 'widgets_init' ));
+                    add_action ( 'widgets_init', array( $this, 'widgets_init' ), 1);
                     if ( defined('DOING_AJAX') && DOING_AJAX ) {
                         $this->ajax_functions();
                     }
@@ -1518,7 +1518,16 @@ jQuery(document).on('change', '.berocket_disable_ajax_loading', berocket_disable
         return $html;
     }
     public function section_header_part($item, $options) {
-        $html = '<th colspan="2"><h3 style="padding-top:50px;">'.$item['value'].'</h3></th>';
+        $class = $extra = '';
+
+        if ( isset($item['class']) && trim( $item['class'] ) ) {
+            $class = " class='" . trim( $item['class'] ) . "'";
+        }
+
+        if ( isset($item['extra']) && trim( $item['extra'] ) ) {
+            $extra = " " . trim( $item['extra'] );
+        }
+        $html = '<th colspan="2"' . $class . $extra . '><h3 style="padding-top:50px;">'.$item['value'].'</h3></th>';
         return $html;
     }
     public function admin_init () {

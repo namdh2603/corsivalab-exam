@@ -697,3 +697,27 @@ td.br_colorpicker_field.colorpicker_removed:after {
 .bapf_incompatibility_fixes_hide {
     display: none!important;
 }
+.braapf_widget_color_pick tr.element-depth-1 td:first-child:before,
+.braapf_include_exclude_list .element-depth-1:before {
+    content: "- ";
+}
+.braapf_widget_color_pick tr.element-depth-2 td:first-child:before,
+.braapf_include_exclude_list .element-depth-2:before {
+    content: "- - ";
+}
+.braapf_widget_color_pick tr.element-depth-3 td:first-child:before,
+.braapf_include_exclude_list .element-depth-3:before {
+    content: "- - - ";
+}
+.braapf_widget_color_pick tr.element-depth-4 td:first-child:before,
+.braapf_include_exclude_list .element-depth-4:before {
+    content: "- - - - ";
+}
+.braapf_widget_color_pick tr.element-depth-5 td:first-child:before,
+.braapf_include_exclude_list .element-depth-5:before {
+    content: "- - - - - ";
+}
+.braapf_widget_color_pick tr.element-depth-6 td:first-child:before,
+.braapf_include_exclude_list .element-depth-6:before {
+    content: "- - - - - - ";
+}

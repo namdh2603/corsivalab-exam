@@ -58,7 +58,7 @@ class BeRocket_AAPF_dynamic_data_template {
             $is_child_parent = $child_parent == 'child';
             $is_child_parent_or = ( $child_parent == 'child' || $child_parent == 'parent' );
             $child_parent_depth = ( $child_parent == 'parent' ? 0 : intval(berocket_isset($child_parent_depth, false, 0)) );
-            if( br_is_term_selected( $term, true, $is_child_parent_or, $child_parent_depth ) != '' ) {
+            if( br_is_term_selected( $term, true, $is_child_parent_or, $child_parent_depth, array('berocket_query_var_title' => $berocket_query_var_title) ) != '' ) {
                 $element = self::create_element_arrays($element, array('attributes', 'class'));
                 $element['attributes']['class'][] = 'checked';
                 $element = self::create_element_arrays($element, array('content', 'checkbox', 'attributes'));
@@ -95,7 +95,7 @@ class BeRocket_AAPF_dynamic_data_template {
             $is_child_parent = $child_parent == 'child';
             $is_child_parent_or = ( $child_parent == 'child' || $child_parent == 'parent' );
             $child_parent_depth = ( $child_parent == 'parent' ? 0 : intval(berocket_isset($child_parent_depth, false, 0)) );
-            if( br_is_term_selected( $term, true, $is_child_parent_or, $child_parent_depth ) != '' ) {
+            if( br_is_term_selected( $term, true, $is_child_parent_or, $child_parent_depth, array('berocket_query_var_title' => $berocket_query_var_title) ) != '' ) {
                 $element['attributes']['selected'] = 'selected';
             }
         }

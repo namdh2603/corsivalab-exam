@@ -71,6 +71,8 @@ class Ai1wm_Extractor extends Ai1wm_Archiver {
 
 			// Get file data from the block
 			if ( ( $data = $this->get_data_from_block( $block ) ) ) {
+				// Store the position where the file begins - used for downloading from archive directly
+				$data['offset'] = @ftell( $this->file_handle );
 
 				// Skip file content, so we can move forward to the next file
 				if ( @fseek( $this->file_handle, $data['size'], SEEK_CUR ) === -1 ) {

@@ -18,6 +18,7 @@ class Troubleshooting
     const  RESET_ASYNC_TESTS_NONCE = 'troubleshooting-reset-async-tests' ;
     const  FIX_OUTOFSTOCK_NONCE = 'troubleshooting-fix-outofstock' ;
     const  DISMIS_ELEMENTOR_TEMPLATE_NONCE = 'troubleshooting-dismiss-elementor-template' ;
+    const  MAINTENANCE_ANALYTICS_NONCE = 'troubleshooting-maintenance-analytics' ;
     const  SWITCH_ALTERNATIVE_ENDPOINT = 'troubleshooting-switch-alternative-endpoint' ;
     public function __construct()
     {
@@ -62,7 +63,7 @@ class Troubleshooting
      */
     public function addSettingsSection( $sections )
     {
-        $sections[35] = array(
+        $sections[150] = array(
             'id'    => self::SECTION_ID,
             'title' => __( 'Troubleshooting', 'ajax-search-for-woocommerce' ) . '<span class="js-dgwt-wcas-troubleshooting-count dgwt-wcas-tab-mark"></span>',
         );
@@ -134,6 +135,7 @@ class Troubleshooting
             'troubleshooting_fix_outofstock'              => wp_create_nonce( self::FIX_OUTOFSTOCK_NONCE ),
             'troubleshooting_dismiss_elementor_template'  => wp_create_nonce( self::DISMIS_ELEMENTOR_TEMPLATE_NONCE ),
             'troubleshooting_switch_alternative_endpoint' => wp_create_nonce( self::SWITCH_ALTERNATIVE_ENDPOINT ),
+            'troubleshooting_maintenance_analytics'       => wp_create_nonce( self::MAINTENANCE_ANALYTICS_NONCE ),
         ),
             'tests' => array(
             'direct'        => array(),
@@ -548,10 +550,6 @@ class Troubleshooting
             'test'  => 'ElementorSearchResultsTemplate',
         )
         ),
-            'async'  => array( array(
-            'label' => __( 'Loopback request', 'ajax-search-for-woocommerce' ),
-            'test'  => 'LoopbackRequests',
-        ) ),
         );
         if ( !dgoraAsfwFs()->is_premium() ) {
             // List of tests only for free plugin version
@@ -608,10 +606,8 @@ class Troubleshooting
             foreach ( $elements as $element ) {
                 $result = $result || $this->doesElementorElementsContainsWidget( $element, $widget );
             }
-        } else {
-            if ( isset( $elements['elements'] ) && is_array( $elements['elements'] ) && !empty($elements['elements']) ) {
-                $result = $result || $this->doesElementorElementsContainsWidget( $elements['elements'], $widget );
-            }
+        } elseif ( isset( $elements['elements'] ) && is_array( $elements['elements'] ) && !empty($elements['elements']) ) {
+            $result = $result || $this->doesElementorElementsContainsWidget( $elements['elements'], $widget );
         }
         
         return $result;
@@ -679,7 +675,8 @@ class Troubleshooting
         if ( isset( $info['wp-server']['fields'] ) ) {
             ob_start();
             ?>
-			<br /><hr /><br />
+			<br/>
+			<hr/><br/>
 			<p><b><?php 
             _e( 'Server environment', 'ajax-search-for-woocommerce' );
             ?></b></p>

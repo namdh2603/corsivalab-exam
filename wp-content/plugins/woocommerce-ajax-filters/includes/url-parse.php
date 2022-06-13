@@ -492,7 +492,10 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
             return $link;
         }
         public function remove_filters_from_link($link) {
+            global $wp_rewrite;
             $link = remove_query_arg( apply_filters('bapf_uparse_remove_filters_from_link_arg', 'filters', $this), $link );
+            $link = preg_replace( "~paged?/[0-9]+/?~", "", $link );
+            $link = preg_replace( "~{$wp_rewrite->pagination_base}/[0-9]+/?~", "", $link );
             $result = apply_filters('bapf_uparse_remove_filters_from_link', null, $this, $link);
             if( $result !== null ) {
                 return $result;
@@ -653,12 +656,17 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                                 'data'  => $data
                             ));
                         }
-                        if($filter['taxonomy'] == $value['taxonomy'] && in_array($filter['type'], array('attribute', 'taxonomy')) ) {
+                        $is_modify = $filter['taxonomy'] == $value['taxonomy'] && in_array($filter['type'], array('attribute', 'taxonomy'));
+                        if( apply_filters('bapf_uparse_modify_data_each_is_modify', $is_modify, $value, $filter, $args) ) {
                             $position = false;
                             if( isset($filter['val_arr']) && is_array($filter['val_arr']) ) {
                                 $position = array_search($value['term'], $filter['val_arr']);
                             }
-                            if(($type == 'add' || $type == 'revert') && $position === false) {
+                            if(($type == 'add' || $type == 'replace' || $type == 'revert') && $position === false) {
+                                if( $type == 'replace' ) {
+                                    $filter['val_arr'] = array();
+                                    $filter['val_ids'] = array();
+                                }
                                 if( ! isset($filter['val_arr']) || ! is_array($filter['val_arr']) ) {
                                     $filter['val_arr'] = array();
                                 }
@@ -667,7 +675,7 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                                 }
                                 $filter['val_arr'][] = $value['term'];
                                 $filter['val_ids'][$value['term']] = $value['id'];
-                            } elseif(($type == 'remove' || $type == 'revert') && $position !== false) {
+                            } elseif(($type == 'remove' || $type == 'revert' || $type == 'replace') && $position !== false) {
                                 unset($filter['val_arr'][$position]);
                                 if( isset($filter['val_ids']) && is_array($filter['val_ids']) ) {
                                     $position2 = array_search($value['id'], $filter['val_ids']);
@@ -685,7 +693,7 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                     }
                 }
             }
-            if(($type == 'revert' || $type == 'add') && ! empty($values)) {
+            if(($type == 'revert' || $type == 'add' || $type == 'replace') && ! empty($values)) {
                 $add_values = array();
                 foreach($values as $value) {
                     if( empty($add_values[$value['taxonomy']]) ) {
@@ -697,11 +705,11 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                 foreach($add_values as $taxonomy => $add_value) {
                     $values = $add_value['values'];
                     $values['op'] = $operator;
-                    $filter_arr = array(
+                    $filter_arr = apply_filters('bapf_uparse_modify_data_add_value', array(
                         'val_arr' => $values,
                         'val_ids' => $add_value['ids'],
                         'taxonomy' => $taxonomy
-                    );
+                    ), $args);
                     $filter_arr = $this->back_generate($filter_arr, $data, $args);
                     $data['filters'][] = $filter_arr;
                 }
@@ -714,7 +722,12 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
             $data = $this->data_check($data);
             if( ! empty($args['taxonomy']) && ! empty($data['filters']) && is_array($data['filters']) && count($data['filters']) > 0 ) {
                 foreach($data['filters'] as $filter_i => &$filter) {
-                    if($filter['taxonomy'] == $args['taxonomy'] || $args['taxonomy'] === FALSE ) {
+                    if(apply_filters('bapf_uparse_remove_taxonomy_each', 
+                        ($filter['taxonomy'] == $args['taxonomy'] || $args['taxonomy'] === FALSE),
+                        $args,
+                        $data,
+                        $filter
+                    ) ) {
                         unset($data['filters'][$filter_i]);
                     }
                 }
@@ -726,11 +739,19 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
             $args = array_merge(array('calculate' => TRUE), $args);
             if(empty($filter['attr']) || empty($filter['type'])) {
                 if( substr($filter['taxonomy'], 0, 3) == 'pa_' ) {
-                    $filter['attr'] = substr($filter['taxonomy'], 3);
-                    $filter['type'] = 'attribute';
+                    if( empty($filter['attr']) ) {
+                        $filter['attr'] = substr($filter['taxonomy'], 3);
+                    }
+                    if( empty($filter['type']) ) {
+                        $filter['type'] = 'attribute';
+                    }
                 } else {
-                    $filter['attr'] = $filter['taxonomy'];
-                    $filter['type'] = 'taxonomy';
+                    if( empty($filter['attr']) ) {
+                        $filter['attr'] = $filter['taxonomy'];
+                    }
+                    if( empty($filter['type']) ) {
+                        $filter['type'] = 'taxonomy';
+                    }
                 }
             }
             if(! empty($args['calculate']) ) {
@@ -1144,7 +1165,8 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                     $new_values = $values[0];
                     $terms_correct = array();
                     $values_not_exist = array();
-                    $delimiter = '-';
+                    $delimiter = false;
+                    $delimiter_values = $this->func_get_delimiter_operator_array();
                     do {
                         $values = $new_values;
                         $new_values = array();
@@ -1171,8 +1193,20 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                                 } else {
                                     $value_ids[$check_term] = $check_term;
                                 }
-                                if(count($new_values) > 0) {
-                                    $delimiter = array_shift($new_values);
+                                if( $delimiter === false ) {
+                                    if(count($new_values) > 0) {
+                                        $delimiter = array_shift($new_values);
+                                        if( ! isset($delimiter_values[$delimiter]) ) {
+                                            array_unshift($new_values, $delimiter);
+                                            $delimiter = false;
+                                        }
+                                    } elseif(count($values_not_exist) > 0) {
+                                        $delimiter = array_pop($values_not_exist);
+                                        if( ! isset($delimiter_values[$delimiter]) ) {
+                                            array_push($values_not_exist, $delimiter);
+                                            $delimiter = false;
+                                        }
+                                    }
                                 }
                                 break;
                             } else {
@@ -1183,6 +1217,9 @@ if( ! class_exists('BeRocket_url_parse_page') ) {
                             $values_not_exist[] = array_shift($new_values);
                         }
                     } while(count($new_values) > 0);
+                    if( $delimiter === false ) {
+                        $delimiter = '-';
+                    }
                     $data = array(
                         'values'    => $terms_correct,
                         'value_ids' => $value_ids,
