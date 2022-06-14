@@ -1,95 +1,101 @@
 <?php
-function load_more_posts()
+add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts_callback');
+add_action('wp_ajax_load_more_posts', 'load_more_posts_callback');
+function load_more_posts_callback()
 {
-    $_paged = $_POST['_paged'];
-    $response = '';
-    $args['post_type'] = $_POST['_post_type'];
-    $args['posts_per_page'] = $_POST['_posts_per_page'];
-    $args['paged'] = $_paged + 1;
-    if (isset($_POST['_data_cat_id']) && $_POST['_data_cat_id'] != 0) {
+    check_ajax_referer('verify-load_more_posts-string', 'nonce');
+    $post_number = sanitize_text_field($_POST['post_number']);
+    $post_type = sanitize_text_field($_POST['post_type']);
+    $paged = sanitize_text_field($_POST['paged']);
+    $cat = sanitize_text_field($_POST['cat']);
+    $cat_id = sanitize_text_field($_POST['cat_id']);
+    
+    $args = array('post_status' => 'publish');
+    $args['post_type'] = $post_type;
+    $args['posts_per_page'] = $post_number;
+    $args['paged'] = $paged + 1;
+    if ($cat_id == 0) {
+    } else {
         $args['tax_query'] = array(
             array(
-                'taxonomy' => $_POST['_data_cat'],
+                'taxonomy' => 'category_portfolio',
                 'fields' => 'term_id',
-                'terms' => $_POST['_data_cat_id']
+                'terms' => $cat_id
             )
         );
     }
-    query_posts($args);
-    if (have_posts()) {
-        while (have_posts()) {
-            the_post();
-            if ($args['post_type'] == 'director' || $args['post_type'] == 'member') {
-                $response .= get_template_part('template-parts/content', 'director');
-            } else if ($args['post_type'] == 'licensee') {
-                $response .= get_template_part('template-parts/content', 'licensee');
-            } else if ($args['post_type'] == 'event') {
-                $response .= get_template_part('template-parts/content', 'event');
-            } else if ($args['post_type'] == 'post') {
-                $response .= get_template_part('template-parts/content', 'news');
-            }
-        }
-        wp_reset_query();
-    } else {
-        $response = 'Nothing to Show';
-    }
-    echo $response;
-    exit;
+    $getposts = new WP_query($args);
+    ob_start();
+    while ($getposts->have_posts()) : $getposts->the_post();
+        echo get_template_part('template-parts/content-portfolios');
+    endwhile;
+    wp_reset_postdata();
+    $result = ob_get_clean();
+    wp_send_json_success($result);
+    wp_die();
 }
 
-add_action('wp_ajax_load_more_posts', 'load_more_posts');
-add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts');
+function load_template_part($template_name, $part_name=null, $data=null) {
+    ob_start();
+    get_template_part($template_name, $part_name, $data);
+    $var = ob_get_contents();
+    ob_end_clean();
+    return $var;
+}
 
-function update_load_more_button()
+
+add_action('wp_ajax_select_category', 'select_category_callback');
+add_action('wp_ajax_nopriv_lselect_category', 'select_category_callback');
+function select_category_callback()
 {
-    $_paged = $_POST['_paged'];
-    $response = '';
-    $args['post_type'] = $_POST['_post_type'];
-    $args['posts_per_page'] = $_POST['_posts_per_page'];
-    $args['paged'] = $_paged + 1;
-    if (isset($_POST['_data_cat_id']) && $_POST['_data_cat_id'] != 0) {
+    $cat_id = $_POST['cat_id'];
+    $cat = $_POST['cat'];
+    $post_type = $_POST['post_type'];
+    $post_number = $_POST['post_number'];
+    $result = array();
+    $content_str = '';
+
+    $args = array('post_status' => 'publish');
+    $args['post_type'] = $post_type;
+    $args['posts_per_page'] = $post_number;
+
+
+    if ($cat_id == 0) {
+    } else {
         $args['tax_query'] = array(
             array(
-                'taxonomy' => $_POST['_data_cat'],
+                'taxonomy' => $cat,
                 'fields' => 'term_id',
-                'terms' => $_POST['_data_cat_id']
+                'terms' => $cat_id
             )
         );
     }
-    query_posts($args);
-    global $wp_query;
-    if ($wp_query->max_num_pages != get_query_var('paged')) {
-        $response .= get_template_part('template-parts/load-more', 'button', array('dataCat' => $_POST['_data_cat'], 'dataCatID' => $_POST['_data_cat_id']));
-    } else {
-        $response = 'Nothing to Show';
-    }
-    echo $response;
-    exit;
+
+
+
+    $getposts = new WP_query($args);
+    while ($getposts->have_posts()) : $getposts->the_post();
+        $content_str .= load_template_part('template-parts/content-portfolios');
+    endwhile;
+    wp_reset_postdata();
+
+    $data_loadmore = array(
+        'post_type' => $post_type,
+        'taxonomy' => $cat,
+        'post_number' => $post_number,
+        'cat' => $cat_id,
+    );
+    $btn_str = load_template_part('template-parts/button', 'load-more', $data_loadmore);
+    // $btn_str = json_decode($btn_str, true);
+    $result['btn'] = $btn_str;
+    $result['content'] = $content_str;
+    // $result = json_encode(
+    //     array(
+    //         "btn" => $btn_str, 
+    //         "content" => $content_str
+    //         )
+    //     );
+    wp_send_json_success($result);
+    wp_die();
+
 }
-
-add_action('wp_ajax_update_load_more_button', 'update_load_more_button');
-add_action('wp_ajax_nopriv_update_load_more_button', 'update_load_more_button');
-
-function quick_view_director()
-{
-    $id = $_POST['id'];
-    $response = '';
-    $args['post_type'] = $_POST['post_type'];
-    $args['post__in'] = array($id);
-    $args['posts_per_page'] = 1;
-    $the_query = new WP_Query($args);
-    if ($the_query->have_posts()) {
-        while ($the_query->have_posts()) {
-            $the_query->the_post();
-            $response .= get_template_part('template-parts/content', 'quick-view-director');
-        }
-        wp_reset_postdata();
-    } else {
-        $response = 'Nothing to Show';
-    }
-    echo $response;
-    exit;
-}
-
-add_action('wp_ajax_quick_view_director', 'quick_view_director');
-add_action('wp_ajax_nopriv_quick_view_director', 'quick_view_director');

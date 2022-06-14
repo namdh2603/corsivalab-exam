@@ -14,8 +14,8 @@ if (class_exists('woocommerce')) {
 }
 //require('inc/corsivalab-field-page.php');
 // require('inc/custom-field-post.php');
-//require('inc/corsivalab-register-post.php');
-//require('inc/ajax.php');
+require('inc/corsivalab-register-post.php');
+require('inc/ajax-functions.php');
 //require('inc/customize.php');
 
 add_filter('tr_theme_options_page', function () {
