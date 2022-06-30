@@ -119,6 +119,11 @@ sass --watch --no-source-map main.scss ../css/main.css
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Used Plugins
+* [Additional Variation Images Gallery for WooCommerce](https://wordpress.org/plugins/woo-variation-gallery/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 
 ## Example Component for Type Rocket
