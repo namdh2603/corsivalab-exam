@@ -123,6 +123,8 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 ## Example Component
 
+
+Builder
 ```sh
 <?php
 $options_font = [
@@ -154,7 +156,6 @@ echo $form->row(
 	$form->text('right')->setLabel($txt . ' Right')->setType('number')->setHelp('rem'),
 );
 ```
-
 
 Visual
 ```sh
