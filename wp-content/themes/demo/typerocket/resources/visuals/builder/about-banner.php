@@ -18,6 +18,7 @@ if($padding_left  != null){
 if($padding_right  != null){
    $padding_right = 'padding-right: '.$padding_right.'rem';
 }
+echo TR_PATH;
 ?>
 <section class="section section-banner section-padding" style="<?php echo $padding_top.$padding_bottom.$padding_left.$padding_right; ?>">
    <div class="container">

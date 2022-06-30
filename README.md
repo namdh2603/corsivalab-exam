@@ -107,6 +107,23 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 ## Used Plugins
 * [Additional Variation Images Gallery for WooCommerce](https://wordpress.org/plugins/woo-variation-gallery/)
+* [FiboSearch – Ajax Search for WooCommerce](https://wordpress.org/plugins/ajax-search-for-woocommerce/)
+* [All-in-One WP Migration](https://wordpress.org/plugins/all-in-one-wp-migration/)
+* [All-in-One WP Migration Unlimited Extension](https://hnamcoder.com/themes-va-plugins/all-in-one-wp-migration-unlimited-extension/)
+* [Contact Form 7](https://wordpress.org/plugins/contact-form-7)
+* [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post)
+* [Easy Auto SKU Generator for WooCommerce](https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator)
+* [Smash Balloon Social Photo Feed](https://wordpress.org/plugins/instagram-feed)
+* [Load More Products for WooCommerce](https://wordpress.org/plugins/load-more-products-for-woocommerce)
+* [Post Types Order](https://wordpress.org/plugins/post-types-order)
+* [String locator](https://wordpress.org/plugins/string-locator)
+* [Category Order and Taxonomy Terms Order](https://wordpress.org/plugins/taxonomy-terms-order)
+* [SVG Support](https://wordpress.org/plugins/svg-support)
+* [Variation Swatches for WooCommerce](https://wordpress.org/plugins/woo-variation-swatches)
+* [Advanced AJAX Product Filters](https://wordpress.org/plugins/woocommerce-ajax-filters)
+* [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup)
+* [WP Chat App](https://wordpress.org/plugins/wp-whatsapp)
+* [File Manager](https://wordpress.org/plugins/wp-file-manager)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
