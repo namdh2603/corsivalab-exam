@@ -84,12 +84,12 @@
 
 This is an example of Corsivalab Theme
 
-## Built With
+### Built With
 
 * [Bootstrap](https://getbootstrap.com)
 * [JQuery](https://jquery.com)
 
-## Install SCSS
+### Install SCSS
 
 1. Download sass package
 ```sh
@@ -105,7 +105,7 @@ sass --watch --no-source-map main.scss ../css/main.css
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Used Plugins
+### Used Plugins
 * [Additional Variation Images Gallery for WooCommerce](https://wordpress.org/plugins/woo-variation-gallery/)
 * [FiboSearch – Ajax Search for WooCommerce](https://wordpress.org/plugins/ajax-search-for-woocommerce/)
 * [All-in-One WP Migration](https://wordpress.org/plugins/all-in-one-wp-migration/)
@@ -127,9 +127,9 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Example Component for Type Rocket
+### Example Component for Type Rocket
 
-### Builder
+#### Builder
 ```sh
 <h1>Jewelry Banner V2</h1>
 <?php
@@ -163,7 +163,7 @@ echo $form->row(
 );
 ```
 
-### Visual
+#### Visual
 ```sh
 <?php
 if( current_user_can('administrator') ) $path = 'data="jewelry-banner-v2.php"'; $name = 'data-name="Jewelry Banner V2"';
@@ -192,7 +192,7 @@ $padding = padding_tr($data['top'] ?? null, $data['right'] ?? null,  $data['bott
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+### Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
@@ -201,7 +201,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
-## Contact
+### Contact
 
 <!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com -->
 
