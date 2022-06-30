@@ -131,6 +131,7 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 Builder
 ```sh
+<h1>Jewelry Banner V2</h1>
 <?php
 $options_font = [
 	'Default' => 'default-font',
