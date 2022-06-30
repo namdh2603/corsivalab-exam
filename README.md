@@ -82,26 +82,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 This is an example of Corsivalab Theme
-<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+## Built With
 
-
-
-### Built With
-
-<!-- * [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com) -->
 * [Bootstrap](https://getbootstrap.com)
 * [JQuery](https://jquery.com)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Install SCSS
 
@@ -124,12 +110,9 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 ## Example Component for Type Rocket
 
-
-Builder
+### Builder
 ```sh
 <h1>Jewelry Banner V2</h1>
 <?php
@@ -163,7 +146,7 @@ echo $form->row(
 );
 ```
 
-Visual
+### Visual
 ```sh
 <?php
 if( current_user_can('administrator') ) $path = 'data="jewelry-banner-v2.php"'; $name = 'data-name="Jewelry Banner V2"';
