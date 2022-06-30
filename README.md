@@ -121,6 +121,66 @@ sass --watch --no-source-map main.scss ../css/main.css
 
 
 
+## Example Component
+
+```sh
+<?php
+$options_font = [
+	'Default' => 'default-font',
+	'Carolissa' => 'carolissa-font',
+	'Cherlotte' => 'cherlotte-font'
+];
+$options_btn = [
+	'Default' => 'btn-default',
+	'Button layout 1' => 'btn-layout-1',
+	'Button layout 2' => 'btn-layout-2'
+];
+echo $form->image('img')->setLabel('Banner');
+echo $form->color('bg_color')->setLabel('Background Color');
+echo $form->text('Title');
+echo $form->editor('Description');
+echo $form->select('style_font')->setLabel('Choose Font')->setOptions($options_font)->setSetting('default', 'default-font');
+echo $form->row(
+    $form->text('btn_txt')->setLabel('Text Button'),
+    $form->text('btn_link')->setLabel('Link Button')->setDefault('#'),
+);
+echo $form->select('style_btn')->setLabel('Choose Button Layout')->setOptions($options_btn)->setSetting('default', 'btn-default');
+echo $form->toggle('txt_white')->setLabel('Active White Color Content');
+$txt = 'Padding';
+echo $form->row(
+	$form->text('top')->setLabel($txt . ' Top')->setType('number')->setHelp('rem'),
+	$form->text('bottom')->setLabel($txt . ' Bottom')->setType('number')->setHelp('rem'),
+	$form->text('left')->setLabel($txt . ' Left')->setType('number')->setHelp('rem'),
+	$form->text('right')->setLabel($txt . ' Right')->setType('number')->setHelp('rem'),
+);
+```
+
+
+Visual
+```sh
+<?php
+if( current_user_can('administrator') ) $path = 'data="jewelry-banner-v2.php"'; $name = 'data-name="Jewelry Banner V2"';
+$bg_color = $data['bg_color'];
+$title = $data['title'];
+$style_font = $data['style_font'];
+$style_btn = $data['style_btn'];
+$padding = padding_tr($data['top'] ?? null, $data['right'] ?? null,  $data['bottom'] ?? null,  $data['left'] ?? null);
+?>
+<section class="banner-1 <?php echo ((!empty($data['txt_white'])) ? 'white-text': ''); ?>" <?php echo $path.' '.$name; ?> style="background-image: url('<?php echo get_attachment($data['img'])['src']; ?>'); background-size:cover; background-position: center center;<?php echo (!empty($bg_color) ? 'background-color:' . $bg_color . ';' : ''); ?><?php echo $margin; ?>">
+   <div class="container">
+      <div class="content">
+         <?php if (!empty($data['title'])) : ?><div class="title"><?php echo $data['title']; ?></div><?php endif; ?>
+         <?php if (!empty($data['description'])) : ?><div class="desc"><?php echo $data['description']; ?></div><?php endif; ?>
+            <?php if (!empty($data['btn_txt'])) : ?>
+               <div class="btn-wrap">
+                  <a class="btn-main" href="<?php echo $data['btn_link']; ?>"><?php echo $data['btn_txt']; ?></a>
+               </div>
+            <?php endif; ?>
+      </div>
+   </div>
+</section>
+```
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 

@@ -26,4 +26,11 @@ if (have_posts()) {
             'showFilter' => 1
         ));
     wp_reset_query();
-}
+} ?>
+
+
+<?php if (!empty($data['btn_txt'])) : ?>
+    <div class="btn-wrap btn-left">
+      <a class="btn-main" href="<?php echo $data['btn_link']; ?>"><?php echo $data['btn_txt']; ?></a>
+    </div>
+  <?php endif; ?>
