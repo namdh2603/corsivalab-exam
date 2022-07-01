@@ -147,8 +147,8 @@ $options_btn = [
 ];
 echo $form->image('img')->setLabel('Banner');
 echo $form->color('bg_color')->setLabel('Background Color');
-echo $form->text('Title');
-echo $form->editor('Description');
+echo $form->text('title')->setLabel('Title');
+echo $form->editor('desc')->setLabel('Description');
 echo $form->select('style_font')->setLabel('Choose Font')->setOptions($options_font)->setSetting('default', 'default-font');
 echo $form->row(
     $form->text('btn_txt')->setLabel('Text Button'),
@@ -156,6 +156,19 @@ echo $form->row(
 );
 echo $form->select('style_btn')->setLabel('Choose Button Layout')->setOptions($options_btn)->setSetting('default', 'btn-default');
 echo $form->toggle('txt_white')->setLabel('Active White Color Content');
+echo $form->repeater('list')->setLabel('List')->setFields([
+   $form->row(
+      $form->column(
+         $form->image('img')->setLabel('Image'),
+      ),
+      $form->column(
+         $form->text('title')->setLabel('Title'),
+         $form->editor('desc')->setLabel('Description'),
+         $form->text('btn_txt')->setLabel('Text Button'),
+         $form->text('btn_link')->setLabel('Link Button')->setDefault('#'),
+      ),
+   ),
+]);
 $txt = 'Padding';
 echo $form->row(
 	$form->text('top')->setLabel($txt . ' Top')->setType('number')->setHelp('rem'),
@@ -168,24 +181,48 @@ echo $form->row(
 #### Visual
 ```sh
 <?php
-if( current_user_can('administrator') ) $path = 'data="jewelry-banner-v2.php"'; $name = 'data-name="Jewelry Banner V2"';
+if (current_user_can('administrator')) {
+   $path = 'data="jewelry-banner-v2.php"';
+   $name_path = 'data-name="Jewelry Banner V2"';
+}
 $bg_color = $data['bg_color'];
 $title = $data['title'];
 $style_font = $data['style_font'];
 $style_btn = $data['style_btn'];
 $padding = padding_tr($data['top'] ?? null, $data['right'] ?? null,  $data['bottom'] ?? null,  $data['left'] ?? null);
 ?>
-<section class="banner-1 <?php echo ((!empty($data['txt_white'])) ? 'white-text': ''); ?>" <?php echo $path.' '.$name; ?> style="background-image: url('<?php echo get_attachment($data['img'])['src']; ?>'); background-size:cover; background-position: center center;<?php echo (!empty($bg_color) ? 'background-color:' . $bg_color . ';' : ''); ?><?php echo $margin; ?>">
+<section class="banner-1 <?php echo ((!empty($data['txt_white'])) ? 'white-text' : ''); ?>" <?php echo $path . ' ' . $name; ?> style="background-image: url('<?php echo get_attachment($data['img'])['src']; ?>'); background-size:cover; background-position: center center;<?php echo (!empty($bg_color) ? 'background-color:' . $bg_color . ';' : ''); ?><?php echo $padding; ?>">
    <div class="container">
       <div class="content">
+         <?php if (!empty($data['img'])) : ?><img class="" src="<?php echo get_attachment($data['img'])['src']; ?>" alt="" /><?php endif; ?>
          <?php if (!empty($data['title'])) : ?><div class="title"><?php echo $data['title']; ?></div><?php endif; ?>
-         <?php if (!empty($data['description'])) : ?><div class="desc"><?php echo $data['description']; ?></div><?php endif; ?>
-            <?php if (!empty($data['btn_txt'])) : ?>
-               <div class="btn-wrap">
-                  <a class="btn-main" href="<?php echo $data['btn_link']; ?>"><?php echo $data['btn_txt']; ?></a>
-               </div>
-            <?php endif; ?>
+         <?php if (!empty($data['desc'])) : ?><div class="desc"><?php echo $data['desc']; ?></div><?php endif; ?>
+         <?php if (!empty($data['btn_txt'])) : ?>
+            <div class="btn-wrap">
+               <a class="btn-main" href="<?php echo $data['btn_link']; ?>"><?php echo $data['btn_txt']; ?></a>
+            </div>
+         <?php endif; ?>
       </div>
+      <?php if (!empty($data['list'])) { ?>
+         <?php foreach ($data['list'] as $item) { ?>
+            <div class='container'>
+               <div class='content'>
+                  <?php if (!empty($item['img'])) : ?>
+                     <img class="" src="<?php echo get_attachment($item['img'])['src']; ?>" alt="" />
+                  <?php endif; ?>
+                  <?php if (!empty($item['title'])) : ?>
+                     <h2 class='title'><?php echo $item['title']; ?></h2>
+                  <?php endif; ?>
+                  <?php if (!empty($item['desc'])) : ?>
+                     <div class='desc'><?php echo $item['desc']; ?></div>
+                  <?php endif; ?>
+                  <?php if (!empty($item['btn_link'])) : ?>
+                     <div class='btn-group'><a class='btn-main' href='<?php echo $item['btn_link']; ?>'><?php echo $item['btn_txt']; ?></a></div>
+                  <?php endif; ?>
+               </div>
+            </div>
+         <?php } ?>
+      <?php } ?>
    </div>
 </section>
 ```
