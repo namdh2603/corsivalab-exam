@@ -33,13 +33,15 @@ $transition-base: all 0.3s ease-in-out;
   padding-left: toRem($l);
   padding-right: toRem($r);
 }
-@mixin bp-mobile {
-  @include media-breakpoint-down(md) {
-    @content;
+@mixin responsive($canvas) {
+  @if $canvas == mobi {  //767.98
+    @include media-breakpoint-down(md) {
+      @content;
+    }
   }
-}
-@mixin bp-tablet {
-  @include media-breakpoint-down(lg) {
-    @content;
+  @if $canvas == tablet {  //991.98
+    @include media-breakpoint-down(lg) {
+      @content;
+    }
   }
 }

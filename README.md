@@ -124,6 +124,8 @@ sass --watch --no-source-map main.scss ../css/main.css
 * [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup)
 * [WP Chat App](https://wordpress.org/plugins/wp-whatsapp)
 * [File Manager](https://wordpress.org/plugins/wp-file-manager)
+* [FakerPress](https://wordpress.org/plugins/fakerpress)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

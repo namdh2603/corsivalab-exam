@@ -25,7 +25,7 @@ html {
   padding-right: calc(0.5 * var(--bs-gutter-container-x));
   margin-right: auto;
   margin-left: auto;
-  @include bp-mobile {
+  @include responsive(mobi) {
     max-width: 100%;
     padding-left: calc(0.5 * var(--bs-gutter-container-m-x));
     padding-right: calc(0.5 * var(--bs-gutter-container-m-x));
@@ -41,13 +41,13 @@ html {
 .row {
   --bs-gutter-x: #{toRem($grid-gutter-width)};
   --bs-gutter-m-x: #{toRem($mobile-grid-gutter-width)};
-  @include bp-mobile {
+  @include responsive(mobi) {
     margin-right: calc(-0.5 * var(--bs-gutter-m-x));
     margin-left: calc(-0.5 * var(--bs-gutter-m-x));
   }
   [class^="col-"],
   [class*=" col-"] {
-    @include bp-mobile {
+    @include responsive(mobi) {
       padding-left: calc(0.5 * var(--bs-gutter-m-x));
       padding-right: calc(0.5 * var(--bs-gutter-m-x));
     }
@@ -55,13 +55,13 @@ html {
 }
 .row-sm {
   --bs-gutter-x: #{toRem($mobile-grid-gutter-width)};
-  @include bp-mobile {
+  @include responsive(mobi) {
     margin-right: calc(-0.5 * var(--bs-gutter-m-x));
     margin-left: calc(-0.5 * var(--bs-gutter-m-x));
   }
   [class^="col-"],
   [class*=" col-"] {
-    @include bp-mobile {
+    @include responsive(mobi) {
       padding-left: calc(0.5 * var(--bs-gutter-m-x));
       padding-right: calc(0.5 * var(--bs-gutter-m-x));
     }
