@@ -7,8 +7,6 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -23,8 +21,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url] -->
-
-
 
 <!-- PROJECT LOGO -->
 <!-- <br />
@@ -48,8 +44,6 @@
     <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
   </p>
 </div> -->
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -77,61 +71,69 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 This is an example of Corsivalab Theme
 
 ### Built With
 
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+- [Bootstrap](https://getbootstrap.com)
+- [JQuery](https://jquery.com)
 
 ### Install SCSS
 
 1. Download sass package
+
 ```sh
 npm install -g sass
 ```
+
 2. Go to folder scss
+
 ```sh
 cd C:/xampp/htdocs/website/corsivalab-exam/wp-content/themes/demo/assets/scss
 ```
-3. 
+
+3.
+
 ```sh
 sass --watch --no-source-map main.scss ../css/main.css
 ```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Used Plugins
-* [Additional Variation Images Gallery for WooCommerce](https://wordpress.org/plugins/woo-variation-gallery/)
-* [FiboSearch – Ajax Search for WooCommerce](https://wordpress.org/plugins/ajax-search-for-woocommerce/)
-* [All-in-One WP Migration](https://wordpress.org/plugins/all-in-one-wp-migration/)
-* [All-in-One WP Migration Unlimited Extension](https://hnamcoder.com/themes-va-plugins/all-in-one-wp-migration-unlimited-extension/)
-* [Contact Form 7](https://wordpress.org/plugins/contact-form-7)
-* [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post)
-* [Easy Auto SKU Generator for WooCommerce](https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator)
-* [Smash Balloon Social Photo Feed](https://wordpress.org/plugins/instagram-feed)
-* [Load More Products for WooCommerce](https://wordpress.org/plugins/load-more-products-for-woocommerce)
-* [Post Types Order](https://wordpress.org/plugins/post-types-order)
-* [String locator](https://wordpress.org/plugins/string-locator)
-* [Category Order and Taxonomy Terms Order](https://wordpress.org/plugins/taxonomy-terms-order)
-* [SVG Support](https://wordpress.org/plugins/svg-support)
-* [Variation Swatches for WooCommerce](https://wordpress.org/plugins/woo-variation-swatches)
-* [Advanced AJAX Product Filters](https://wordpress.org/plugins/woocommerce-ajax-filters)
-* [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup)
-* [WP Chat App](https://wordpress.org/plugins/wp-whatsapp)
-* [File Manager](https://wordpress.org/plugins/wp-file-manager)
-* [FakerPress](https://wordpress.org/plugins/fakerpress)
 
+- [Additional Variation Images Gallery for WooCommerce](https://wordpress.org/plugins/woo-variation-gallery/)
+- [FiboSearch – Ajax Search for WooCommerce](https://wordpress.org/plugins/ajax-search-for-woocommerce/)
+- [All-in-One WP Migration](https://wordpress.org/plugins/all-in-one-wp-migration/)
+- [All-in-One WP Migration Unlimited Extension](https://hnamcoder.com/themes-va-plugins/all-in-one-wp-migration-unlimited-extension/)
+- [Contact Form 7](https://wordpress.org/plugins/contact-form-7)
+- [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post)
+- [Easy Auto SKU Generator for WooCommerce](https://wordpress.org/plugins/easy-woocommerce-auto-sku-generator)
+- [Smash Balloon Social Photo Feed](https://wordpress.org/plugins/instagram-feed)
+- [Load More Products for WooCommerce](https://wordpress.org/plugins/load-more-products-for-woocommerce)
+- [Post Types Order](https://wordpress.org/plugins/post-types-order)
+- [String locator](https://wordpress.org/plugins/string-locator)
+- [Category Order and Taxonomy Terms Order](https://wordpress.org/plugins/taxonomy-terms-order)
+- [SVG Support](https://wordpress.org/plugins/svg-support)
+- [Variation Swatches for WooCommerce](https://wordpress.org/plugins/woo-variation-swatches)
+- [Advanced AJAX Product Filters](https://wordpress.org/plugins/woocommerce-ajax-filters)
+- [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup)
+- [WP Chat App](https://wordpress.org/plugins/wp-whatsapp)
+- [File Manager](https://wordpress.org/plugins/wp-file-manager)
+- [FakerPress](https://wordpress.org/plugins/fakerpress)
+- [WooCommerce Products Per Page](https://wordpress.org/plugins/woocommerce-products-per-page)
+- [WooCommerce Gift Cards](https://woocommerce.com/products/gift-cards/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Example Component for Type Rocket
 
 #### Builder
+
 ```sh
 <h1>Jewelry Banner V2</h1>
 <?php
@@ -179,6 +181,7 @@ echo $form->row(
 ```
 
 #### Visual
+
 ```sh
 <?php
 if (current_user_can('administrator')) {
@@ -229,8 +232,8 @@ $padding = padding_tr($data['top'] ?? null, $data['right'] ?? null,  $data['bott
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- USAGE EXAMPLES -->
+
 ### Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -240,6 +243,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
+
 ### Contact
 
 <!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com -->
@@ -248,9 +252,9 @@ Project Link: [https://github.com/namdh2603/corsivalab-exam](https://github.com/
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
 [contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
@@ -264,6 +268,3 @@ Project Link: [https://github.com/namdh2603/corsivalab-exam](https://github.com/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
-
-
-
