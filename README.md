@@ -186,7 +186,7 @@ echo $form->row(
 <?php
 if (current_user_can('administrator')) {
    $path = 'data="jewelry-banner-v2.php"';
-   $name_path = 'data-name="Jewelry Banner V2"';
+   $name_path = ' data-name="Jewelry Banner V2"';
 }
 $bg_color = $data['bg_color'];
 $title = $data['title'];
@@ -194,7 +194,7 @@ $style_font = $data['style_font'];
 $style_btn = $data['style_btn'];
 $padding = padding_tr($data['top'] ?? null, $data['right'] ?? null,  $data['bottom'] ?? null,  $data['left'] ?? null);
 ?>
-<section class="banner-1 <?php echo ((!empty($data['txt_white'])) ? 'white-text' : ''); ?>" <?php echo $path . ' ' . $name; ?> style="background-image: url('<?php echo get_attachment($data['img'])['src']; ?>'); background-size:cover; background-position: center center;<?php echo (!empty($bg_color) ? 'background-color:' . $bg_color . ';' : ''); ?><?php echo $padding; ?>">
+<section class="banner-1 <?php echo ((!empty($data['txt_white'])) ? 'white-text' : ''); ?>" <?php echo (!empty($path)?$path.$name:''); ?> style="background-image: url('<?php echo get_attachment($data['img'])['src']; ?>'); background-size:cover; background-position: center center;<?php echo (!empty($bg_color) ? 'background-color:' . $bg_color . ';' : ''); ?><?php echo $padding; ?>">
    <div class="container">
       <div class="content">
          <?php if (!empty($data['img'])) : ?><img class="" src="<?php echo get_attachment($data['img'])['src']; ?>" alt="" /><?php endif; ?>
