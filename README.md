@@ -127,6 +127,7 @@ sass --watch --no-source-map main.scss ../css/main.css
 - [FakerPress](https://wordpress.org/plugins/fakerpress)
 - [WooCommerce Products Per Page](https://wordpress.org/plugins/woocommerce-products-per-page)
 - [WooCommerce Gift Cards](https://woocommerce.com/products/gift-cards/)
+- [Customize My Account Page For Woocommerce](https://hnamcoder.com/themes-va-plugins/customize-my-account-page-for-woocommerce/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
