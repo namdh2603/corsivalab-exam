@@ -32,38 +32,41 @@
 
 
 //add_filter( 'woocommerce_catalog_orderby', 'custom_woocommerce_catalog_orderby' );
-function custom_woocommerce_catalog_orderby( $sortby ) {
-    $sortby['sale'] = 'Discount';
-    return $sortby;
+function custom_woocommerce_catalog_orderby($sortby)
+{
+  $sortby['sale'] = 'Discount';
+  return $sortby;
 }
 
 //add_filter( 'woocommerce_get_catalog_ordering_args', 'custom_woocommerce_get_catalog_ordering_args' );
-function custom_woocommerce_get_catalog_ordering_args( $args ) {
-    $orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
- 
-    if ( 'sale' == $orderby_value ) {
-        $args['orderby'] = 'date';
-        $args['order'] = 'ASC';
-    }
- 
-    return $args;
+function custom_woocommerce_get_catalog_ordering_args($args)
+{
+  $orderby_value = isset($_GET['orderby']) ? woocommerce_clean($_GET['orderby']) : apply_filters('woocommerce_default_catalog_orderby', get_option('woocommerce_default_catalog_orderby'));
+
+  if ('sale' == $orderby_value) {
+    $args['orderby'] = 'date';
+    $args['order'] = 'ASC';
+  }
+
+  return $args;
 }
 
-add_filter( 'woocommerce_catalog_orderby', 'corsivalab_change_sorting_options_order', 5 );
-function corsivalab_change_sorting_options_order( $options ){
-	$options = array(
-		//'title' => 'A-Z',
-		//'title-desc' => 'Z-A',
-		//'date' => 'Newest',
-		//'popularity' => 'Popularity',
-		//'sale' => 'Discount',
-		'price' => 'Price: low to high',
-		'price-desc' => 'Price: high to low',
-		);
-		unset($options['rating']);
-		unset($options['popularity']);
-		unset($options['date']);
-	return $options;
+add_filter('woocommerce_catalog_orderby', 'corsivalab_change_sorting_options_order', 5);
+function corsivalab_change_sorting_options_order($options)
+{
+  $options = array(
+    //'title' => 'A-Z',
+    //'title-desc' => 'Z-A',
+    //'date' => 'Newest',
+    //'popularity' => 'Popularity',
+    //'sale' => 'Discount',
+    'price' => 'Price: low to high',
+    'price-desc' => 'Price: high to low',
+  );
+  unset($options['rating']);
+  unset($options['popularity']);
+  unset($options['date']);
+  return $options;
 }
 
 
@@ -81,17 +84,18 @@ function corsivalab_cart_count_fragments($fragments)
   global $woocommerce;
 
   $cart_count = $woocommerce->cart->get_cart_contents_count();
-	$cart_total = $woocommerce->cart->get_total();
+  $cart_total = $woocommerce->cart->get_total();
 
   $fragments['.cart-count'] = '<div class="cart-count">' . $cart_count . '</div>';
-  $fragments['.cart-total'] ='<div class="cart-total">' . $cart_total . '</div>';
-  
+  $fragments['.cart-total'] = '<div class="cart-total">' . $cart_total . '</div>';
+
 
   return $fragments;
 }
 
 //add_filter('woocommerce_add_to_cart_fragments', 'corsivalab_cart_mini_fragments');
-function corsivalab_cart_mini_fragments($fragments) {
+function corsivalab_cart_mini_fragments($fragments)
+{
   ob_start();
   global $woocommerce;
 ?>
@@ -222,8 +226,9 @@ function corsivalab_woocommerce_loop_item_cat_func()
   echo '<div class="list-categories">' . $typesz . '</div>';
 }
 //add_filter( 'woocommerce_format_sale_price', 'corsivalab_invert_formatted_sale_price', 10, 3 );
-function corsivalab_invert_formatted_sale_price( $price, $regular_price, $sale_price ) {
-    return '<ins>' . ( is_numeric( $sale_price ) ? wc_price( $sale_price ) : $sale_price ) . '</ins> <del>' . ( is_numeric( $regular_price ) ? wc_price( $regular_price ) : $regular_price ) . '</del>';
+function corsivalab_invert_formatted_sale_price($price, $regular_price, $sale_price)
+{
+  return '<ins>' . (is_numeric($sale_price) ? wc_price($sale_price) : $sale_price) . '</ins> <del>' . (is_numeric($regular_price) ? wc_price($regular_price) : $regular_price) . '</del>';
 }
 function my_commonPriceHtml($price_amt, $regular_price, $sale_price)
 {
@@ -235,18 +240,18 @@ function my_commonPriceHtml($price_amt, $regular_price, $sale_price)
     $html_price .= '<div class="sale">' . wc_price($regular_price) . '</div>';
     $html_price .= '</div></div>';
   } //in sale but free
-//   else if (($price_amt == $sale_price) && ($sale_price == 0)) {
-//     $html_price .= '<ins>Free!</ins>';
-//     $html_price .= '<del>' . wc_price($regular_price) . '</del>';
-//   } //not is sale
-//   else if (($price_amt == $regular_price) && ($regular_price != 0)) {
-//     $html_price .= '<div class="price">';
-//     $html_price .= '<div class="regular">' . wc_price($regular_price) . '</div>';
-//     $html_price .= '</div>';
-//   } //for free product
-//   else if (($price_amt == $regular_price) && ($regular_price == 0)) {
-//     $html_price .= '<ins>Free!</ins>';
-//   }
+  //   else if (($price_amt == $sale_price) && ($sale_price == 0)) {
+  //     $html_price .= '<ins>Free!</ins>';
+  //     $html_price .= '<del>' . wc_price($regular_price) . '</del>';
+  //   } //not is sale
+  //   else if (($price_amt == $regular_price) && ($regular_price != 0)) {
+  //     $html_price .= '<div class="price">';
+  //     $html_price .= '<div class="regular">' . wc_price($regular_price) . '</div>';
+  //     $html_price .= '</div>';
+  //   } //for free product
+  //   else if (($price_amt == $regular_price) && ($regular_price == 0)) {
+  //     $html_price .= '<ins>Free!</ins>';
+  //   }
   return $html_price;
 }
 //add_filter('woocommerce_get_price_html', 'corsivalab_change_product_price_html', 100, 2);
@@ -536,12 +541,13 @@ function change_woocommerce_order_number($order_id, $order)
 
 
 //add_filter( 'woocommerce_pagination_args', 	'corsivalab_woo_pagination_arrrow' );
-function corsivalab_woo_pagination_arrrow( $args ) {
+function corsivalab_woo_pagination_arrrow($args)
+{
 
-	$args['prev_text'] = file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg');
-	$args['next_text'] = file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg');
+  $args['prev_text'] = file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg');
+  $args['next_text'] = file_get_contents(get_stylesheet_directory_uri() . '/assets/icons/dropdown-arrow.svg');
 
-	return $args;
+  return $args;
 }
 
 
@@ -577,31 +583,34 @@ function corsivalab_woo_pagination()
 }
 
 //add_filter( 'woocommerce_package_rates', 'corsivalab_hide_shipping_when_free_is_available', 100 );
-function corsivalab_hide_shipping_when_free_is_available( $rates ) {
-	$free = array();
-	foreach ( $rates as $rate_id => $rate ) {
-		if ( 'free_shipping' === $rate->method_id ) {
-			$free[ $rate_id ] = $rate;
-			break;
-		}
-	}
-	return ! empty( $free ) ? $free : $rates;
+function corsivalab_hide_shipping_when_free_is_available($rates)
+{
+  $free = array();
+  foreach ($rates as $rate_id => $rate) {
+    if ('free_shipping' === $rate->method_id) {
+      $free[$rate_id] = $rate;
+      break;
+    }
+  }
+  return !empty($free) ? $free : $rates;
 }
 
-add_filter( 'woocommerce_order_actions', 'bbloomer_show_thank_you_page_order_admin_actions', 9999, 2 );
- 
-function bbloomer_show_thank_you_page_order_admin_actions( $actions, $order ) {
-//    if ( $order->has_status( wc_get_is_paid_statuses() ) ) {
-      $actions['view_thankyou'] = 'Display thank you page';
-//    }
-   return $actions;
+add_filter('woocommerce_order_actions', 'bbloomer_show_thank_you_page_order_admin_actions', 9999, 2);
+
+function bbloomer_show_thank_you_page_order_admin_actions($actions, $order)
+{
+  //    if ( $order->has_status( wc_get_is_paid_statuses() ) ) {
+  $actions['view_thankyou'] = 'Display thank you page';
+  //    }
+  return $actions;
 }
- 
-add_action( 'woocommerce_order_action_view_thankyou', 'bbloomer_redirect_thank_you_page_order_admin_actions' );
- 
-function bbloomer_redirect_thank_you_page_order_admin_actions( $order ) {
-   $url = $order->get_checkout_order_received_url();
-   add_filter( 'redirect_post_location', function() use ( $url ) {
-      return $url;
-   });
+
+add_action('woocommerce_order_action_view_thankyou', 'bbloomer_redirect_thank_you_page_order_admin_actions');
+
+function bbloomer_redirect_thank_you_page_order_admin_actions($order)
+{
+  $url = $order->get_checkout_order_received_url();
+  add_filter('redirect_post_location', function () use ($url) {
+    return $url;
+  });
 }
