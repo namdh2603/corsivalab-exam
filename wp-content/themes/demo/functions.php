@@ -151,7 +151,7 @@ if (!function_exists('get_attachment')) {
                 'caption' => ($attachment->post_excerpt != '') ? $attachment->post_excerpt : '',
                 'description' => ($attachment->post_content != '') ? $attachment->post_content : '',
                 'href' => (get_permalink($attachment->ID) != '') ? get_permalink($attachment->ID) : '',
-                'src' => ($attachment->guid) ? $attachment->guid : '',
+                'src' => (wp_get_attachment_image_url($attachment_id, 'full') != '') ? wp_get_attachment_image_url($attachment_id, 'full') : '',
                 'srcset' => (wp_get_attachment_image_srcset($attachment_id, 'post-thumbnail')) ? wp_get_attachment_image_srcset($attachment_id, 'post-thumbnail') : '',
                 'title' => ($attachment->post_title != '') ? $attachment->post_title : ''
             );
