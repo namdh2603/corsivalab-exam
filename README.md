@@ -187,7 +187,7 @@ echo $form->row(
 <?php
 if (current_user_can('administrator')) {
    $path = 'data="jewelry-banner-v2.php"';
-   $name_path = ' data-name="Jewelry Banner V2"';
+   $name = ' data-name="Jewelry Banner V2"';
 }
 $bg_color = $data['bg_color'];
 $title = $data['title'];
